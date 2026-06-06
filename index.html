@@ -1,175 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Babajan Mart | Luxury Menswear</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;background:#070707;color:white}
-a{text-decoration:none;color:inherit}
-.nav{position:sticky;top:0;z-index:50;background:rgba(0,0,0,.9);border-bottom:1px solid #222;padding:16px 7%;display:flex;justify-content:space-between;align-items:center}
-.logo{color:#fde68a;font-weight:900;letter-spacing:4px}
-.logo small{display:block;color:#777;font-size:10px;letter-spacing:3px;margin-top:3px}
-.links{display:flex;gap:22px;color:#bbb;font-size:14px}
-.btn{background:#facc15;color:#080808;border:0;border-radius:999px;padding:13px 22px;font-weight:800;display:inline-block;cursor:pointer}
-.btn.dark{background:#181818;color:white;border:1px solid #333}
-.hero{padding:75px 7%;display:grid;grid-template-columns:1.05fr .95fr;gap:45px;align-items:center;background:radial-gradient(circle at top right,rgba(250,204,21,.22),transparent 35%)}
-.tag{display:inline-block;color:#fde68a;background:rgba(250,204,21,.1);border:1px solid rgba(250,204,21,.25);padding:10px 15px;border-radius:999px;margin-bottom:18px}
-h1{font-size:66px;line-height:.98;letter-spacing:-3px} h1 span,.gold{color:#fde68a}
-p,.muted{color:#aaa;line-height:1.7} .hero p{font-size:18px;margin:24px 0;max-width:560px}
-.hero img{width:100%;height:500px;object-fit:cover;border-radius:42px;box-shadow:0 25px 75px rgba(250,204,21,.14)}
-.features{padding:32px 7%;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.box,.card,.policy,.visit-box{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.1);border-radius:28px}
-.box{padding:22px} .box h3{color:#fde68a;margin-bottom:8px}
-.shop{padding:70px 7%} .section-head{display:flex;justify-content:space-between;gap:18px;align-items:end;margin-bottom:28px}
-h2{font-size:42px} .cat{color:#777;font-size:12px;letter-spacing:3px;text-transform:uppercase}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-.card{overflow:hidden} .card img{width:100%;height:310px;object-fit:cover;background:#151515}
-.card-body{padding:20px} .card h3{font-size:20px;margin:9px 0}
-.price{color:#fde68a;font-size:20px;font-weight:900} .old{text-decoration:line-through;color:#777;margin-left:9px}
-.sizes{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
-.size{background:#1c1c1c;color:#ccc;border:1px solid #333;border-radius:999px;padding:7px 12px;font-size:13px;cursor:pointer}
-.size.active{background:#facc15;color:#080808;font-weight:900}
-.policy{margin:0 7%;padding:42px;text-align:center;background:linear-gradient(135deg,rgba(250,204,21,.11),rgba(255,255,255,.035))}
-.warning{margin:22px auto;background:rgba(250,204,21,.1);border:1px solid rgba(250,204,21,.24);color:#fde68a;padding:15px;border-radius:18px;max-width:680px}
-.visit{padding:70px 7%} .visit-box{padding:40px;display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:center}
-.visit-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end}
-footer{text-align:center;color:#777;padding:35px;border-top:1px solid #222}
-.cart-float{position:fixed;right:18px;bottom:18px;z-index:70;box-shadow:0 18px 45px rgba(250,204,21,.2)}
-.drawer{position:fixed;right:-430px;top:0;width:410px;max-width:100%;height:100vh;background:#101010;z-index:100;border-left:1px solid #333;transition:.3s;padding:22px;display:flex;flex-direction:column}
-.drawer.open{right:0} .drawer-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-.x{background:#222;color:white;border:0;border-radius:50%;width:38px;height:38px;font-size:22px}
-.cart-items{flex:1;overflow:auto} .cart-item{display:flex;gap:12px;background:rgba(255,255,255,.045);border:1px solid #292929;padding:12px;border-radius:18px;margin-bottom:12px}
-.cart-item img{width:72px;height:85px;object-fit:cover;border-radius:14px}
-.cart-item h4{font-size:14px;margin-bottom:5px} .qty{display:flex;gap:8px;align-items:center;margin-top:8px}
-.qty button{width:26px;height:26px;border-radius:50%;border:0;background:#222;color:white}
-.remove{margin-left:auto;color:#ff8a8a;background:transparent;border:0}
-.total{border-top:1px solid #292929;padding-top:15px} .full{width:100%;text-align:center}
-@media(max-width:850px){
-.links{display:none} .hero{grid-template-columns:1fr;padding:45px 4%} h1{font-size:45px} .hero img{height:350px}
-.features,.grid,.visit-box{grid-template-columns:1fr} .shop,.features,.visit{padding-left:4%;padding-right:4%}
-.section-head{display:block} .policy{margin:0 4%;padding:26px} .visit-actions{justify-content:flex-start}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BABA JAAN MART | Premium Men's Fashion Store</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-<nav class="nav">
-  <div class="logo">BABA JAAN<small>LUXURY MENSWEAR</small></div>
-  <div class="links"><a href="#shop">Shop</a><a href="#payment">Payment</a><a href="#visit">Visit Store</a></div>
-  <button class="btn" onclick="openCart()">Cart (<span id="cartCount">0</span>)</button>
-</nav>
 
-<section class="hero">
-  <div>
-    <div class="tag">✨ New premium collection is live</div>
-    <h1>Dress sharp. <span>Look premium.</span></h1>
-    <p>Premium jeans, shirts and everyday menswear curated for a clean, confident and modern look. Prepaid online orders only.</p>
-    <div style="display:flex;gap:12px;flex-wrap:wrap">
-      <a class="btn" href="#shop">Shop Collection</a>
-      <a class="btn dark" href="https://wa.me/919648530141?text=Hello%20Baba%20Jaan%20Mart%2C%20I%20want%20to%20shop" target="_blank">WhatsApp Enquiry</a>
-    </div>
-  </div>
-  <img src="https://images.unsplash.com/photo-1506629905607-d52b1d695a7b?auto=format&fit=crop&w=1200&q=80" alt="Luxury menswear">
-</section>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html">BABA JAAN MART</a>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for products, brands and more...">
+            </div>
+            <div class="header-actions">
+                <a href="auth.html"><i class="fa-regular fa-user"></i></a>
+                <a href="wishlist.html"><i class="fa-regular fa-heart"></i><span class="badge" id="wishlist-count">0</span></a>
+                <a href="cart.html"><i class="fa-solid fa-bag-shopping"></i><span class="badge" id="cart-count">0</span></a>
+            </div>
+        </div>
+    </header>
 
-<section class="features">
-  <div class="box"><h3>Prepaid Only</h3><p>No COD. Order confirmed after online payment.</p></div>
-  <div class="box"><h3>Size Selection</h3><p>Select your exact shirt or jeans size before checkout.</p></div>
-  <div class="box"><h3>WhatsApp Checkout</h3><p>Your cart summary goes directly to WhatsApp.</p></div>
-</section>
+    <nav>
+        <ul>
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="shop.html?cat=jeans">Jeans</a></li>
+            <li><a href="shop.html?cat=shirts">Shirts</a></li>
+            <li><a href="shop.html?cat=tshirts">T-Shirts</a></li>
+            <li><a href="shop.html?cat=pants">Pants</a></li>
+            <li><a href="shop.html?tag=offers">Offers</a></li>
+            <li><a href="shop.html?tag=new">New Arrivals</a></li>
+        </ul>
+    </nav>
 
-<section id="shop" class="shop">
-  <div class="section-head">
-    <div><p class="cat">Online Store</p><h2>Shop premium menswear</h2></div>
-    <p class="muted">Select size → Add to cart → Checkout on WhatsApp</p>
-  </div>
-  <div class="grid" id="productGrid"></div>
-</section>
+    <section class="hero-banner" style="background: var(--primary-color); color: var(--white); padding: 60px 5%; text-align: center; border-bottom: 5px solid var(--accent-color);">
+        <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 10px;">GRAND OPENING SALE</h1>
+        <p style="font-size: 1.2rem; color: var(--accent-color); margin-bottom: 20px;">Upgrade Your Wardrobe with Premium Men's Wear</p>
+        <div style="font-size: 1.5rem; font-weight: bold; margin-bottom: 25px;">FLAT 50% OFF on Best Sellers!</div>
+        <a href="shop.html" style="background: var(--accent-color); color: var(--primary-color); padding: 12px 30px; text-decoration: none; font-weight: bold; border-radius: 4px; text-transform: uppercase;">Shop Now</a>
+    </section>
 
-<section id="payment" class="policy">
-  <p class="cat">Checkout Policy</p>
-  <h2>Online payment only</h2>
-  <p class="muted">Babajan Mart does not offer Cash on Delivery. Order will be confirmed only after successful online payment.</p>
-  <div class="warning">No COD available. Prepaid orders only.</div>
-  <button class="btn" onclick="openCart()">Open Cart</button>
-</section>
+    <main style="padding: 40px 5%;">
+        <h2 style="text-align: center; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 1px;">Trending Collection</h2>
+        
+        <div class="product-grid" id="trending-products">
+            <div class="product-card">
+                <div class="wishlist-heart"><i class="fa-regular fa-heart"></i></div>
+                <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?w=500" alt="Premium Denim" class="product-image">
+                <div class="product-info">
+                    <div class="brand-title">Baba Jaan Original</div>
+                    <div class="product-name">Slim Fit Premium Indigo Jeans</div>
+                    <div class="rating-badge">4.3 <i class="fa-solid fa-star" style="font-size: 10px;"></i></div>
+                    <div class="price-container">
+                        <span class="current-price">₹1,199</span>
+                        <span class="old-price">₹2,399</span>
+                        <span class="discount-tag">(50% OFF)</span>
+                    </div>
+                    <div class="size-selector-preview">Sizes: 30, 32, 34, 36</div>
+                    <button class="btn-add-cart" onclick="location.href='product-detail.html'">View Details</button>
+                </div>
+            </div>
 
-<section id="visit" class="visit">
-  <div class="visit-box">
-    <div>
-      <p class="cat">Visit Store</p>
-      <h2>Try the fit in-store</h2>
-      <p class="muted">Visit our physical store for fitting, new arrivals and exclusive walk-in offers.</p>
-    </div>
-    <div class="visit-actions">
-      <a class="btn" href="https://maps.app.goo.gl/kFGca1ZMthKg4Xp5A" target="_blank">Live Location</a>
-      <a class="btn dark" href="https://instagram.com/baba_jan_mart" target="_blank">Instagram</a>
-      <a class="btn dark" href="https://wa.me/919648530141" target="_blank">WhatsApp</a>
-    </div>
-  </div>
-</section>
+            <div class="product-card">
+                <div class="wishlist-heart"><i class="fa-regular fa-heart"></i></div>
+                <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500" alt="Linen Shirt" class="product-image">
+                <div class="product-info">
+                    <div class="brand-title">Baba Jaan Luxury</div>
+                    <div class="product-name">Pure Linen Casual White Shirt</div>
+                    <div class="rating-badge">4.5 <i class="fa-solid fa-star" style="font-size: 10px;"></i></div>
+                    <div class="price-container">
+                        <span class="current-price">₹1</span>
+                        <span class="old-price">₹1,999</span>
+                        <span class="discount-tag">(50% OFF)</span>
+                    </div>
+                    <div class="size-selector-preview">Sizes: M, L, XL, XXL</div>
+                    <button class="btn-add-cart" onclick="location.href='product-detail.html'">View Details</button>
+                </div>
+            </div>
+        </div>
+    </main>
 
-<button class="btn cart-float" onclick="openCart()">Cart (<span id="cartCountFloat">0</span>)</button>
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>BABA JAAN MART</h4>
+                <p style="color: #bbb; font-size: 14px;">Premium Men's Fashion & Clothing Hub in Khetasarai.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Shop Categories</h4>
+                <ul>
+                    <li><a href="shop.html?cat=jeans">Jeans</a></li>
+                    <li><a href="shop.html?cat=shirts">Shirts</a></li>
+                    <li><a href="shop.html?cat=tshirts">T-Shirts</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Store Location</h4>
+                <p style="color: #bbb; font-size: 14px;">
+                    Opposite Bhartiya Vidhyapeeth School,<br>
+                    Dobhi Mode, Khetasarai
+                </p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 BABA JAAN MART. Managed by Affan Khan. Powered by Supabase & Razorpay.
+        </div>
+    </footer>
 
-<aside class="drawer" id="cartDrawer">
-  <div class="drawer-head">
-    <div><h2>Your Cart</h2><p class="muted">Prepaid checkout only</p></div>
-    <button class="x" onclick="closeCart()">×</button>
-  </div>
-  <div class="cart-items" id="cartItems"></div>
-  <div class="total">
-    <h3>Total: <span class="gold" id="cartTotal">₹0</span></h3>
-    <p class="muted" style="margin:8px 0 14px">COD not available.</p>
-    <a class="btn full" id="checkoutBtn" href="#" target="_blank">Checkout on WhatsApp</a>
-  </div>
-</aside>
-
-<footer>© 2026 Babajan Mart. Luxury menswear for the modern man.</footer>
-
-<script>
-const WHATSAPP_NUMBER = "919648530141";
-const products = [
-{id:1,name:"Signature Straight Fit Denim",cat:"Jeans",price:1299,old:1699,img:"https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=900&q=80",sizes:["30","32","34","36","38"]},
-{id:2,name:"Premium Black Lycra Shirt",cat:"Shirts",price:899,old:1199,img:"https://images.unsplash.com/photo-1603252109303-2751441dd157?auto=format&fit=crop&w=900&q=80",sizes:["M","L","XL","XXL"]},
-{id:3,name:"Luxury Linen Casual Shirt",cat:"Shirts",price:999,old:1399,img:"https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=900&q=80",sizes:["M","L","XL","XXL"]},
-{id:4,name:"Urban Polo T-Shirt",cat:"T-Shirts",price:649,old:849,img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=80",sizes:["M","L","XL","XXL"]},
-{id:5,name:"Relaxed Fit Cargo Denim",cat:"Jeans",price:1499,old:1899,img:"https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=80",sizes:["30","32","34","36","38"]},
-{id:6,name:"Elite Satin Party Shirt",cat:"Shirts",price:1099,old:1499,img:"https://images.unsplash.com/photo-1620012253295-c15cc3e65df4?auto=format&fit=crop&w=900&q=80",sizes:["M","L","XL","XXL"]}
-];
-let selectedSizes = {};
-let cart = [];
-function rupee(n){return "₹"+n.toLocaleString("en-IN");}
-function renderProducts(){
- const grid=document.getElementById("productGrid");
- grid.innerHTML=products.map(p=>{
-  selectedSizes[p.id]=selectedSizes[p.id]||p.sizes[0];
-  return `<div class="card"><img src="${p.img}" alt="${p.name}"><div class="card-body"><p class="cat">${p.cat}</p><h3>${p.name}</h3><div><span class="price">${rupee(p.price)}</span><span class="old">${rupee(p.old)}</span></div><div class="sizes">${p.sizes.map(s=>`<button class="size ${selectedSizes[p.id]===s?'active':''}" onclick="selectSize(${p.id},'${s}')">${s}</button>`).join("")}</div><button class="btn full" onclick="addToCart(${p.id})">Add to Cart</button></div></div>`;
- }).join("");
-}
-function selectSize(id,size){selectedSizes[id]=size;renderProducts();}
-function addToCart(id){
- const p=products.find(x=>x.id===id), size=selectedSizes[id];
- const f=cart.find(x=>x.id===id&&x.size===size);
- if(f) f.qty++; else cart.push({...p,size,qty:1});
- renderCart(); openCart();
-}
-function changeQty(id,size,d){const i=cart.find(x=>x.id===id&&x.size===size); if(!i)return; i.qty+=d; if(i.qty<=0)cart=cart.filter(x=>!(x.id===id&&x.size===size)); renderCart();}
-function removeItem(id,size){cart=cart.filter(x=>!(x.id===id&&x.size===size));renderCart();}
-function openCart(){document.getElementById("cartDrawer").classList.add("open");}
-function closeCart(){document.getElementById("cartDrawer").classList.remove("open");}
-function renderCart(){
- const items=document.getElementById("cartItems");
- const count=cart.reduce((a,b)=>a+b.qty,0), total=cart.reduce((a,b)=>a+b.qty*b.price,0);
- document.getElementById("cartCount").textContent=count;
- document.getElementById("cartCountFloat").textContent=count;
- document.getElementById("cartTotal").textContent=rupee(total);
- if(cart.length===0){items.innerHTML='<p class="muted">Your cart is empty.</p>';document.getElementById("checkoutBtn").href="#";return;}
- items.innerHTML=cart.map(i=>`<div class="cart-item"><img src="${i.img}"><div style="flex:1"><h4>${i.name}</h4><p class="muted">Size: ${i.size}</p><p class="gold">${rupee(i.price)}</p><div class="qty"><button onclick="changeQty(${i.id},'${i.size}',-1)">-</button><span>${i.qty}</span><button onclick="changeQty(${i.id},'${i.size}',1)">+</button><button class="remove" onclick="removeItem(${i.id},'${i.size}')">Remove</button></div></div></div>`).join("");
- const msg=encodeURIComponent("Hello Baba Jaan Mart, I want to place a prepaid order:\n\n"+cart.map(i=>`${i.name} | Size: ${i.size} | Qty: ${i.qty} | ${rupee(i.price*i.qty)}`).join("\n")+`\n\nTotal: ${rupee(total)}\nPayment: Online payment only`);
- document.getElementById("checkoutBtn").href=`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
-}
-renderProducts(); renderCart();
-</script>
 </body>
 </html>

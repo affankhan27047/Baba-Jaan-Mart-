@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Shopping Bag - BABA JAAN MART</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:30px;padding:40px 5%;">
+    <div style="background:white;padding:20px;border-radius:8px;">
+      <h3 id="bagTitle">Shopping Bag</h3>
+      <div id="cartItemBox"></div>
+    </div>
+
+    <div style="background:white;padding:20px;border-radius:8px;height:fit-content;">
+      <h3>Price Details</h3>
+      <hr>
+      <div style="display:flex;justify-content:space-between;margin:12px 0;">
+        <span>Total Amount</span><b id="totalAmount">₹0</b>
+      </div>
+      <button class="btn-add-cart" style="padding:12px;font-size:16px;margin-top:15px;" onclick="goCheckout()">
+        PLACE ORDER
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const item = JSON.parse(localStorage.getItem("cartItem"));
+
+    if (!item) {
+      document.getElementById("cartItemBox").innerHTML = "<p>Your bag is empty.</p>";
+    } else {
+      document.getElementById("bagTitle").innerText = `Shopping Bag (1 Item)`;
+      document.getElementById("totalAmount").innerText = `₹${item.price}`;
+
+      document.getElementById("cartItemBox").innerHTML = `
+        <div style="display:flex;gap:20px;border-bottom:1px solid #ddd;padding:15px 0;">
+          <img src="${item.image}" style="width:90px;height:120px;object-fit:cover;">
+          <div>
+            <h4>${item.name}</h4>
+            <p style="font-size:13px;color:#777;">Size: ${item.size}</p>
+            <p><b>₹${item.price}</b></p>
+            <button onclick="removeItem()" style="border:none;background:none;color:red;cursor:pointer;font-size:13px;margin-top:10px;">
+              Remove
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function removeItem() {
+      localStorage.removeItem("cartItem");
+      location.reload();
+    }
+
+    function goCheckout() {
+      if (!item) {
+        alert("Your bag is empty.");
+        return;
+      }
+      window.location.href = "checkout.html";
+    }
+  </script>
+</body>
+</html>

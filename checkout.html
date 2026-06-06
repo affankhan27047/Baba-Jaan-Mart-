@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout - BABA JAAN MART</title>
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+
+<body>
+  <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:30px;padding:40px 5%;">
+    
+    <div style="background:white;padding:25px;border-radius:8px;">
+      <h2>Delivery Address</h2>
+
+      <input id="customerName" placeholder="Full Name" style="width:100%;padding:12px;margin:10px 0;">
+      <input id="customerPhone" placeholder="Mobile Number" style="width:100%;padding:12px;margin:10px 0;">
+      <textarea id="customerAddress" placeholder="Full Address" style="width:100%;padding:12px;margin:10px 0;height:90px;"></textarea>
+      <input id="customerCity" placeholder="City" style="width:100%;padding:12px;margin:10px 0;">
+      <input id="customerPincode" placeholder="Pincode" style="width:100%;padding:12px;margin:10px 0;">
+    </div>
+
+    <div style="background:white;padding:25px;border-radius:8px;height:fit-content;">
+      <h2>Order Summary</h2>
+      <div id="orderSummary"></div>
+
+      <p style="color:red;font-size:14px;margin:15px 0;">
+        Cash on Delivery available nahi hai. Online payment required hai.
+      </p>
+
+      <button class="btn-add-cart" style="padding:12px;font-size:16px;" onclick="placeOrder()">
+        PAY NOW
+      </button>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    const SUPABASE_URL = "https://kwslileixrznlycqjqoj.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_gFXTHh-8OEcI5O-YbAT9rQ_n5LJTTMv";
+
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const item = JSON.parse(localStorage.getItem("cartItem"));
+
+    if (!item) {
+      document.getElementById("orderSummary").innerHTML = "<p>Your bag is empty.</p>";
+    } else {
+      document.getElementById("orderSummary").innerHTML = `
+        <p><b>Product:</b> ${item.name}</p>
+        <p><b>Size:</b> ${item.size}</p>
+        <p><b>Quantity:</b> ${item.quantity}</p>
+        <p><b>Total:</b> ₹${item.price}</p>
+      `;
+    }
+
+    async function placeOrder() {
+      if (!item) {
+        alert("Your bag is empty.");
+        return;
+      }
+
+      const name = document.getElementById("customerName").value.trim();
+      const phone = document.getElementById("customerPhone").value.trim();
+      const address = document.getElementById("customerAddress").value.trim();
+      const city = document.getElementById("customerCity").value.trim();
+      const pincode = document.getElementById("customerPincode").value.trim();
+
+      if (!name || !phone || !address || !city || !pincode) {
+        alert("Please fill all delivery details.");
+        return;
+      }
+
+      const options = {
+        key: "rzp_live_Sy3eXxd8kgVFAa",
+        amount: item.price * 100,
+        currency: "INR",
+        name: "BABA JAAN MART",
+        description: item.name,
+
+        handler: async function (response) {
+          const orderData = {
+            customer_name: name,
+            phone: phone,
+            address: address,
+            city: city,
+            pincode: pincode,
+            products: [item],
+            total_amount: item.price,
+            payment_status: "paid",
+            order_status: "new",
+            razorpay_payment_id: response.razorpay_payment_id
+          };
+
+          const { data, error } = await supabaseClient
+            .from("orders")
+            .insert([orderData])
+            .select();
+
+          if (error) {
+            console.log(error);
+            alert("Payment ho gaya, lekin order save nahi hua. Screenshot bhejo.");
+            return;
+          }
+
+          localStorage.removeItem("cartItem");
+
+          alert("Payment Successful! Order placed.");
+
+          window.location.href = "success.html";
+        },
+
+        prefill: {
+          name: name,
+          contact: phone
+        },
+
+        notes: {
+          address: address,
+          city: city,
+          pincode: pincode
+        },
+
+        theme: {
+          color: "#facc15"
+        }
+      };
+
+      const rzp = new Razorpay(options);
+      rzp.open();
+    }
+  </script>
+</body>
+</html>
