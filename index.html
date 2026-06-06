@@ -1,116 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BABA JAAN MART | Premium Men's Fashion Store</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BABA JAAN MART | Premium Men's Fashion Store</title>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
+
 <body>
 
-    <header>
-        <div class="header-container">
-            <div class="logo">
-                <a href="index.html">BABA JAAN MART</a>
-            </div>
-            <div class="search-bar">
-                <input type="text" placeholder="Search for products, brands and more...">
-            </div>
-            <div class="header-actions">
-                <a href="auth.html"><i class="fa-regular fa-user"></i></a>
-                <a href="wishlist.html"><i class="fa-regular fa-heart"></i><span class="badge" id="wishlist-count">0</span></a>
-                <a href="cart.html"><i class="fa-solid fa-bag-shopping"></i><span class="badge" id="cart-count">0</span></a>
-            </div>
-        </div>
-    </header>
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <a href="index.html">BABA JAAN MART</a>
+      </div>
 
-    <nav>
+      <div class="search-bar">
+        <input type="text" placeholder="Search for products, brands and more...">
+      </div>
+
+      <div class="header-actions">
+        <a href="auth.html"><i class="fa-regular fa-user"></i></a>
+        <a href="wishlist.html"><i class="fa-regular fa-heart"></i><span class="badge" id="wishlist-count">0</span></a>
+        <a href="cart.html"><i class="fa-solid fa-bag-shopping"></i><span class="badge" id="cart-count">0</span></a>
+      </div>
+    </div>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="shop.html?cat=jeans">Jeans</a></li>
+      <li><a href="shop.html?cat=shirts">Shirts</a></li>
+      <li><a href="shop.html?cat=tshirts">T-Shirts</a></li>
+      <li><a href="shop.html?cat=pants">Pants</a></li>
+      <li><a href="shop.html?tag=offers">Offers</a></li>
+      <li><a href="shop.html?tag=new">New Arrivals</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero-banner" style="background: var(--primary-color); color: var(--white); padding: 60px 5%; text-align: center; border-bottom: 5px solid var(--accent-color);">
+    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 10px;">GRAND OPENING SALE</h1>
+    <p style="font-size: 1.2rem; color: var(--accent-color); margin-bottom: 20px;">Upgrade Your Wardrobe with Premium Men's Wear</p>
+    <div style="font-size: 1.5rem; font-weight: bold; margin-bottom: 25px;">FLAT 50% OFF on Best Sellers!</div>
+    <a href="shop.html" style="background: var(--accent-color); color: var(--primary-color); padding: 12px 30px; text-decoration: none; font-weight: bold; border-radius: 4px; text-transform: uppercase;">Shop Now</a>
+  </section>
+
+  <main style="padding: 40px 5%;">
+    <h2 style="text-align: center; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 1px;">Trending Collection</h2>
+
+    <div class="product-grid" id="trending-products">
+      <h3 style="text-align:center;">Loading Products...</h3>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>BABA JAAN MART</h4>
+        <p style="color: #bbb; font-size: 14px;">Premium Men's Fashion & Clothing Hub in Khetasarai.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Shop Categories</h4>
         <ul>
-            <li><a href="index.html" class="active">Home</a></li>
-            <li><a href="shop.html?cat=jeans">Jeans</a></li>
-            <li><a href="shop.html?cat=shirts">Shirts</a></li>
-            <li><a href="shop.html?cat=tshirts">T-Shirts</a></li>
-            <li><a href="shop.html?cat=pants">Pants</a></li>
-            <li><a href="shop.html?tag=offers">Offers</a></li>
-            <li><a href="shop.html?tag=new">New Arrivals</a></li>
+          <li><a href="shop.html?cat=jeans">Jeans</a></li>
+          <li><a href="shop.html?cat=shirts">Shirts</a></li>
+          <li><a href="shop.html?cat=tshirts">T-Shirts</a></li>
         </ul>
-    </nav>
+      </div>
 
-    <section class="hero-banner" style="background: var(--primary-color); color: var(--white); padding: 60px 5%; text-align: center; border-bottom: 5px solid var(--accent-color);">
-        <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 10px;">GRAND OPENING SALE</h1>
-        <p style="font-size: 1.2rem; color: var(--accent-color); margin-bottom: 20px;">Upgrade Your Wardrobe with Premium Men's Wear</p>
-        <div style="font-size: 1.5rem; font-weight: bold; margin-bottom: 25px;">FLAT 50% OFF on Best Sellers!</div>
-        <a href="shop.html" style="background: var(--accent-color); color: var(--primary-color); padding: 12px 30px; text-decoration: none; font-weight: bold; border-radius: 4px; text-transform: uppercase;">Shop Now</a>
-    </section>
+      <div class="footer-col">
+        <h4>Store Location</h4>
+        <p style="color: #bbb; font-size: 14px;">
+          Opposite Bhartiya Vidhyapeeth School,<br>
+          Dobhi Mode, Khetasarai
+        </p>
+      </div>
+    </div>
 
-    <main style="padding: 40px 5%;">
-        <h2 style="text-align: center; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 1px;">Trending Collection</h2>
-        
-        <div class="product-grid" id="trending-products">
-            <div class="product-card">
-                <div class="wishlist-heart"><i class="fa-regular fa-heart"></i></div>
-                <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?w=500" alt="Premium Denim" class="product-image">
-                <div class="product-info">
-                    <div class="brand-title">Baba Jaan Original</div>
-                    <div class="product-name">Slim Fit Premium Indigo Jeans</div>
-                    <div class="rating-badge">4.3 <i class="fa-solid fa-star" style="font-size: 10px;"></i></div>
-                    <div class="price-container">
-                        <span class="current-price">₹1,199</span>
-                        <span class="old-price">₹2,399</span>
-                        <span class="discount-tag">(50% OFF)</span>
-                    </div>
-                    <div class="size-selector-preview">Sizes: 30, 32, 34, 36</div>
-                    <button class="btn-add-cart" onclick="location.href='product-detail.html'">View Details</button>
-                </div>
+    <div class="footer-bottom">
+      &copy; 2026 BABA JAAN MART. Managed by Affan Khan. Powered by Supabase & Razorpay.
+    </div>
+  </footer>
+
+  <script>
+    const supabaseClient = window.supabase.createClient(
+      "https://kwslileixrznlycqjqoj.supabase.co",
+      "sb_publishable_gFXTHh-8OEcI5O-YbAT9rQ_n5LJTTMv"
+    );
+
+    async function loadHomeProducts() {
+      const grid = document.getElementById("trending-products");
+
+      const { data, error } = await supabaseClient
+        .from("products")
+        .select("*")
+        .order("id", { ascending: false })
+        .limit(8);
+
+      if (error) {
+        console.log(error);
+        grid.innerHTML = "<h3 style='text-align:center;'>Products load nahi hue.</h3>";
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        grid.innerHTML = "<h3 style='text-align:center;'>No products found.</h3>";
+        return;
+      }
+
+      let html = "";
+
+      data.forEach(product => {
+        html += `
+          <div class="product-card">
+            <div class="wishlist-heart">
+              <i class="fa-regular fa-heart"></i>
             </div>
 
-            <div class="product-card">
-                <div class="wishlist-heart"><i class="fa-regular fa-heart"></i></div>
-                <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500" alt="Linen Shirt" class="product-image">
-                <div class="product-info">
-                    <div class="brand-title">Baba Jaan Luxury</div>
-                    <div class="product-name">Pure Linen Casual White Shirt</div>
-                    <div class="rating-badge">4.5 <i class="fa-solid fa-star" style="font-size: 10px;"></i></div>
-                    <div class="price-container">
-                        <span class="current-price">₹1</span>
-                        <span class="old-price">₹1,999</span>
-                        <span class="discount-tag">(50% OFF)</span>
-                    </div>
-                    <div class="size-selector-preview">Sizes: M, L, XL, XXL</div>
-                    <button class="btn-add-cart" onclick="location.href='product-detail.html'">View Details</button>
-                </div>
-            </div>
-        </div>
-    </main>
+            <img
+              src="${product.image_url}"
+              alt="${product.name}"
+              class="product-image"
+            >
 
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-col">
-                <h4>BABA JAAN MART</h4>
-                <p style="color: #bbb; font-size: 14px;">Premium Men's Fashion & Clothing Hub in Khetasarai.</p>
+            <div class="product-info">
+              <div class="brand-title">BABA JAAN MART</div>
+
+              <div class="product-name">${product.name || "Product"}</div>
+
+              <div class="rating-badge">
+                4.5 <i class="fa-solid fa-star" style="font-size: 10px;"></i>
+              </div>
+
+              <div class="price-container">
+                <span class="current-price">₹${product.price || 0}</span>
+                <span class="old-price">₹${product.old_price || product.price || 0}</span>
+                <span class="discount-tag">(Offer)</span>
+              </div>
+
+              <div class="size-selector-preview">
+                Sizes: ${product.size || "M, L, XL"}
+              </div>
+
+              <button class="btn-add-cart" onclick="viewProduct(${product.id})">
+                View Details
+              </button>
             </div>
-            <div class="footer-col">
-                <h4>Shop Categories</h4>
-                <ul>
-                    <li><a href="shop.html?cat=jeans">Jeans</a></li>
-                    <li><a href="shop.html?cat=shirts">Shirts</a></li>
-                    <li><a href="shop.html?cat=tshirts">T-Shirts</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Store Location</h4>
-                <p style="color: #bbb; font-size: 14px;">
-                    Opposite Bhartiya Vidhyapeeth School,<br>
-                    Dobhi Mode, Khetasarai
-                </p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            &copy; 2026 BABA JAAN MART. Managed by Affan Khan. Powered by Supabase & Razorpay.
-        </div>
-    </footer>
+          </div>
+        `;
+      });
+
+      grid.innerHTML = html;
+    }
+
+    function viewProduct(productId) {
+      localStorage.setItem("selectedProductId", productId);
+      window.location.href = "product-detail.html";
+    }
+
+    loadHomeProducts();
+  </script>
 
 </body>
 </html>
