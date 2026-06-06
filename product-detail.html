@@ -3,39 +3,119 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premium Shirt Detail - BABA JAAN MART</title>
+  <title>Product Detail - BABA JAAN MART</title>
+
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
-    .detail-container { display: flex; gap: 40px; padding: 40px 5%; background: white; border-radius:8px; margin: 20px 5%; }
-    .gallery-panel { display: flex; gap: 15px; flex: 1; }
-    .thumb-images { display: flex; flex-direction: column; gap: 10px; }
-    .thumb-images img { width: 80px; height: 100px; object-fit: cover; cursor: pointer; border: 1px solid var(--border-color); }
-    .main-image img { width: 100%; max-height: 600px; object-fit: cover; }
-    .info-panel { flex: 1; }
-    .size-btn { padding: 10px 20px; border: 1px solid var(--border-color); background:none; cursor:pointer; font-weight:600; }
-    .size-btn.active { border-color: var(--primary-color); background: var(--accent-color); }
-    .pincode-box { display: flex; gap: 10px; margin-top: 15px; }
-    .pincode-box input { padding: 10px; border: 1px solid var(--border-color); border-radius:4px; }
+    .detail-container {
+      display: flex;
+      gap: 40px;
+      padding: 40px 5%;
+      background: white;
+      border-radius: 8px;
+      margin: 20px 5%;
+    }
+
+    .gallery-panel {
+      display: flex;
+      gap: 15px;
+      flex: 1;
+    }
+
+    .thumb-images {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .thumb-images img {
+      width: 70px;
+      height: 90px;
+      object-fit: cover;
+      cursor: pointer;
+      border: 1px solid var(--border-color);
+      border-radius: 5px;
+    }
+
+    .main-image {
+      width: 100%;
+    }
+
+    .main-image img {
+      width: 100%;
+      height: 430px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .info-panel {
+      flex: 1;
+    }
+
+    .size-btn {
+      padding: 10px 20px;
+      border: 1px solid var(--border-color);
+      background: none;
+      cursor: pointer;
+      font-weight: 600;
+      border-radius: 4px;
+    }
+
+    .size-btn.active {
+      border-color: var(--primary-color);
+      background: var(--accent-color);
+    }
+
+    .pincode-box {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .pincode-box input {
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+    }
+
+    @media(max-width: 768px) {
+      .detail-container {
+        flex-direction: column;
+      }
+
+      .gallery-panel {
+        flex-direction: column;
+      }
+
+      .thumb-images {
+        flex-direction: row;
+      }
+
+      .main-image img {
+        height: 320px;
+      }
+    }
   </style>
 </head>
 
 <body>
+
   <div class="detail-container">
+
     <div class="gallery-panel">
-      <div class="thumb-images">
-        <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500" onclick="document.getElementById('main-view').src=this.src">
-        <img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=500" onclick="document.getElementById('main-view').src=this.src">
-      </div>
+      <div class="thumb-images" id="thumbImages"></div>
 
       <div class="main-image">
-        <img id="main-view" src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500">
+        <img id="main-view" src="" alt="Product Image">
       </div>
     </div>
 
     <div class="info-panel">
-      <h2>Pure Linen Casual White Shirt</h2>
+      <h2 id="productName">Loading...</h2>
 
       <div class="rating-badge" style="margin: 10px 0;">
         4.5 <i class="fa-solid fa-star"></i>
@@ -44,22 +124,18 @@
       <hr style="border:0; border-top:1px solid var(--border-color); margin:15px 0;">
 
       <div class="price-container" style="font-size:24px;">
-        <span class="current-price" style="font-size:28px;">₹999</span>
-        <span class="old-price">₹1,999</span>
-        <span class="discount-tag">(50% OFF)</span>
+        <span class="current-price" id="productPrice" style="font-size:28px;">₹0</span>
+        <span class="old-price" id="oldPrice">₹0</span>
+        <span class="discount-tag">(Offer)</span>
       </div>
 
-      <p style="color:green; font-weight:bold; font-size:14px;">Inclusive of all taxes</p>
+      <p style="color:green; font-weight:bold; font-size:14px;">
+        Inclusive of all taxes
+      </p>
 
       <div style="margin: 20px 0;">
         <h4 style="margin-bottom:10px;">Select Size</h4>
-
-        <div style="display:flex; gap:10px;">
-          <button class="size-btn" onclick="selectSize(this, 'M')">M</button>
-          <button class="size-btn active" onclick="selectSize(this, 'L')">L</button>
-          <button class="size-btn" onclick="selectSize(this, 'XL')">XL</button>
-          <button class="size-btn" onclick="selectSize(this, 'XXL')">XXL</button>
-        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;" id="sizeBox"></div>
       </div>
 
       <button class="btn-add-cart" style="padding:15px; font-size:16px;" onclick="addToCart()">
@@ -71,6 +147,7 @@
 
         <div class="pincode-box">
           <input type="text" id="pincode" placeholder="Enter Pincode">
+
           <button style="padding:10px 20px; background:#000; color:#fff; border:none; border-radius:4px; cursor:pointer;" onclick="checkPincode()">
             Check
           </button>
@@ -80,15 +157,78 @@
       </div>
 
       <div style="margin-top: 30px; font-size:14px;">
-        <p><strong>Fabric:</strong> 100% Premium Linen</p>
-        <p><strong>Fit:</strong> Regular Fit</p>
+        <p><strong>Description:</strong></p>
+        <p id="productDescription">Loading product details...</p>
         <p><strong>Return Policy:</strong> Easy 7 days return and exchange available.</p>
       </div>
     </div>
   </div>
 
   <script>
-    let selectedSize = "L";
+    const supabaseClient = window.supabase.createClient(
+      "https://kwslileixrznlycqjqoj.supabase.co",
+      "sb_publishable_gFXTHh-8OEcI5O-YbAT9rQ_n5LJTTMv"
+    );
+
+    let selectedSize = "";
+    let currentProduct = null;
+
+    async function loadProduct() {
+      const productId = localStorage.getItem("selectedProductId");
+
+      if (!productId) {
+        alert("Product not selected.");
+        window.location.href = "shop.html";
+        return;
+      }
+
+      const { data, error } = await supabaseClient
+        .from("products")
+        .select("*")
+        .eq("id", productId)
+        .single();
+
+      if (error || !data) {
+        console.log(error);
+        alert("Product load nahi hua.");
+        window.location.href = "shop.html";
+        return;
+      }
+
+      currentProduct = data;
+
+      document.getElementById("productName").innerText = data.name || "Product";
+      document.getElementById("productPrice").innerText = `₹${data.price || 0}`;
+      document.getElementById("oldPrice").innerText = `₹${data.old_price || data.price || 0}`;
+      document.getElementById("productDescription").innerText = data.description || "Premium quality product from Baba Jaan Mart.";
+
+      const imageUrl = data.image_url || "https://via.placeholder.com/500";
+      document.getElementById("main-view").src = imageUrl;
+
+      document.getElementById("thumbImages").innerHTML = `
+        <img src="${imageUrl}" onclick="document.getElementById('main-view').src=this.src">
+      `;
+
+      const sizes = data.size
+        ? data.size.split(",").map(s => s.trim())
+        : ["M", "L", "XL"];
+
+      selectedSize = sizes[0];
+
+      let sizeHtml = "";
+
+      sizes.forEach((size, index) => {
+        sizeHtml += `
+          <button
+            class="size-btn ${index === 0 ? "active" : ""}"
+            onclick="selectSize(this, '${size}')">
+            ${size}
+          </button>
+        `;
+      });
+
+      document.getElementById("sizeBox").innerHTML = sizeHtml;
+    }
 
     function selectSize(button, size) {
       selectedSize = size;
@@ -100,14 +240,20 @@
     }
 
     function addToCart() {
+      if (!currentProduct) {
+        alert("Product loading. Please wait.");
+        return;
+      }
+
       const product = {
-        name: "Pure Linen Casual White Shirt",
-        price: 1,
-        oldPrice: 1999,
+        id: currentProduct.id,
+        name: currentProduct.name,
+        price: Number(currentProduct.price),
+        oldPrice: Number(currentProduct.old_price || currentProduct.price),
         size: selectedSize,
         quantity: 1,
-        image: document.getElementById("main-view").src,
-        link: "https://babajanmart.com/product-detail.html"
+        image: currentProduct.image_url,
+        link: `https://babajanmart.com/product-detail.html?id=${currentProduct.id}`
       };
 
       localStorage.setItem("cartItem", JSON.stringify(product));
@@ -130,6 +276,8 @@
         status.style.color = "red";
       }
     }
+
+    loadProduct();
   </script>
 </body>
 </html>
