@@ -1,104 +1,190 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>BABA JAAN MART - Admin Panel</title>
+  <title>BABA JAAN MART - Admin Panel</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f5f5f5;
+    }
 
-    <style>
-        body{
-            font-family:Arial,sans-serif;
-            padding:20px;
-            background:#f5f5f5;
-        }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
 
-        h1{
-            text-align:center;
-        }
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
 
-        table{
-            width:100%;
-            border-collapse:collapse;
-            background:white;
-        }
+    button {
+      background: #000;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 
-        th,td{
-            border:1px solid #ddd;
-            padding:10px;
-            text-align:left;
-        }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      font-size: 14px;
+    }
 
-        th{
-            background:black;
-            color:white;
-        }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+      vertical-align: top;
+    }
 
-        tr:nth-child(even){
-            background:#fafafa;
-        }
-    </style>
+    th {
+      background: black;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background: #fafafa;
+    }
+
+    .status {
+      padding: 5px 8px;
+      border-radius: 20px;
+      background: #fff3cd;
+      color: #856404;
+      font-size: 12px;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .paid {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    @media(max-width: 768px) {
+      table {
+        font-size: 12px;
+      }
+
+      th, td {
+        padding: 7px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<h1>BABA JAAN MART ORDERS</h1>
+  <h1>BABA JAAN MART ORDERS</h1>
 
-<table>
+  <div class="top-bar">
+    <p id="orderCount">Loading orders...</p>
+    <button onclick="loadOrders()">Refresh Orders</button>
+  </div>
+
+  <table>
     <thead>
-        <tr>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>City</th>
-            <th>Amount</th>
-            <th>Status</th>
-        </tr>
+      <tr>
+        <th>Order ID</th>
+        <th>Date</th>
+        <th>Customer</th>
+        <th>Phone</th>
+        <th>Address</th>
+        <th>Product</th>
+        <th>Amount</th>
+        <th>Payment</th>
+        <th>Status</th>
+        <th>Payment ID</th>
+      </tr>
     </thead>
 
     <tbody id="ordersTable">
     </tbody>
-</table>
+  </table>
 
-<script>
+  <script>
+    const supabaseClient = window.supabase.createClient(
+      "https://kwslileixrznlycqjqoj.supabase.co",
+      "sb_publishable_gFXTHh-8OEcI5O-YbAT9rQ_n5LJTTMv"
+    );
 
-const supabase = window.supabase.createClient(
-    "https://kwslileixrznlycqjqoj.supabase.co",
-    "sb_publishable_gFXTHh-8OEcI5O-YbAT9rQ_n5LJTTMv"
-);
+    async function loadOrders() {
+      const table = document.getElementById("ordersTable");
+      const countText = document.getElementById("orderCount");
 
-async function loadOrders(){
+      table.innerHTML = "<tr><td colspan='10'>Loading...</td></tr>";
 
-    const { data, error } = await supabase
-    .from("orders")
-    .select("*")
-    .order("id",{ascending:false});
+      const { data, error } = await supabaseClient
+        .from("orders")
+        .select("*")
+        .order("id", { ascending: false });
 
-    if(error){
+      if (error) {
         console.log(error);
+        table.innerHTML = "<tr><td colspan='10'>Orders load nahi hue. Console check karo.</td></tr>";
+        countText.innerText = "Error loading orders";
         return;
-    }
+      }
 
-    let html="";
+      countText.innerText = `Total Orders: ${data.length}`;
 
-    data.forEach(order=>{
+      if (data.length === 0) {
+        table.innerHTML = "<tr><td colspan='10'>No orders found.</td></tr>";
+        return;
+      }
+
+      let html = "";
+
+      data.forEach(order => {
+        const products = Array.isArray(order.products) ? order.products : [];
+
+        const productText = products.map(product => {
+          return `
+            <b>${product.name || "Product"}</b><br>
+            Size: ${product.size || "-"}<br>
+            Qty: ${product.quantity || 1}
+          `;
+        }).join("<hr>");
+
+        const date = order.created_at
+          ? new Date(order.created_at).toLocaleString("en-IN")
+          : "-";
 
         html += `
-        <tr>
-            <td>${order.customer_name}</td>
-            <td>${order.phone}</td>
-            <td>${order.city}</td>
-            <td>₹${order.total_amount}</td>
-            <td>${order.order_status}</td>
-        </tr>
+          <tr>
+            <td>#${order.id}</td>
+            <td>${date}</td>
+            <td>${order.customer_name || "-"}</td>
+            <td>${order.phone || "-"}</td>
+            <td>
+              ${order.address || "-"}<br>
+              ${order.city || ""} ${order.pincode || ""}
+            </td>
+            <td>${productText}</td>
+            <td>₹${order.total_amount || 0}</td>
+            <td><span class="status paid">${order.payment_status || "pending"}</span></td>
+            <td><span class="status">${order.order_status || "new"}</span></td>
+            <td>${order.razorpay_payment_id || "-"}</td>
+          </tr>
         `;
+      });
 
-    });
+      table.innerHTML = html;
+    }
 
-    document.getElementById("ordersTable").innerHTML = html;
-}
-
-loadOrders();
-
-</script>
+    loadOrders();
+  </script>
 
 </body>
 </html>
