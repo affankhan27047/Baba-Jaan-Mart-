@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,11 +12,24 @@
     th,td { border:1px solid #ddd; padding:10px; text-align:left; vertical-align:top; }
     th { background:black; color:white; }
     select { padding:7px; border-radius:6px; }
+    button { padding:10px 15px; cursor:pointer; }
   </style>
 </head>
+
 <body>
 
+<script>
+let pass = prompt("Enter Admin Password");
+
+if(pass !== "Affan@@4366"){
+  document.body.innerHTML =
+    "<h1 style='text-align:center;margin-top:100px;'>Access Denied</h1>";
+  throw new Error("Access Denied");
+}
+</script>
+
 <h1>BABA JAAN MART ORDERS</h1>
+
 <button onclick="loadOrders()">Refresh Orders</button>
 <p id="orderCount">Loading...</p>
 
@@ -34,6 +48,7 @@
       <th>Payment ID</th>
     </tr>
   </thead>
+
   <tbody id="ordersTable"></tbody>
 </table>
 
@@ -44,37 +59,48 @@ const supabaseClient = window.supabase.createClient(
 );
 
 async function loadOrders() {
+
   const table = document.getElementById("ordersTable");
   const countText = document.getElementById("orderCount");
 
-  table.innerHTML = "<tr><td colspan='10'>Loading...</td></tr>";
+  table.innerHTML =
+    "<tr><td colspan='10'>Loading...</td></tr>";
 
   const { data, error } = await supabaseClient
     .from("orders")
     .select("*")
     .order("id", { ascending: false });
 
-  if (error) {
+  if(error){
     console.log(error);
-    table.innerHTML = "<tr><td colspan='10'>Orders load nahi hue.</td></tr>";
+    table.innerHTML =
+      "<tr><td colspan='10'>Orders load nahi hue.</td></tr>";
     return;
   }
 
-  countText.innerText = `Total Orders: ${data.length}`;
+  countText.innerText =
+    `Total Orders: ${data.length}`;
 
   let html = "";
 
   data.forEach(order => {
-    const products = Array.isArray(order.products) ? order.products : [];
 
-    const productText = products.map(product => `
-      <b>${product.name || "Product"}</b><br>
-      Size: ${product.size || "-"}<br>
-      Qty: ${product.quantity || 1}
-    `).join("<hr>");
+    const products =
+      Array.isArray(order.products)
+      ? order.products
+      : [];
 
-    const date = order.created_at
-      ? new Date(order.created_at).toLocaleString("en-IN")
+    const productText =
+      products.map(product => `
+        <b>${product.name || "Product"}</b><br>
+        Size: ${product.size || "-"}<br>
+        Qty: ${product.quantity || 1}
+      `).join("<hr>");
+
+    const date =
+      order.created_at
+      ? new Date(order.created_at)
+          .toLocaleString("en-IN")
       : "-";
 
     html += `
@@ -83,19 +109,28 @@ async function loadOrders() {
         <td>${date}</td>
         <td>${order.customer_name || "-"}</td>
         <td>${order.phone || "-"}</td>
-        <td>${order.address || "-"}<br>${order.city || ""} ${order.pincode || ""}</td>
+        <td>
+          ${order.address || "-"}<br>
+          ${order.city || ""}
+          ${order.pincode || ""}
+        </td>
+
         <td>${productText}</td>
+
         <td>₹${order.total_amount || 0}</td>
+
         <td>${order.payment_status || "pending"}</td>
+
         <td>
           <select onchange="updateStatus(${order.id}, this.value)">
-            <option value="new" ${order.order_status === "new" ? "selected" : ""}>New</option>
-            <option value="packed" ${order.order_status === "packed" ? "selected" : ""}>Packed</option>
-            <option value="shipped" ${order.order_status === "shipped" ? "selected" : ""}>Shipped</option>
-            <option value="delivered" ${order.order_status === "delivered" ? "selected" : ""}>Delivered</option>
-            <option value="cancelled" ${order.order_status === "cancelled" ? "selected" : ""}>Cancelled</option>
+            <option value="new" ${order.order_status==="new"?"selected":""}>New</option>
+            <option value="packed" ${order.order_status==="packed"?"selected":""}>Packed</option>
+            <option value="shipped" ${order.order_status==="shipped"?"selected":""}>Shipped</option>
+            <option value="delivered" ${order.order_status==="delivered"?"selected":""}>Delivered</option>
+            <option value="cancelled" ${order.order_status==="cancelled"?"selected":""}>Cancelled</option>
           </select>
         </td>
+
         <td>${order.razorpay_payment_id || "-"}</td>
       </tr>
     `;
@@ -104,13 +139,14 @@ async function loadOrders() {
   table.innerHTML = html;
 }
 
-async function updateStatus(orderId, status) {
+async function updateStatus(orderId, status){
+
   const { error } = await supabaseClient
     .from("orders")
     .update({ order_status: status })
     .eq("id", orderId);
 
-  if (error) {
+  if(error){
     console.log(error);
     alert("Status update nahi hua.");
     return;
@@ -124,3 +160,4 @@ loadOrders();
 
 </body>
 </html>
+```
