@@ -1,938 +1,823 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-  />
-  <title>Product Detail | BABA JAAN MART</title>
-  <meta
-    name="description"
-    content="Explore premium men's fashion product details, size options, pricing, stock, reviews and related products at BABA JAAN MART."
-  />
-  <meta name="theme-color" content="#111111" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet"
-  />
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/responsive.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Product Detail | BABA JAAN MART</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background-color: #f5f5f5;
+            color: #111;
+            line-height: 1.5;
+        }
+
+        /* Header - Black premium */
+        .main-header {
+            background-color: #000000;
+            padding: 1rem 1.25rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #222;
+        }
+
+        .logo a {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #f5b642;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 1.25rem;
+        }
+
+        .nav-icons a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-icons a:hover {
+            color: #f5b642;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1.5rem 1rem;
+        }
+
+        /* Product Gallery */
+        .product-gallery {
+            margin-bottom: 1.5rem;
+        }
+
+        .main-image {
+            width: 100%;
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        }
+
+        .main-image img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Product info */
+        .product-info {
+            background: white;
+            border-radius: 24px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+
+        .product-name {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.3px;
+        }
+
+        .price-row {
+            display: flex;
+            align-items: baseline;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.75rem;
+        }
+
+        .current-price {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #000;
+        }
+
+        .old-price {
+            font-size: 1.1rem;
+            color: #888;
+            text-decoration: line-through;
+        }
+
+        .discount-badge {
+            background: #f5b642;
+            color: #000;
+            font-weight: 700;
+            padding: 0.2rem 0.6rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+        }
+
+        .stock-status {
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .in-stock {
+            color: #2e7d32;
+            background: #e8f5e9;
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+        }
+
+        .low-stock {
+            color: #b85c00;
+            background: #fff4e5;
+        }
+
+        .out-of-stock {
+            color: #c62828;
+            background: #ffebee;
+        }
+
+        .category {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Size selector */
+        .size-section {
+            margin: 1.5rem 0;
+        }
+
+        .size-title {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .size-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .size-btn {
+            background: #f0f0f0;
+            border: 1px solid #e0e0e0;
+            padding: 0.6rem 1.2rem;
+            border-radius: 48px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .size-btn.selected {
+            background: #000;
+            color: white;
+            border-color: #000;
+        }
+
+        /* Quantity selector */
+        .quantity-section {
+            margin: 1.5rem 0;
+        }
+
+        .quantity-label {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 60px;
+            width: fit-content;
+            background: white;
+        }
+
+        .qty-btn {
+            background: transparent;
+            border: none;
+            font-size: 1.6rem;
+            font-weight: 400;
+            width: 44px;
+            cursor: pointer;
+            transition: 0.1s;
+            font-family: monospace;
+            color: #111;
+        }
+
+        .qty-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .quantity-number {
+            font-size: 1.2rem;
+            font-weight: 600;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        /* Buttons */
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 2rem 0 1rem;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            border: none;
+            font-family: inherit;
+        }
+
+        .btn-add {
+            background: #000;
+            color: white;
+            border: 1px solid #000;
+        }
+
+        .btn-add:hover {
+            background: #2c2c2c;
+        }
+
+        .btn-buy {
+            background: #f5b642;
+            color: #000;
+            border: 1px solid #f5b642;
+        }
+
+        .btn-buy:hover {
+            background: #e0a130;
+        }
+
+        /* Accordion */
+        .accordion {
+            background: white;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+
+        .accordion-header span:first-child {
+            font-size: 1rem;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 1.5rem;
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .accordion.active .accordion-content {
+            max-height: 500px;
+            padding: 1.2rem 1.5rem;
+        }
+
+        /* Related & Recently Viewed */
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 2rem 0 1rem;
+            letter-spacing: -0.2px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .product-card img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+        }
+
+        .card-info {
+            padding: 0.75rem;
+        }
+
+        .card-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .card-price {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .card-old {
+            font-size: 0.7rem;
+            text-decoration: line-through;
+            color: gray;
+        }
+
+        /* desktop grid */
+        @media (min-width: 768px) {
+            .product-detail-layout {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+                align-items: start;
+            }
+            .products-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .action-buttons {
+                flex-direction: row;
+            }
+            .btn {
+                width: auto;
+                flex: 1;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            background: #000;
+            color: #ccc;
+            margin-top: 3rem;
+            font-size: 0.8rem;
+        }
+
+        /* misc */
+        .error-msg {
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 24px;
+        }
+        button:active { transform: scale(0.98); }
+        .toast-msg {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #000;
+            color: #f5b642;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 500;
+            z-index: 200;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+    </style>
 </head>
 <body>
-  <a href="#main-content" class="skip-link">Skip to content</a>
 
-  <header class="site-header">
-    <div class="top-strip">
-      <div class="container">
-        <p>Premium Men's Fashion • Easy Size Selection • Secure Checkout</p>
-        <div class="top-strip-links">
-          <a href="about.html">About</a>
-          <a href="contact.html">Contact</a>
-        </div>
-      </div>
+<header class="main-header">
+    <div class="logo">
+        <a href="shop.html">BABA JAAN <span>MART</span></a>
     </div>
-
-    <div class="container">
-      <div class="navbar">
-        <div class="nav-left">
-          <button class="icon-btn menu-toggle show-on-mobile" type="button" aria-label="Open menu">
-            <span aria-hidden="true">☰</span>
-          </button>
-
-          <a href="index.html" class="brand" aria-label="BABA JAAN MART home">
-            <span class="brand-mark">BJ</span>
-            <span class="brand-text">
-              <span class="brand-title">BABA JAAN MART</span>
-              <span class="brand-subtitle">Premium Men's Wear</span>
-            </span>
-          </a>
-        </div>
-
-        <form class="header-search" id="headerSearchForm">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <circle cx="11" cy="11" r="7"></circle>
-            <path d="M20 20L17 17"></path>
-          </svg>
-          <input
-            type="search"
-            id="headerSearchInput"
-            placeholder="Search jeans, shirts, cargos..."
-            aria-label="Search products"
-          />
-        </form>
-
-        <nav class="desktop-nav" aria-label="Primary navigation">
-          <a href="index.html">Home</a>
-          <a href="shop.html">Shop</a>
-          <a href="about.html">About</a>
-          <a href="contact.html">Contact</a>
-          <a href="admin.html">Admin</a>
-        </nav>
-
-        <div class="nav-right">
-          <button class="icon-btn mobile-search-toggle show-on-mobile" type="button" aria-label="Open search">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <circle cx="11" cy="11" r="7"></circle>
-              <path d="M20 20L17 17"></path>
-            </svg>
-          </button>
-
-          <button class="icon-btn" type="button" id="themeToggle" aria-label="Toggle theme">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            </svg>
-          </button>
-
-          <a href="wishlist.html" class="icon-btn hide-mobile" aria-label="Wishlist">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <path d="M12 21s-6.716-4.35-9.192-8.237C1.28 10.38 2.095 7 5.09 6.16c1.9-.533 3.574.173 4.91 1.6 1.337-1.427 3.011-2.133 4.91-1.6 2.995.84 3.81 4.22 2.282 6.603C18.716 16.65 12 21 12 21z"></path>
-            </svg>
-            <span class="icon-badge-count" id="wishlistCount">0</span>
-          </a>
-
-          <a href="cart.html" class="icon-btn" aria-label="Cart">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <circle cx="9" cy="20" r="1"></circle>
-              <circle cx="18" cy="20" r="1"></circle>
-              <path d="M3 4h2l2.2 10.4a1 1 0 0 0 1 .8h9.6a1 1 0 0 0 1-.8L21 7H7"></path>
-            </svg>
-            <span class="icon-badge-count" id="cartCount">0</span>
-          </a>
-        </div>
-      </div>
+    <div class="nav-icons">
+        <a href="shop.html">Shop</a>
+        <a href="cart.html">Cart</a>
     </div>
-  </header>
+</header>
 
-  <div class="mobile-menu-panel" id="mobileMenuPanel" aria-hidden="true">
-    <div class="overlay"></div>
-    <aside class="mobile-panel" aria-label="Mobile menu">
-      <div class="panel-header">
-        <h2 class="panel-title">Menu</h2>
-        <button class="icon-btn close-panel" type="button" aria-label="Close menu">✕</button>
-      </div>
+<div class="container" id="productContainer">
+    <div id="detailContent">Loading product...</div>
+</div>
 
-      <nav class="mobile-nav-links" aria-label="Mobile navigation">
-        <a href="index.html">Home <span>→</span></a>
-        <a href="shop.html">Shop <span>→</span></a>
-        <a href="wishlist.html">Wishlist <span>→</span></a>
-        <a href="cart.html">Cart <span>→</span></a>
-        <a href="about.html">About <span>→</span></a>
-        <a href="contact.html">Contact <span>→</span></a>
-        <a href="admin.html">Admin <span>→</span></a>
-      </nav>
-    </aside>
-  </div>
+<footer class="footer">
+    <p>© 2025 BABA JAAN MART — Premium essentials</p>
+</footer>
 
-  <div class="mobile-search-panel" id="mobileSearchPanel" aria-hidden="true">
-    <div class="overlay"></div>
-    <div class="mobile-panel">
-      <div class="panel-header">
-        <h2 class="panel-title">Search</h2>
-        <button class="icon-btn close-panel" type="button" aria-label="Close search">✕</button>
-      </div>
-      <form class="search-box" id="mobileSearchForm">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <circle cx="11" cy="11" r="7"></circle>
-          <path d="M20 20L17 17"></path>
-        </svg>
-        <input
-          type="search"
-          id="mobileSearchInput"
-          placeholder="Search latest styles..."
-          aria-label="Search products"
-        />
-      </form>
-    </div>
-  </div>
-
-  <main id="main-content">
-    <section class="section-sm">
-      <div class="container">
-        <nav class="breadcrumb" aria-label="Breadcrumb">
-          <ol>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="shop.html">Shop</a></li>
-            <li><span id="breadcrumbProduct" aria-current="page">Product</span></li>
-          </ol>
-        </nav>
-
-        <div id="productDetailRoot" class="product-detail-page">
-          <div class="product-detail-loading">
-            <div class="product-gallery-grid">
-              <div class="skeleton" style="aspect-ratio: 1 / 1.18; border-radius: 1.5rem;"></div>
-            </div>
-            <div class="product-info-panel">
-              <div class="skeleton" style="height: 18px; width: 120px; margin-bottom: 1rem;"></div>
-              <div class="skeleton" style="height: 40px; width: 80%; margin-bottom: 1rem;"></div>
-              <div class="skeleton" style="height: 28px; width: 220px; margin-bottom: 1.25rem;"></div>
-              <div class="skeleton" style="height: 90px; width: 100%; margin-bottom: 1.25rem;"></div>
-              <div class="skeleton" style="height: 52px; width: 100%; border-radius: 999px;"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section-sm">
-      <div class="container">
-        <div class="section-title-wrap">
-          <div>
-            <p class="section-kicker">You May Also Like</p>
-            <h2 class="section-title">Related Products</h2>
-          </div>
-          <a href="shop.html" class="section-link">Explore All</a>
-        </div>
-
-        <div class="products-grid" id="relatedProductsGrid">
-          <article class="product-card skeleton"></article>
-          <article class="product-card skeleton"></article>
-          <article class="product-card skeleton"></article>
-          <article class="product-card skeleton"></article>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <div class="sticky-product-bar" id="stickyProductBar" aria-live="polite">
-    <div class="container">
-      <div class="sticky-product-bar-inner">
-        <div class="sticky-product-summary">
-          <div class="sticky-product-thumb" id="stickyThumb"></div>
-          <div>
-            <p class="sticky-label">Selected Product</p>
-            <h3 id="stickyTitle">Premium Product</h3>
-            <p id="stickyPrice">₹0</p>
-          </div>
-        </div>
-
-        <div class="sticky-product-actions">
-          <button type="button" class="btn btn-secondary" id="stickyAddToCartBtn">Add To Bag</button>
-          <button type="button" class="btn btn-primary" id="stickyBuyNowBtn">Buy Now</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <footer class="footer">
-    <div class="footer-top">
-      <div class="container">
-        <div class="footer-grid">
-          <div class="footer-brand">
-            <a href="index.html" class="brand" aria-label="BABA JAAN MART home">
-              <span class="brand-mark">BJ</span>
-              <span class="brand-text">
-                <span class="brand-title">BABA JAAN MART</span>
-                <span class="brand-subtitle">Premium Men's Wear</span>
-              </span>
-            </a>
-            <p>
-              Modern men's fashion with a premium shopping experience built for speed, style and trust.
-            </p>
-          </div>
-
-          <div class="footer-col">
-            <h4>Categories</h4>
-            <div class="footer-links">
-              <a href="shop.html?category=Jeans">Jeans</a>
-              <a href="shop.html?category=Shirts">Shirts</a>
-              <a href="shop.html?category=T-Shirts">T-Shirts</a>
-              <a href="shop.html?category=Cargo Pants">Cargo Pants</a>
-            </div>
-          </div>
-
-          <div class="footer-col">
-            <h4>Pages</h4>
-            <div class="footer-links">
-              <a href="index.html">Home</a>
-              <a href="shop.html">Shop</a>
-              <a href="wishlist.html">Wishlist</a>
-              <a href="cart.html">Cart</a>
-            </div>
-          </div>
-
-          <div class="footer-col">
-            <h4>Support</h4>
-            <div class="footer-links">
-              <a href="contact.html">Contact</a>
-              <a href="about.html">About</a>
-              <a href="checkout.html">Checkout</a>
-              <a href="admin.html">Admin</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <div class="container">
-        <div class="footer-bottom-inner">
-          <p>© 2026 BABA JAAN MART. All rights reserved.</p>
-          <div class="footer-bottom-links">
-            <a href="shop.html">Shop</a>
-            <a href="cart.html">Cart</a>
-            <a href="contact.html">Support</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
+<script>
+    // Supabase config
     const SUPABASE_URL = "https://kwslileixrznlycqjqoj.supabase.co";
-    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_gFXTHh-8OEcI5O-YbAT9rQ_n5LJTTMv";
-    const supabaseClient = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY
-    );
+    const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3c2xpbGVpeHJ6bmx5Y3FqcW9qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2NTY2MDgsImV4cCI6MjA5NTIzMjYwOH0.t5j4URbC5iCOySScCyJpyq6ngYUAGt7P94fmK0bypLc";
 
-    const state = {
-      product: null,
-      relatedProducts: [],
-      selectedSize: "",
-      selectedImage: "",
-      wishlist: JSON.parse(localStorage.getItem("bjm_wishlist") || "[]"),
-      cart: JSON.parse(localStorage.getItem("bjm_cart") || "[]")
-    };
-
-    const rupee = new Intl.NumberFormat("en-IN", {
-      style: "currency",
-      currency: "INR",
-      maximumFractionDigits: 0
-    });
-
-    const productDetailRoot = document.getElementById("productDetailRoot");
-    const relatedProductsGrid = document.getElementById("relatedProductsGrid");
-    const cartCount = document.getElementById("cartCount");
-    const wishlistCount = document.getElementById("wishlistCount");
-    const breadcrumbProduct = document.getElementById("breadcrumbProduct");
-    const headerSearchForm = document.getElementById("headerSearchForm");
-    const mobileSearchForm = document.getElementById("mobileSearchForm");
-    const headerSearchInput = document.getElementById("headerSearchInput");
-    const mobileSearchInput = document.getElementById("mobileSearchInput");
-    const stickyProductBar = document.getElementById("stickyProductBar");
-    const stickyTitle = document.getElementById("stickyTitle");
-    const stickyPrice = document.getElementById("stickyPrice");
-    const stickyThumb = document.getElementById("stickyThumb");
-    const stickyAddToCartBtn = document.getElementById("stickyAddToCartBtn");
-    const stickyBuyNowBtn = document.getElementById("stickyBuyNowBtn");
-    const themeToggle = document.getElementById("themeToggle");
-
-    const menuToggle = document.querySelector(".menu-toggle");
-    const mobileSearchToggle = document.querySelector(".mobile-search-toggle");
-    const mobileMenuPanel = document.getElementById("mobileMenuPanel");
-    const mobileSearchPanel = document.getElementById("mobileSearchPanel");
-
-    function setThemeIcon(theme) {
-      themeToggle.innerHTML =
-        theme === "dark"
-          ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path></svg>`
-          : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
-    }
-
-    function initTheme() {
-      const savedTheme = localStorage.getItem("bjm_theme");
-      const preferredTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light";
-      const theme = savedTheme || preferredTheme;
-      document.documentElement.setAttribute("data-theme", theme);
-      setThemeIcon(theme);
-    }
-
-    function toggleTheme() {
-      const current = document.documentElement.getAttribute("data-theme") || "light";
-      const next = current === "dark" ? "light" : "dark";
-      document.documentElement.setAttribute("data-theme", next);
-      localStorage.setItem("bjm_theme", next);
-      setThemeIcon(next);
-    }
-
-    function openPanel(panel) {
-      panel.classList.add("active");
-      panel.setAttribute("aria-hidden", "false");
-      document.body.classList.add("menu-open");
-    }
-
-    function closePanel(panel) {
-      panel.classList.remove("active");
-      panel.setAttribute("aria-hidden", "true");
-      if (!document.querySelector(".mobile-menu-panel.active, .mobile-search-panel.active")) {
-        document.body.classList.remove("menu-open");
-      }
-    }
-
-    function updateCounts() {
-      cartCount.textContent = state.cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-      wishlistCount.textContent = state.wishlist.length;
-    }
-
-    function saveCart() {
-      localStorage.setItem("bjm_cart", JSON.stringify(state.cart));
-      updateCounts();
-    }
-
-    function saveWishlist() {
-      localStorage.setItem("bjm_wishlist", JSON.stringify(state.wishlist));
-      updateCounts();
-    }
-
-    function getProductIdFromUrl() {
-      const params = new URLSearchParams(window.location.search);
-      return params.get("id");
-    }
-
-    function getDiscountPercent(price, oldPrice) {
-      const current = Number(price) || 0;
-      const old = Number(oldPrice) || 0;
-      if (!old || old <= current) return 0;
-      return Math.round(((old - current) / old) * 100);
-    }
-
-    function getStockData(stock) {
-      const qty = Number(stock) || 0;
-      if (qty <= 0) return { text: "Out of stock", className: "out-stock", canBuy: false };
-      if (qty <= 5) return { text: `Only ${qty} left in stock`, className: "low-stock", canBuy: true };
-      return { text: "In stock and ready to ship", className: "in-stock", canBuy: true };
-    }
-
-    function getSizeOptions(sizeValue) {
-      if (!sizeValue) return ["S", "M", "L", "XL"];
-      return String(sizeValue)
-        .split(",")
-        .map(item => item.trim())
-        .filter(Boolean);
-    }
-
-    function getProductImages(product) {
-      const primary = product.image_url || "https://via.placeholder.com/800x960?text=BABA+JAAN+MART";
-      return [primary, primary, primary, primary];
-    }
-
-    function getReviewsMarkup() {
-      return `
-        <div class="reviews-layout">
-          <div class="review-summary-card">
-            <div class="review-score">4.6</div>
-            <p class="review-stars">★★★★★</p>
-            <p class="text-muted">Based on customer-style feedback layout</p>
-          </div>
-
-          <div class="review-list">
-            <article class="review-item">
-              <div class="review-head">
-                <strong>Arman</strong>
-                <span>Verified Buyer</span>
-              </div>
-              <p>Great fit and clean finish. Looks premium and feels comfortable for daily wear.</p>
-            </article>
-
-            <article class="review-item">
-              <div class="review-head">
-                <strong>Rizwan</strong>
-                <span>Verified Buyer</span>
-              </div>
-              <p>Fabric quality is solid, and the style is exactly what I expected from the photos.</p>
-            </article>
-
-            <article class="review-item">
-              <div class="review-head">
-                <strong>Sameer</strong>
-                <span>Verified Buyer</span>
-              </div>
-              <p>Good value for the look. I would recommend checking your preferred size before ordering.</p>
-            </article>
-          </div>
-        </div>
-      `;
-    }
-
-    function buildProductDetailMarkup(product) {
-      const discount = getDiscountPercent(product.price, product.old_price);
-      const stock = getStockData(product.stock);
-      const images = getProductImages(product);
-      const sizes = getSizeOptions(product.size);
-      const category = product.category || "Fashion";
-      const description =
-        product.description ||
-        "Premium men's fashion designed for comfort, clean structure and everyday styling.";
-
-      if (!state.selectedSize) {
-        state.selectedSize = sizes[0] || "M";
-      }
-      if (!state.selectedImage) {
-        state.selectedImage = images[0];
-      }
-
-      return `
-        <div class="product-detail-grid">
-          <div class="product-gallery">
-            <div class="product-gallery-grid">
-              <div class="product-main-image">
-                <img
-                  id="productMainImage"
-                  src="${state.selectedImage}"
-                  alt="${product.name || "Product image"}"
-                  width="800"
-                  height="960"
-                  loading="eager"
-                  decoding="async"
-                />
-                <div class="product-badges">
-                  ${discount ? `<span class="badge badge-primary">${discount}% OFF</span>` : `<span class="badge">New Season</span>`}
-                  <span class="badge">${category}</span>
-                </div>
-              </div>
-
-              <div class="product-thumbs" id="productThumbs">
-                ${images
-                  .map(
-                    (image, index) => `
-                  <button
-                    class="product-thumb ${index === 0 ? "active" : ""}"
-                    type="button"
-                    data-image="${image}"
-                    aria-label="View product image ${index + 1}"
-                  >
-                    <img
-                      src="${image}"
-                      alt="${product.name || "Product"} thumbnail ${index + 1}"
-                      width="160"
-                      height="180"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </button>
-                `
-                  )
-                  .join("")}
-              </div>
-            </div>
-          </div>
-
-          <div class="product-info-panel">
-            <div class="product-info-card">
-              <p class="product-category">${category}</p>
-              <h1 class="product-detail-title">${product.name || "Premium Product"}</h1>
-
-              <div class="product-detail-meta">
-                <span class="product-rating"><span class="star">★</span> 4.6</span>
-                <span class="product-stock ${stock.className}">${stock.text}</span>
-              </div>
-
-              <div class="price-row product-detail-price-row">
-                <span class="price-current">${rupee.format(Number(product.price) || 0)}</span>
-                ${product.old_price ? `<span class="price-old">${rupee.format(Number(product.old_price))}</span>` : ""}
-                ${discount ? `<span class="price-discount">Save ${discount}%</span>` : ""}
-              </div>
-
-              <p class="product-detail-description">${description}</p>
-
-              <div class="trust-pill-row">
-                <span class="trust-pill">Premium finish</span>
-                <span class="trust-pill">Secure checkout</span>
-                <span class="trust-pill">Fast processing</span>
-              </div>
-
-              <div class="size-block">
-                <div class="size-block-head">
-                  <h2>Select Size</h2>
-                  <p>Selected: <span id="selectedSizeLabel">${state.selectedSize}</span></p>
-                </div>
-                <div class="size-options" id="sizeOptions">
-                  ${sizes
-                    .map(
-                      size => `
-                    <button
-                      class="size-chip ${size === state.selectedSize ? "active" : ""}"
-                      type="button"
-                      data-size="${size}"
-                    >
-                      ${size}
-                    </button>
-                  `
-                    )
-                    .join("")}
-                </div>
-              </div>
-
-              <div class="detail-highlights">
-                <div class="detail-highlight">
-                  <span>Category</span>
-                  <strong>${category}</strong>
-                </div>
-                <div class="detail-highlight">
-                  <span>Style</span>
-                  <strong>${product.size || "Regular Fit"}</strong>
-                </div>
-                <div class="detail-highlight">
-                  <span>Availability</span>
-                  <strong>${stock.canBuy ? "Ready" : "Unavailable"}</strong>
-                </div>
-              </div>
-
-              <div class="product-detail-actions">
-                <button
-                  type="button"
-                  class="btn btn-secondary btn-lg"
-                  id="addToBagBtn"
-                  ${stock.canBuy ? "" : "disabled"}
-                >
-                  Add To Bag
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-primary btn-lg"
-                  id="buyNowBtn"
-                  ${stock.canBuy ? "" : "disabled"}
-                >
-                  Buy Now
-                </button>
-                <button
-                  type="button"
-                  class="icon-btn icon-btn-lg ${state.wishlist.some(item => String(item.id) === String(product.id)) ? "active" : ""}"
-                  id="wishlistToggleBtn"
-                  aria-label="Add to wishlist"
-                >
-                  ♥
-                </button>
-              </div>
-
-              <div class="product-support-grid">
-                <div class="support-card">
-                  <strong>Secure Payment</strong>
-                  <span>Razorpay protected checkout flow</span>
-                </div>
-                <div class="support-card">
-                  <strong>Order Tracking</strong>
-                  <span>Status updates managed in admin panel</span>
-                </div>
-                <div class="support-card">
-                  <strong>Premium Styling</strong>
-                  <span>Designed for everyday and occasion wear</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="product-tabs-card">
-              <div class="detail-section">
-                <h2>Description</h2>
-                <p>${description}</p>
-              </div>
-
-              <div class="detail-section">
-                <h2>Why You'll Like It</h2>
-                <ul class="detail-list">
-                  <li>Premium fashion-forward silhouette for modern everyday wear.</li>
-                  <li>Easy to pair with sneakers, loafers, overshirts and basics.</li>
-                  <li>Works for day-to-night styling with a clean elevated look.</li>
-                </ul>
-              </div>
-
-              <div class="detail-section">
-                <h2>Reviews</h2>
-                ${getReviewsMarkup()}
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-    }
-
-    function renderProductCard(product) {
-      const discount = getDiscountPercent(product.price, product.old_price);
-      const image = product.image_url || "https://via.placeholder.com/600x750?text=BABA+JAAN+MART";
-      const rating = (4 + ((product.id || 1) % 10) / 10).toFixed(1);
-
-      return `
-        <article class="product-card reveal">
-          <div class="product-media">
-            <img
-              src="${image}"
-              alt="${product.name || "Product image"}"
-              width="600"
-              height="750"
-              loading="lazy"
-              decoding="async"
-            />
-            <div class="product-badges">
-              ${discount ? `<span class="badge badge-primary">${discount}% OFF</span>` : `<span class="badge">New</span>`}
-              <span class="badge">${product.category || "Fashion"}</span>
-            </div>
-          </div>
-
-          <div class="product-info">
-            <p class="product-category">${product.category || "Fashion"}</p>
-            <h3 class="product-title">${product.name || "Premium Product"}</h3>
-
-            <div class="price-row">
-              <span class="price-current">${rupee.format(Number(product.price) || 0)}</span>
-              ${product.old_price ? `<span class="price-old">${rupee.format(Number(product.old_price))}</span>` : ""}
-              ${discount ? `<span class="price-discount">Save ${discount}%</span>` : ""}
-            </div>
-
-            <div class="product-meta">
-              <span class="product-rating"><span class="star">★</span> ${rating}</span>
-              <span class="product-stock in-stock">Trending</span>
-            </div>
-
-            <div class="product-card-actions">
-              <a href="product-detail.html?id=${product.id}" class="btn btn-primary">View Product</a>
-            </div>
-          </div>
-        </article>
-      `;
-    }
-
-    function updateStickyBar() {
-      if (!state.product) return;
-      stickyTitle.textContent = state.product.name || "Premium Product";
-      stickyPrice.textContent = rupee.format(Number(state.product.price) || 0);
-      stickyThumb.innerHTML = `
-        <img
-          src="${state.product.image_url || "https://via.placeholder.com/120x140?text=BJM"}"
-          alt="${state.product.name || "Product"}"
-          width="64"
-          height="72"
-          loading="lazy"
-        />
-      `;
-    }
-
-    function addCurrentProductToCart() {
-      if (!state.product) return;
-
-      const existing = state.cart.find(
-        item => String(item.id) === String(state.product.id) && String(item.size) === String(state.selectedSize)
-      );
-
-      if (existing) {
-        existing.quantity = (existing.quantity || 1) + 1;
-      } else {
-        state.cart.push({
-          id: state.product.id,
-          name: state.product.name,
-          price: state.product.price,
-          old_price: state.product.old_price,
-          image_url: state.product.image_url,
-          category: state.product.category,
-          size: state.selectedSize || state.product.size || "M",
-          quantity: 1
+    // Helper fetch from supabase
+    async function fetchProductById(id) {
+        const url = `${SUPABASE_URL}/rest/v1/products?id=eq.${id}&select=*`;
+        const res = await fetch(url, {
+            headers: {
+                apikey: SUPABASE_ANON,
+                Authorization: `Bearer ${SUPABASE_ANON}`,
+            }
         });
-      }
-
-      saveCart();
+        if (!res.ok) throw new Error("Product fetch failed");
+        const data = await res.json();
+        return data?.[0] || null;
     }
 
-    function goToCheckoutNow() {
-      addCurrentProductToCart();
-      window.location.href = "checkout.html";
-    }
-
-    function toggleWishlistForCurrentProduct() {
-      if (!state.product) return;
-      const existingIndex = state.wishlist.findIndex(item => String(item.id) === String(state.product.id));
-
-      if (existingIndex > -1) {
-        state.wishlist.splice(existingIndex, 1);
-      } else {
-        state.wishlist.push({
-          id: state.product.id,
-          name: state.product.name,
-          price: state.product.price,
-          old_price: state.product.old_price,
-          image_url: state.product.image_url,
-          category: state.product.category
+    async function fetchRelatedProducts(category, currentId) {
+        const url = `${SUPABASE_URL}/rest/v1/products?category=eq.${encodeURIComponent(category)}&select=*`;
+        const res = await fetch(url, {
+            headers: {
+                apikey: SUPABASE_ANON,
+                Authorization: `Bearer ${SUPABASE_ANON}`,
+            }
         });
-      }
-
-      saveWishlist();
-      productDetailRoot.innerHTML = buildProductDetailMarkup(state.product);
-      bindProductEvents();
+        if (!res.ok) return [];
+        const all = await res.json();
+        return all.filter(p => p.id != currentId).slice(0, 8);
     }
 
-    function bindProductEvents() {
-      const thumbs = document.querySelectorAll(".product-thumb");
-      const mainImage = document.getElementById("productMainImage");
-      const sizeButtons = document.querySelectorAll(".size-chip");
-      const selectedSizeLabel = document.getElementById("selectedSizeLabel");
-      const addToBagBtn = document.getElementById("addToBagBtn");
-      const buyNowBtn = document.getElementById("buyNowBtn");
-      const wishlistToggleBtn = document.getElementById("wishlistToggleBtn");
-
-      thumbs.forEach(thumb => {
-        thumb.addEventListener("click", () => {
-          state.selectedImage = thumb.dataset.image;
-          if (mainImage) mainImage.src = state.selectedImage;
-          thumbs.forEach(item => item.classList.remove("active"));
-          thumb.classList.add("active");
-        });
-      });
-
-      sizeButtons.forEach(button => {
-        button.addEventListener("click", () => {
-          state.selectedSize = button.dataset.size;
-          sizeButtons.forEach(item => item.classList.remove("active"));
-          button.classList.add("active");
-          if (selectedSizeLabel) selectedSizeLabel.textContent = state.selectedSize;
-        });
-      });
-
-      addToBagBtn?.addEventListener("click", addCurrentProductToCart);
-      buyNowBtn?.addEventListener("click", goToCheckoutNow);
-      wishlistToggleBtn?.addEventListener("click", toggleWishlistForCurrentProduct);
-    }
-
-    async function loadProduct() {
-      const productId = getProductIdFromUrl();
-
-      if (!productId) {
-        productDetailRoot.innerHTML = `
-          <div class="empty-state">
-            <div class="empty-state-icon">!</div>
-            <h2>Product not found</h2>
-            <p>The selected product is missing or the link is incomplete.</p>
-            <a href="shop.html" class="btn btn-primary">Back to Shop</a>
-          </div>
-        `;
-        return;
-      }
-
-      try {
-        const { data, error } = await supabaseClient
-          .from("products")
-          .select("*")
-          .eq("id", productId)
-          .single();
-
-        if (error) throw error;
-
-        state.product = data;
-        breadcrumbProduct.textContent = data.name || "Product";
-        document.title = `${data.name || "Product"} | BABA JAAN MART`;
-        productDetailRoot.innerHTML = buildProductDetailMarkup(data);
-        updateStickyBar();
-        bindProductEvents();
-        loadRelatedProducts();
-      } catch (error) {
-        console.error("Product load error:", error);
-        productDetailRoot.innerHTML = `
-          <div class="empty-state">
-            <div class="empty-state-icon">!</div>
-            <h2>Unable to load product</h2>
-            <p>Please check your product ID or Supabase table data.</p>
-            <a href="shop.html" class="btn btn-primary">Return to Shop</a>
-          </div>
-        `;
-      }
-    }
-
-    async function loadRelatedProducts() {
-      if (!state.product) return;
-
-      try {
-        const { data, error } = await supabaseClient
-          .from("products")
-          .select("*")
-          .eq("category", state.product.category)
-          .neq("id", state.product.id)
-          .limit(4);
-
-        if (error) throw error;
-
-        const related = Array.isArray(data) && data.length ? data : [];
-
-        if (!related.length) {
-          const fallback = await supabaseClient
-            .from("products")
-            .select("*")
-            .neq("id", state.product.id)
-            .limit(4);
-
-          state.relatedProducts = Array.isArray(fallback.data) ? fallback.data : [];
+    // Cart functions
+    function addToCart(product, selectedSize, quantity) {
+        if (!selectedSize) {
+            alert("Please select a size");
+            return false;
+        }
+        if (quantity > product.stock) {
+            alert(`Only ${product.stock} items in stock`);
+            return false;
+        }
+        let cart = JSON.parse(localStorage.getItem("bjm_cart") || "[]");
+        const existingIndex = cart.findIndex(item => item.id === product.id && item.size === selectedSize);
+        if (existingIndex !== -1) {
+            const newQty = cart[existingIndex].quantity + quantity;
+            if (newQty > product.stock) {
+                alert(`Cannot exceed stock. Max ${product.stock}`);
+                return false;
+            }
+            cart[existingIndex].quantity = newQty;
         } else {
-          state.relatedProducts = related;
+            cart.push({
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                old_price: product.old_price,
+                image_url: product.image_url,
+                category: product.category,
+                size: selectedSize,
+                quantity: quantity,
+            });
+        }
+        localStorage.setItem("bjm_cart", JSON.stringify(cart));
+        return true;
+    }
+
+    function showToast(msg) {
+        let toast = document.querySelector(".toast-msg");
+        if(toast) toast.remove();
+        const div = document.createElement("div");
+        div.className = "toast-msg";
+        div.innerText = msg;
+        document.body.appendChild(div);
+        setTimeout(() => div.remove(), 2000);
+    }
+
+    // Recently viewed
+    function addRecentlyViewed(product) {
+        let recents = JSON.parse(localStorage.getItem("bjm_recently_viewed") || "[]");
+        recents = recents.filter(item => item.id !== product.id);
+        recents.unshift({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            old_price: product.old_price,
+            image_url: product.image_url,
+            category: product.category
+        });
+        if (recents.length > 8) recents.pop();
+        localStorage.setItem("bjm_recently_viewed", JSON.stringify(recents));
+    }
+
+    // Render product page
+    async function renderProductPage() {
+        const container = document.getElementById("detailContent");
+        const urlParams = new URLSearchParams(window.location.search);
+        let productId = urlParams.get("id");
+        if (!productId) {
+            productId = localStorage.getItem("selectedProductId");
+        }
+        if (!productId) {
+            container.innerHTML = `<div class="error-msg"><h2>No product selected</h2><p>Please go back to <a href="shop.html">shop</a>.</p></div>`;
+            return;
         }
 
-        if (!state.relatedProducts.length) {
-          relatedProductsGrid.innerHTML = `
-            <div class="empty-state" style="grid-column:1/-1;">
-              <div class="empty-state-icon">★</div>
-              <h3>No related products yet</h3>
-              <p>More recommendations will appear as your catalog grows.</p>
+        let product;
+        try {
+            product = await fetchProductById(productId);
+            if (!product) throw new Error();
+        } catch(e) {
+            container.innerHTML = `<div class="error-msg"><h2>Product not found</h2><p>Invalid product ID.</p></div>`;
+            return;
+        }
+
+        // add to recently viewed
+        addRecentlyViewed(product);
+
+        // process sizes
+        let sizesArray = [];
+        if (product.size && typeof product.size === 'string') {
+            sizesArray = product.size.split(',').map(s => s.trim()).filter(s => s);
+        }
+        const stockCount = product.stock || 0;
+        const discount = product.old_price && product.old_price > product.price 
+            ? Math.round(((product.old_price - product.price) / product.old_price) * 100) 
+            : null;
+
+        // Build HTML structure
+        let stockStatusHtml = '';
+        if (stockCount <= 0) stockStatusHtml = '<span class="out-of-stock">Out of Stock</span>';
+        else if (stockCount <= 5) stockStatusHtml = `<span class="low-stock">Only ${stockCount} left</span>`;
+        else stockStatusHtml = `<span class="in-stock">In Stock (${stockCount})</span>`;
+
+        const imageUrl = product.image_url || 'https://placehold.co/600x600?text=BABA+JAAN';
+
+        // main html
+        let mainHtml = `
+            <div class="product-detail-layout">
+                <div class="product-gallery">
+                    <div class="main-image">
+                        <img src="${imageUrl}" alt="${product.name}" id="productMainImage">
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h1 class="product-name">${escapeHtml(product.name)}</h1>
+                    <div class="price-row">
+                        <span class="current-price">₹${Number(product.price).toLocaleString('en-IN')}</span>
+                        ${product.old_price ? `<span class="old-price">₹${Number(product.old_price).toLocaleString('en-IN')}</span>` : ''}
+                        ${discount ? `<span class="discount-badge">${discount}% OFF</span>` : ''}
+                    </div>
+                    <div class="stock-status">${stockStatusHtml}</div>
+                    <div class="category">${escapeHtml(product.category || 'Unisex')}</div>
+                    
+                    <div class="size-section" id="sizeSelectorWrapper">
+                        <div class="size-title">Select Size</div>
+                        <div class="size-buttons" id="sizeButtonsContainer">
+                            ${sizesArray.map(size => `<button class="size-btn" data-size="${size}">${size}</button>`).join('')}
+                        </div>
+                        <input type="hidden" id="selectedSizeInput" value="">
+                    </div>
+                    
+                    <div class="quantity-section">
+                        <div class="quantity-label">Quantity</div>
+                        <div class="quantity-selector">
+                            <button class="qty-btn" id="qtyMinus" ${stockCount === 0 ? 'disabled' : ''}>−</button>
+                            <span class="quantity-number" id="quantityValue">1</span>
+                            <button class="qty-btn" id="qtyPlus" ${stockCount === 0 ? 'disabled' : ''}>+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-add" id="addToCartBtn" ${stockCount === 0 ? 'disabled' : ''}>ADD TO CART</button>
+                        <button class="btn btn-buy" id="buyNowBtn" ${stockCount === 0 ? 'disabled' : ''}>BUY IT NOW</button>
+                    </div>
+                </div>
             </div>
-          `;
-          return;
+            
+            <div class="accordion" id="descAccordion">
+                <div class="accordion-header">
+                    <span>Description</span>
+                    <span>▼</span>
+                </div>
+                <div class="accordion-content">
+                    ${escapeHtml(product.description || 'No description available.')}
+                </div>
+            </div>
+            
+            <div class="accordion" id="detailsAccordion">
+                <div class="accordion-header">
+                    <span>Details & Care</span>
+                    <span>▼</span>
+                </div>
+                <div class="accordion-content">
+                    <strong>Category:</strong> ${escapeHtml(product.category || 'Fashion')}<br>
+                    <strong>Material:</strong> Premium quality fabric<br>
+                    <strong>Care:</strong> Machine wash cold
+                </div>
+            </div>
+            
+            <div id="relatedSection"></div>
+            <div id="recentlyViewedSection"></div>
+        `;
+        container.innerHTML = mainHtml;
+
+        // after render attach logic
+        let selectedSize = null;
+        const sizeBtns = document.querySelectorAll('.size-btn');
+        const selectSizeInput = document.getElementById('selectedSizeInput');
+        const quantitySpan = document.getElementById('quantityValue');
+        let quantity = 1;
+        const maxStock = stockCount;
+
+        function updateQuantityButtons() {
+            const minusBtn = document.getElementById('qtyMinus');
+            const plusBtn = document.getElementById('qtyPlus');
+            if (minusBtn) minusBtn.disabled = quantity <= 1;
+            if (plusBtn) plusBtn.disabled = quantity >= maxStock;
         }
 
-        relatedProductsGrid.innerHTML = state.relatedProducts.map(renderProductCard).join("");
-      } catch (error) {
-        console.error("Related products error:", error);
-        relatedProductsGrid.innerHTML = `
-          <div class="empty-state" style="grid-column:1/-1;">
-            <div class="empty-state-icon">!</div>
-            <h3>Unable to load related products</h3>
-            <p>Please try again later.</p>
-          </div>
-        `;
-      }
+        function setSelectedSize(size) {
+            selectedSize = size;
+            if (selectSizeInput) selectSizeInput.value = size;
+            sizeBtns.forEach(btn => {
+                if (btn.dataset.size === size) btn.classList.add('selected');
+                else btn.classList.remove('selected');
+            });
+        }
+
+        sizeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                setSelectedSize(btn.dataset.size);
+            });
+        });
+        if (sizesArray.length > 0) setSelectedSize(sizesArray[0]);
+
+        const qtyMinus = document.getElementById('qtyMinus');
+        const qtyPlus = document.getElementById('qtyPlus');
+        if (qtyMinus) {
+            qtyMinus.addEventListener('click', () => {
+                if (quantity > 1) {
+                    quantity--;
+                    quantitySpan.innerText = quantity;
+                    updateQuantityButtons();
+                }
+            });
+        }
+        if (qtyPlus) {
+            qtyPlus.addEventListener('click', () => {
+                if (quantity < maxStock) {
+                    quantity++;
+                    quantitySpan.innerText = quantity;
+                    updateQuantityButtons();
+                } else {
+                    showToast(`Maximum ${maxStock} available`);
+                }
+            });
+        }
+        updateQuantityButtons();
+
+        // Add to Cart
+        document.getElementById('addToCartBtn')?.addEventListener('click', () => {
+            if (!selectedSize && sizesArray.length > 0) {
+                alert("Please select a size");
+                return;
+            }
+            const success = addToCart(product, selectedSize, quantity);
+            if (success) {
+                showToast(`🛒 Added ${quantity} item(s) to cart`);
+                setTimeout(() => {
+                    window.location.href = "cart.html";
+                }, 800);
+            }
+        });
+
+        // Buy It Now
+        document.getElementById('buyNowBtn')?.addEventListener('click', () => {
+            if (!selectedSize && sizesArray.length > 0) {
+                alert("Please select a size");
+                return;
+            }
+            const success = addToCart(product, selectedSize, quantity);
+            if (success) {
+                window.location.href = "checkout.html";
+            }
+        });
+
+        // Accordion
+        const accordions = document.querySelectorAll('.accordion');
+        accordions.forEach(acc => {
+            const header = acc.querySelector('.accordion-header');
+            header.addEventListener('click', () => {
+                acc.classList.toggle('active');
+                const arrow = header.querySelector('span:last-child');
+                if (arrow) arrow.innerText = acc.classList.contains('active') ? '▲' : '▼';
+            });
+        });
+
+        // Load related products
+        if (product.category) {
+            const related = await fetchRelatedProducts(product.category, product.id);
+            renderRelatedProducts(related);
+        } else {
+            document.getElementById('relatedSection').innerHTML = '<div class="section-title">You may also like</div><p>No related items found.</p>';
+        }
+
+        // Load recently viewed
+        renderRecentlyViewed();
     }
 
-    function handleSearchSubmit(value) {
-      const query = String(value || "").trim();
-      if (!query) {
-        window.location.href = "shop.html";
-        return;
-      }
-      window.location.href = `shop.html?search=${encodeURIComponent(query)}`;
+    function renderRelatedProducts(products) {
+        const sectionDiv = document.getElementById('relatedSection');
+        if (!products.length) {
+            sectionDiv.innerHTML = `<div class="section-title">Related Products</div><p>No related products.</p>`;
+            return;
+        }
+        let html = `<div class="section-title">You may also like</div><div class="products-grid">`;
+        products.forEach(p => {
+            html += `
+                <a href="product-detail.html?id=${p.id}" class="product-card">
+                    <img src="${p.image_url || 'https://placehold.co/400x400?text=Product'}" alt="${escapeHtml(p.name)}" loading="lazy">
+                    <div class="card-info">
+                        <div class="card-name">${escapeHtml(p.name).substring(0, 30)}</div>
+                        <div class="card-price">₹${Number(p.price).toLocaleString('en-IN')}</div>
+                        ${p.old_price ? `<div class="card-old">₹${Number(p.old_price).toLocaleString('en-IN')}</div>` : ''}
+                    </div>
+                </a>
+            `;
+        });
+        html += `</div>`;
+        sectionDiv.innerHTML = html;
     }
 
-    document.addEventListener("click", event => {
-      const closeBtn = event.target.closest(".close-panel");
-      const overlay = event.target.closest(".overlay");
+    function renderRecentlyViewed() {
+        const recentsRaw = localStorage.getItem("bjm_recently_viewed");
+        let recents = recentsRaw ? JSON.parse(recentsRaw) : [];
+        const sectionDiv = document.getElementById('recentlyViewedSection');
+        if (!recents.length) {
+            sectionDiv.innerHTML = `<div class="section-title">Recently Viewed</div><p>No recently viewed items.</p>`;
+            return;
+        }
+        let html = `<div class="section-title">Recently Viewed</div><div class="products-grid">`;
+        recents.slice(0, 8).forEach(p => {
+            html += `
+                <a href="product-detail.html?id=${p.id}" class="product-card">
+                    <img src="${p.image_url || 'https://placehold.co/400x400?text=Product'}" alt="${escapeHtml(p.name)}" loading="lazy">
+                    <div class="card-info">
+                        <div class="card-name">${escapeHtml(p.name).substring(0, 30)}</div>
+                        <div class="card-price">₹${Number(p.price).toLocaleString('en-IN')}</div>
+                        ${p.old_price ? `<div class="card-old">₹${Number(p.old_price).toLocaleString('en-IN')}</div>` : ''}
+                    </div>
+                </a>
+            `;
+        });
+        html += `</div>`;
+        sectionDiv.innerHTML = html;
+    }
 
-      if (closeBtn) {
-        const panel = closeBtn.closest(".mobile-menu-panel, .mobile-search-panel");
-        if (panel) closePanel(panel);
-      }
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
 
-      if (overlay) {
-        const panel = overlay.parentElement;
-        closePanel(panel);
-      }
-    });
-
-    menuToggle?.addEventListener("click", () => openPanel(mobileMenuPanel));
-    mobileSearchToggle?.addEventListener("click", () => openPanel(mobileSearchPanel));
-    themeToggle?.addEventListener("click", toggleTheme);
-
-    headerSearchForm?.addEventListener("submit", event => {
-      event.preventDefault();
-      handleSearchSubmit(headerSearchInput.value);
-    });
-
-    mobileSearchForm?.addEventListener("submit", event => {
-      event.preventDefault();
-      handleSearchSubmit(mobileSearchInput.value);
-    });
-
-    stickyAddToCartBtn?.addEventListener("click", addCurrentProductToCart);
-    stickyBuyNowBtn?.addEventListener("click", goToCheckoutNow);
-
-    window.addEventListener("scroll", () => {
-      if (window.scrollY > 500) {
-        stickyProductBar.classList.add("active");
-      } else {
-        stickyProductBar.classList.remove("active");
-      }
-    });
-
-    initTheme();
-    updateCounts();
-    loadProduct();
-  </script>
+    renderProductPage();
+</script>
 </body>
 </html>
