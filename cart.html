@@ -305,6 +305,9 @@
       text-decoration: none;
       font-weight: 600;
       display: inline-block;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
     }
 
     /* BEST SELLERS (side section) */
@@ -459,7 +462,8 @@
   // Update quantity: id, size, delta (+1/-1)
   function updateQuantity(itemId, sizeVal, delta) {
     let cart = getCart();
-    const index = cart.findIndex(item => item.id === itemId && item.size === sizeVal);
+    // Convert both to string for reliable comparison
+    const index = cart.findIndex(item => String(item.id) === String(itemId) && item.size === sizeVal);
     if (index === -1) return;
     const newQty = cart[index].quantity + delta;
     if (newQty <= 0) {
@@ -474,7 +478,7 @@
   // Remove item fully
   function removeItem(itemId, sizeVal) {
     let cart = getCart();
-    cart = cart.filter(item => !(item.id === itemId && item.size === sizeVal));
+    cart = cart.filter(item => !(String(item.id) === String(itemId) && item.size === sizeVal));
     saveCart(cart);
   }
 
@@ -493,17 +497,17 @@
       container.innerHTML = `
         <div class="empty-cart">
           <p>🛒 Your cart is empty</p>
-          <a href="#" id="shopNowBtnEmpty" class="shop-now-btn">SHOP NOW</a>
+          <button id="shopNowBtnEmpty" class="shop-now-btn">SHOP NOW</button>
         </div>
       `;
       summaryArea.innerHTML = '';
       const shopBtn = document.getElementById('shopNowBtnEmpty');
-      if (shopBtn) shopBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.location.href = 'shop.html'; // fallback, but we can also go to index. For demo, or send to root
-        // as per requirement, but continue shopping uses product listing. We assume user has shop.html or index.
-        window.location.href = '/';
-      });
+      if (shopBtn) {
+        shopBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          window.location.href = 'shop.html';
+        });
+      }
       return;
     }
 
@@ -638,14 +642,13 @@
     });
   }
 
-  // Continue Shopping link (default goes to index or shop)
+  // Continue Shopping link redirects to shop.html
   function setupContinueShopping() {
     const link = document.getElementById('continueShoppingLink');
     if (link) {
       link.addEventListener('click', (e) => {
         e.preventDefault();
-        // Typically homepage or product listing, adjust if you have landing
-        window.location.href = '/';
+        window.location.href = 'shop.html';
       });
     }
   }
