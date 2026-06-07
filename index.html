@@ -1,172 +1,816 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BABA JAAN MART | Premium Men's Fashion Store</title>
-
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/responsive.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
+  <title>BABA JAAN MART | Premium Men's Fashion</title>
+  <meta
+    name="description"
+    content="Shop premium men's fashion at BABA JAAN MART. Explore jeans, shirts, t-shirts, cargos, linen pants, lowers and shorts."
+  />
+  <meta name="theme-color" content="#111111" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
 </head>
-
 <body>
+  <a href="#main-content" class="skip-link">Skip to content</a>
 
-  <header>
-    <div class="header-container">
-      <div class="logo">
-        <a href="index.html">BABA JAAN MART</a>
+  <header class="site-header">
+    <div class="top-strip">
+      <div class="container">
+        <p>Premium Men's Fashion • Fast Delivery • Secure Razorpay Checkout</p>
+        <div class="top-strip-links">
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+        </div>
       </div>
+    </div>
 
-      <div class="search-bar">
-        <input type="text" placeholder="Search for products, brands and more...">
-      </div>
+    <div class="container">
+      <div class="navbar">
+        <div class="nav-left">
+          <button class="icon-btn menu-toggle show-on-mobile" type="button" aria-label="Open menu">
+            <span aria-hidden="true">☰</span>
+          </button>
 
-      <div class="header-actions">
-        <a href="auth.html"><i class="fa-regular fa-user"></i></a>
-        <a href="wishlist.html"><i class="fa-regular fa-heart"></i><span class="badge" id="wishlist-count">0</span></a>
-        <a href="cart.html"><i class="fa-solid fa-bag-shopping"></i><span class="badge" id="cart-count">0</span></a>
+          <a href="index.html" class="brand" aria-label="BABA JAAN MART home">
+            <span class="brand-mark">BJ</span>
+            <span class="brand-text">
+              <span class="brand-title">BABA JAAN MART</span>
+              <span class="brand-subtitle">Premium Men's Wear</span>
+            </span>
+          </a>
+        </div>
+
+        <form class="header-search" id="headerSearchForm">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="M20 20L17 17"></path>
+          </svg>
+          <input
+            type="search"
+            id="headerSearchInput"
+            placeholder="Search jeans, shirts, cargos..."
+            aria-label="Search products"
+          />
+        </form>
+
+        <nav class="desktop-nav" aria-label="Primary navigation">
+          <a href="index.html" class="active">Home</a>
+          <a href="shop.html">Shop</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+          <a href="admin.html">Admin</a>
+        </nav>
+
+        <div class="nav-right">
+          <button class="icon-btn mobile-search-toggle show-on-mobile" type="button" aria-label="Open search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="M20 20L17 17"></path>
+            </svg>
+          </button>
+
+          <button class="icon-btn" type="button" id="themeToggle" aria-label="Toggle theme">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+
+          <a href="wishlist.html" class="icon-btn hide-mobile" aria-label="Wishlist">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M12 21s-6.716-4.35-9.192-8.237C1.28 10.38 2.095 7 5.09 6.16c1.9-.533 3.574.173 4.91 1.6 1.337-1.427 3.011-2.133 4.91-1.6 2.995.84 3.81 4.22 2.282 6.603C18.716 16.65 12 21 12 21z"></path>
+            </svg>
+            <span class="icon-badge-count" id="wishlistCount">0</span>
+          </a>
+
+          <a href="cart.html" class="icon-btn" aria-label="Cart">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="9" cy="20" r="1"></circle>
+              <circle cx="18" cy="20" r="1"></circle>
+              <path d="M3 4h2l2.2 10.4a1 1 0 0 0 1 .8h9.6a1 1 0 0 0 1-.8L21 7H7"></path>
+            </svg>
+            <span class="icon-badge-count" id="cartCount">0</span>
+          </a>
+        </div>
       </div>
     </div>
   </header>
 
-  <nav>
-    <ul>
-      <li><a href="index.html" class="active">Home</a></li>
-      <li><a href="shop.html?cat=jeans">Jeans</a></li>
-      <li><a href="shop.html?cat=shirts">Shirts</a></li>
-      <li><a href="shop.html?cat=tshirts">T-Shirts</a></li>
-      <li><a href="shop.html?cat=pants">Pants</a></li>
-      <li><a href="shop.html?tag=offers">Offers</a></li>
-      <li><a href="shop.html?tag=new">New Arrivals</a></li>
-    </ul>
-  </nav>
+  <div class="mobile-menu-panel" id="mobileMenuPanel" aria-hidden="true">
+    <div class="overlay"></div>
+    <aside class="mobile-panel" aria-label="Mobile menu">
+      <div class="panel-header">
+        <h2 class="panel-title">Menu</h2>
+        <button class="icon-btn close-panel" type="button" aria-label="Close menu">✕</button>
+      </div>
 
-  <section class="hero-banner" style="background: var(--primary-color); color: var(--white); padding: 60px 5%; text-align: center; border-bottom: 5px solid var(--accent-color);">
-    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 10px;">GRAND OPENING SALE</h1>
-    <p style="font-size: 1.2rem; color: var(--accent-color); margin-bottom: 20px;">Upgrade Your Wardrobe with Premium Men's Wear</p>
-    <div style="font-size: 1.5rem; font-weight: bold; margin-bottom: 25px;">FLAT 50% OFF on Best Sellers!</div>
-    <a href="shop.html" style="background: var(--accent-color); color: var(--primary-color); padding: 12px 30px; text-decoration: none; font-weight: bold; border-radius: 4px; text-transform: uppercase;">Shop Now</a>
-  </section>
+      <nav class="mobile-nav-links" aria-label="Mobile navigation">
+        <a href="index.html">Home <span>→</span></a>
+        <a href="shop.html">Shop <span>→</span></a>
+        <a href="wishlist.html">Wishlist <span>→</span></a>
+        <a href="cart.html">Cart <span>→</span></a>
+        <a href="about.html">About <span>→</span></a>
+        <a href="contact.html">Contact <span>→</span></a>
+        <a href="admin.html">Admin <span>→</span></a>
+      </nav>
+    </aside>
+  </div>
 
-  <main style="padding: 40px 5%;">
-    <h2 style="text-align: center; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 1px;">Trending Collection</h2>
-
-    <div class="product-grid" id="trending-products">
-      <h3 style="text-align:center;">Loading Products...</h3>
+  <div class="mobile-search-panel" id="mobileSearchPanel" aria-hidden="true">
+    <div class="overlay"></div>
+    <div class="mobile-panel">
+      <div class="panel-header">
+        <h2 class="panel-title">Search</h2>
+        <button class="icon-btn close-panel" type="button" aria-label="Close search">✕</button>
+      </div>
+      <form class="search-box" id="mobileSearchForm">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <path d="M20 20L17 17"></path>
+        </svg>
+        <input
+          type="search"
+          id="mobileSearchInput"
+          placeholder="Search latest styles..."
+          aria-label="Search products"
+        />
+      </form>
     </div>
+  </div>
+
+  <main id="main-content">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-slider">
+          <article class="hero-slide active">
+            <div class="hero-slide-inner">
+              <div class="hero-content">
+                <span class="hero-eyebrow">New Drop • Summer Edit</span>
+                <h1 class="hero-title">Made For Men Who Dress <span>Sharp</span></h1>
+                <p class="hero-text">
+                  Discover premium shirts, jeans, cargos, linen pants, t-shirts, lowers and shorts curated for everyday confidence and elevated street style.
+                </p>
+                <div class="hero-actions">
+                  <a href="shop.html" class="btn btn-accent">Shop Collection</a>
+                  <a href="#trending-products" class="btn btn-secondary">Trending Now</a>
+                </div>
+
+                <div class="hero-stats">
+                  <div class="hero-stat">
+                    <strong>Premium</strong>
+                    <span>Modern fits for everyday wear</span>
+                  </div>
+                  <div class="hero-stat">
+                    <strong>Fast</strong>
+                    <span>Quick order processing</span>
+                  </div>
+                  <div class="hero-stat">
+                    <strong>Secure</strong>
+                    <span>Trusted Razorpay checkout</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="hero-visual" aria-hidden="true">
+                <img
+                  src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=80"
+                  alt=""
+                  width="900"
+                  height="1100"
+                  loading="eager"
+                  decoding="async"
+                />
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="hero-dots" aria-label="Hero slider indicators">
+          <span class="hero-dot active"></span>
+          <span class="hero-dot"></span>
+          <span class="hero-dot"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-sm bg-surface">
+      <div class="container">
+        <div class="filter-chip-row" aria-label="Quick categories">
+          <a href="shop.html?category=Jeans" class="filter-chip">Jeans</a>
+          <a href="shop.html?category=Shirts" class="filter-chip">Shirts</a>
+          <a href="shop.html?category=T-Shirts" class="filter-chip">T-Shirts</a>
+          <a href="shop.html?category=Cargo Pants" class="filter-chip">Cargo Pants</a>
+          <a href="shop.html?category=Linen Pants" class="filter-chip">Linen Pants</a>
+          <a href="shop.html?category=Lowers" class="filter-chip">Lowers</a>
+          <a href="shop.html?category=Shorts" class="filter-chip">Shorts</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="shop-by-category">
+      <div class="container">
+        <div class="section-title-wrap">
+          <div>
+            <p class="section-kicker">Browse Categories</p>
+            <h2 class="section-title">Shop By Category</h2>
+            <p class="section-subtitle">
+              Explore standout menswear essentials built for comfort, confidence and modern everyday styling.
+            </p>
+          </div>
+          <a href="shop.html" class="btn btn-ghost">View All Products</a>
+        </div>
+
+        <div class="categories-grid">
+          <a class="category-card reveal" href="shop.html?category=Jeans">
+            <h3>Jeans</h3>
+            <p>Clean denim fits for casual and elevated looks.</p>
+            <span class="btn-link">Shop Jeans →</span>
+          </a>
+
+          <a class="category-card reveal" href="shop.html?category=Shirts">
+            <h3>Shirts</h3>
+            <p>From solids to prints, tailored for premium daily wear.</p>
+            <span class="btn-link">Shop Shirts →</span>
+          </a>
+
+          <a class="category-card reveal" href="shop.html?category=T-Shirts">
+            <h3>T-Shirts</h3>
+            <p>Sharp basics and oversized silhouettes with modern appeal.</p>
+            <span class="btn-link">Shop T-Shirts →</span>
+          </a>
+
+          <a class="category-card reveal" href="shop.html?category=Cargo Pants">
+            <h3>Cargo Pants</h3>
+            <p>Utility-inspired pieces made for trend-forward outfits.</p>
+            <span class="btn-link">Shop Cargos →</span>
+          </a>
+
+          <a class="category-card reveal" href="shop.html?category=Linen Pants">
+            <h3>Linen Pants</h3>
+            <p>Breathable premium styles for summer-ready dressing.</p>
+            <span class="btn-link">Shop Linen →</span>
+          </a>
+
+          <a class="category-card reveal" href="shop.html?category=Shorts">
+            <h3>Shorts</h3>
+            <p>Relaxed fits that stay polished through warmer days.</p>
+            <span class="btn-link">Shop Shorts →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section bg-surface-2" id="trending-products">
+      <div class="container">
+        <div class="section-title-wrap">
+          <div>
+            <p class="section-kicker">Best Picks</p>
+            <h2 class="section-title">Trending Products</h2>
+            <p class="section-subtitle">
+              Dynamic products load from Supabase and appear here automatically based on your latest collection.
+            </p>
+          </div>
+          <a href="shop.html?sort=popular" class="btn btn-ghost">See More</a>
+        </div>
+
+        <div class="products-grid" id="trendingProductsGrid">
+          <article class="product-card skeleton-card skeleton"></article>
+          <article class="product-card skeleton-card skeleton"></article>
+          <article class="product-card skeleton-card skeleton"></article>
+          <article class="product-card skeleton-card skeleton"></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="new-arrivals">
+      <div class="container">
+        <div class="section-title-wrap">
+          <div>
+            <p class="section-kicker">Latest Styles</p>
+            <h2 class="section-title">New Arrivals</h2>
+            <p class="section-subtitle">
+              Fresh additions from your products table, presented in a premium fashion-card layout.
+            </p>
+          </div>
+          <a href="shop.html?sort=newest" class="btn btn-ghost">Explore New</a>
+        </div>
+
+        <div class="products-grid" id="newArrivalsGrid">
+          <article class="product-card skeleton-card skeleton"></article>
+          <article class="product-card skeleton-card skeleton"></article>
+          <article class="product-card skeleton-card skeleton"></article>
+          <article class="product-card skeleton-card skeleton"></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section bg-surface-2" id="best-sellers">
+      <div class="container">
+        <div class="section-title-wrap">
+          <div>
+            <p class="section-kicker">Top Demand</p>
+            <h2 class="section-title">Best Sellers</h2>
+            <p class="section-subtitle">
+              High-conversion sections should guide users from inspiration to purchase with clean visual hierarchy and easy taps.
+            </p>
+          </div>
+          <a href="shop.html" class="btn btn-ghost">Shop All</a>
+        </div>
+
+        <div class="products-grid" id="bestSellersGrid">
+          <article class="product-card skeleton-card skeleton"></article>
+          <article class="product-card skeleton-card skeleton"></article>
+          <article class="product-card skeleton-card skeleton"></article>
+          <article class="product-card skeleton-card skeleton"></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="featured-collections">
+      <div class="container">
+        <div class="section-title-wrap">
+          <div>
+            <p class="section-kicker">Curated Edits</p>
+            <h2 class="section-title">Featured Collections</h2>
+            <p class="section-subtitle">
+              Build stronger homepage discovery with edited shopping paths instead of showing everything at once.
+            </p>
+          </div>
+        </div>
+
+        <div class="collection-grid">
+          <article class="collection-card dark reveal">
+            <span class="badge badge-primary">Summer Fit</span>
+            <h3 style="margin-top:1rem;font-size:1.4rem;font-weight:800;">The Linen Edit</h3>
+            <p style="margin-top:0.75rem;">
+              Clean, breathable and premium picks for all-day summer comfort.
+            </p>
+            <a href="shop.html?category=Linen%20Pants" class="btn-link">Shop The Edit →</a>
+          </article>
+
+          <article class="collection-card reveal">
+            <span class="badge badge-dark">Street Ready</span>
+            <h3 style="margin-top:1rem;font-size:1.4rem;font-weight:800;">Cargo Season</h3>
+            <p style="margin-top:0.75rem;color:var(--color-text-muted);">
+              Utility-inspired silhouettes with a sharper premium finish.
+            </p>
+            <a href="shop.html?category=Cargo%20Pants" class="btn-link">View Cargos →</a>
+          </article>
+
+          <article class="collection-card reveal">
+            <span class="badge">Everyday Core</span>
+            <h3 style="margin-top:1rem;font-size:1.4rem;font-weight:800;">T-Shirts & Basics</h3>
+            <p style="margin-top:0.75rem;color:var(--color-text-muted);">
+              Essential pieces designed to layer, style and repeat with ease.
+            </p>
+            <a href="shop.html?category=T-Shirts" class="btn-link">Shop Basics →</a>
+          </article>
+
+          <article class="collection-card dark reveal">
+            <span class="badge badge-primary">Hot Right Now</span>
+            <h3 style="margin-top:1rem;font-size:1.4rem;font-weight:800;">Denim Reworked</h3>
+            <p style="margin-top:0.75rem;">
+              Premium jeans tailored for daily wear and elevated casual dressing.
+            </p>
+            <a href="shop.html?category=Jeans" class="btn-link">Explore Denim →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section bg-surface-2" id="trust-section">
+      <div class="container">
+        <div class="section-title-wrap">
+          <div>
+            <p class="section-kicker">Why Shop With Us</p>
+            <h2 class="section-title">Customer Trust</h2>
+            <p class="section-subtitle">
+              Fashion homepages convert better when value, confidence and convenience are visible early in the journey.
+            </p>
+          </div>
+        </div>
+
+        <div class="trust-grid">
+          <article class="trust-card reveal">
+            <div class="trust-icon">✓</div>
+            <h3>Secure Payments</h3>
+            <p>Checkout is powered by Razorpay with secure online payment processing.</p>
+          </article>
+
+          <article class="trust-card reveal">
+            <div class="trust-icon">⚡</div>
+            <h3>Fast Shopping Flow</h3>
+            <p>Browse quickly with mobile-first product cards, fast filters and direct cart access.</p>
+          </article>
+
+          <article class="trust-card reveal">
+            <div class="trust-icon">★</div>
+            <h3>Premium Fashion Focus</h3>
+            <p>Collections are tailored for men looking for modern style with everyday comfort.</p>
+          </article>
+
+          <article class="trust-card reveal">
+            <div class="trust-icon">🛍</div>
+            <h3>Supabase Powered Catalog</h3>
+            <p>Live products load dynamically from your database, so the storefront stays current.</p>
+          </article>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <footer>
-    <div class="footer-grid">
-      <div class="footer-col">
-        <h4>BABA JAAN MART</h4>
-        <p style="color: #bbb; font-size: 14px;">Premium Men's Fashion & Clothing Hub in Khetasarai.</p>
-      </div>
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="index.html" class="brand" aria-label="BABA JAAN MART home">
+              <span class="brand-mark">BJ</span>
+              <span class="brand-text">
+                <span class="brand-title">BABA JAAN MART</span>
+                <span class="brand-subtitle">Premium Men's Wear</span>
+              </span>
+            </a>
+            <p>
+              Modern men's fashion with a premium storefront experience built for style, speed and secure shopping.
+            </p>
+          </div>
 
-      <div class="footer-col">
-        <h4>Shop Categories</h4>
-        <ul>
-          <li><a href="shop.html?cat=jeans">Jeans</a></li>
-          <li><a href="shop.html?cat=shirts">Shirts</a></li>
-          <li><a href="shop.html?cat=tshirts">T-Shirts</a></li>
-        </ul>
-      </div>
+          <div class="footer-col">
+            <h4>Shop</h4>
+            <div class="footer-links">
+              <a href="shop.html?category=Jeans">Jeans</a>
+              <a href="shop.html?category=Shirts">Shirts</a>
+              <a href="shop.html?category=T-Shirts">T-Shirts</a>
+              <a href="shop.html?category=Shorts">Shorts</a>
+            </div>
+          </div>
 
-      <div class="footer-col">
-        <h4>Store Location</h4>
-        <p style="color: #bbb; font-size: 14px;">
-          Opposite Bhartiya Vidhyapeeth School,<br>
-          Dobhi Mode, Khetasarai
-        </p>
+          <div class="footer-col">
+            <h4>Pages</h4>
+            <div class="footer-links">
+              <a href="about.html">About</a>
+              <a href="contact.html">Contact</a>
+              <a href="wishlist.html">Wishlist</a>
+              <a href="cart.html">Cart</a>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h4>Stay Updated</h4>
+            <div class="footer-newsletter">
+              <p>Get fresh style updates and new drops first.</p>
+              <form class="footer-newsletter-form">
+                <input type="email" placeholder="Enter email address" aria-label="Email address" />
+                <button type="submit" class="btn btn-accent">Join</button>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="footer-bottom">
-      &copy; 2026 BABA JAAN MART. Managed by Affan Khan. Powered by Supabase & Razorpay.
+      <div class="container">
+        <div class="footer-bottom-inner">
+          <p>© 2026 BABA JAAN MART. All rights reserved.</p>
+          <div class="footer-bottom-links">
+            <a href="shop.html">Shop</a>
+            <a href="admin.html">Admin</a>
+            <a href="contact.html">Support</a>
+          </div>
+        </div>
+      </div>
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
+    const SUPABASE_URL = "https://kwslileixrznlycqjqoj.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_gFXTHh-8OEcI5O-YbAT9rQ_n5LJTTMv";
+
     const supabaseClient = window.supabase.createClient(
-      "https://kwslileixrznlycqjqoj.supabase.co",
-      "sb_publishable_gFXTHh-8OEcI5O-YbAT9rQ_n5LJTTMv"
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
     );
 
-    async function loadHomeProducts() {
-      const grid = document.getElementById("trending-products");
+    const state = {
+      products: [],
+      wishlist: JSON.parse(localStorage.getItem("bjm_wishlist") || "[]"),
+      cart: JSON.parse(localStorage.getItem("bjm_cart") || "[]")
+    };
 
-      const { data, error } = await supabaseClient
-        .from("products")
-        .select("*")
-        .order("id", { ascending: false })
-        .limit(8);
+    const rupee = new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
+      maximumFractionDigits: 0
+    });
 
-      if (error) {
-        console.log(error);
-        grid.innerHTML = "<h3 style='text-align:center;'>Products load nahi hue.</h3>";
-        return;
+    const menuToggle = document.querySelector(".menu-toggle");
+    const mobileSearchToggle = document.querySelector(".mobile-search-toggle");
+    const mobileMenuPanel = document.getElementById("mobileMenuPanel");
+    const mobileSearchPanel = document.getElementById("mobileSearchPanel");
+    const themeToggle = document.getElementById("themeToggle");
+    const cartCount = document.getElementById("cartCount");
+    const wishlistCount = document.getElementById("wishlistCount");
+    const headerSearchForm = document.getElementById("headerSearchForm");
+    const mobileSearchForm = document.getElementById("mobileSearchForm");
+
+    function setThemeIcon(theme) {
+      themeToggle.innerHTML =
+        theme === "dark"
+          ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path></svg>`
+          : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
+    }
+
+    function initTheme() {
+      const savedTheme = localStorage.getItem("bjm_theme");
+      const preferredTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+      const activeTheme = savedTheme || preferredTheme;
+      document.documentElement.setAttribute("data-theme", activeTheme);
+      setThemeIcon(activeTheme);
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute("data-theme") || "light";
+      const next = current === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      localStorage.setItem("bjm_theme", next);
+      setThemeIcon(next);
+    }
+
+    function openPanel(panel) {
+      panel.classList.add("active");
+      panel.setAttribute("aria-hidden", "false");
+      document.body.classList.add("menu-open");
+    }
+
+    function closePanel(panel) {
+      panel.classList.remove("active");
+      panel.setAttribute("aria-hidden", "true");
+      if (!document.querySelector(".mobile-menu-panel.active, .mobile-search-panel.active")) {
+        document.body.classList.remove("menu-open");
       }
+    }
 
-      if (!data || data.length === 0) {
-        grid.innerHTML = "<h3 style='text-align:center;'>No products found.</h3>";
-        return;
-      }
+    function updateCounts() {
+      cartCount.textContent = state.cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+      wishlistCount.textContent = state.wishlist.length;
+    }
 
-      let html = "";
+    function getDiscountPercent(price, oldPrice) {
+      const current = Number(price) || 0;
+      const old = Number(oldPrice) || 0;
+      if (!old || old <= current) return 0;
+      return Math.round(((old - current) / old) * 100);
+    }
 
-      data.forEach(product => {
-        html += `
-          <div class="product-card">
-            <div class="wishlist-heart">
-              <i class="fa-regular fa-heart"></i>
-            </div>
+    function getStockLabel(stock) {
+      const qty = Number(stock) || 0;
+      if (qty <= 0) return { text: "Out of Stock", className: "out-stock" };
+      if (qty <= 5) return { text: `Only ${qty} left`, className: "low-stock" };
+      return { text: "In Stock", className: "in-stock" };
+    }
 
+    function renderProductCard(product) {
+      const discount = getDiscountPercent(product.price, product.old_price);
+      const stock = getStockLabel(product.stock);
+      const image = product.image_url || "https://via.placeholder.com/600x750?text=BABA+JAAN+MART";
+      const rating = (4 + ((product.id || 1) % 10) / 10).toFixed(1);
+
+      return `
+        <article class="product-card reveal">
+          <div class="product-media">
             <img
-              src="${product.image_url}"
-              alt="${product.name}"
-              class="product-image"
-            >
-
-            <div class="product-info">
-              <div class="brand-title">BABA JAAN MART</div>
-
-              <div class="product-name">${product.name || "Product"}</div>
-
-              <div class="rating-badge">
-                4.5 <i class="fa-solid fa-star" style="font-size: 10px;"></i>
-              </div>
-
-              <div class="price-container">
-                <span class="current-price">₹${product.price || 0}</span>
-                <span class="old-price">₹${product.old_price || product.price || 0}</span>
-                <span class="discount-tag">(Offer)</span>
-              </div>
-
-              <div class="size-selector-preview">
-                Sizes: ${product.size || "M, L, XL"}
-              </div>
-
-              <button class="btn-add-cart" onclick="viewProduct(${product.id})">
-                View Details
+              src="${image}"
+              alt="${product.name || "Product image"}"
+              width="600"
+              height="750"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="product-badges">
+              ${discount ? `<span class="badge badge-primary">${discount}% OFF</span>` : `<span class="badge">New</span>`}
+              <span class="badge">${product.category || "Fashion"}</span>
+            </div>
+            <div class="product-actions-top">
+              <button class="icon-btn wishlist-btn" type="button" aria-label="Add to wishlist" data-id="${product.id}">
+                ♥
               </button>
             </div>
           </div>
+
+          <div class="product-info">
+            <p class="product-category">${product.category || "Fashion"}</p>
+            <h3 class="product-title">${product.name || "Premium Product"}</h3>
+
+            <div class="price-row">
+              <span class="price-current">${rupee.format(Number(product.price) || 0)}</span>
+              ${product.old_price ? `<span class="price-old">${rupee.format(Number(product.old_price))}</span>` : ""}
+              ${discount ? `<span class="price-discount">Save ${discount}%</span>` : ""}
+            </div>
+
+            <div class="product-meta">
+              <span class="product-rating"><span class="star">★</span> ${rating}</span>
+              <span class="product-stock ${stock.className}">${stock.text}</span>
+            </div>
+
+            <div class="product-card-actions">
+              <a href="product-detail.html?id=${product.id}" class="btn btn-primary">View Product</a>
+              <button class="icon-btn add-cart-btn" type="button" aria-label="Add to cart" data-id="${product.id}">
+                +
+              </button>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function revealItems() {
+      const reveals = document.querySelectorAll(".reveal");
+      const observer = new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("show");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12 }
+      );
+
+      reveals.forEach(item => observer.observe(item));
+    }
+
+    function saveCart() {
+      localStorage.setItem("bjm_cart", JSON.stringify(state.cart));
+      updateCounts();
+    }
+
+    function saveWishlist() {
+      localStorage.setItem("bjm_wishlist", JSON.stringify(state.wishlist));
+      updateCounts();
+    }
+
+    function addToCart(productId) {
+      const product = state.products.find(item => String(item.id) === String(productId));
+      if (!product) return;
+
+      const existing = state.cart.find(item => String(item.id) === String(productId));
+      if (existing) {
+        existing.quantity = (existing.quantity || 1) + 1;
+      } else {
+        state.cart.push({
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          old_price: product.old_price,
+          image_url: product.image_url,
+          category: product.category,
+          size: product.size || "M",
+          quantity: 1
+        });
+      }
+
+      saveCart();
+    }
+
+    function toggleWishlist(productId) {
+      const existingIndex = state.wishlist.findIndex(item => String(item.id) === String(productId));
+      const product = state.products.find(item => String(item.id) === String(productId));
+      if (!product) return;
+
+      if (existingIndex > -1) {
+        state.wishlist.splice(existingIndex, 1);
+      } else {
+        state.wishlist.push({
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          old_price: product.old_price,
+          image_url: product.image_url,
+          category: product.category
+        });
+      }
+
+      saveWishlist();
+    }
+
+    async function loadHomepageProducts() {
+      const trendingGrid = document.getElementById("trendingProductsGrid");
+      const newArrivalsGrid = document.getElementById("newArrivalsGrid");
+      const bestSellersGrid = document.getElementById("bestSellersGrid");
+
+      try {
+        const { data, error } = await supabaseClient
+          .from("products")
+          .select("*")
+          .order("created_at", { ascending: false });
+
+        if (error) throw error;
+
+        state.products = Array.isArray(data) ? data : [];
+
+        const trending = state.products.slice(0, 4);
+        const newArrivals = [...state.products].sort(
+          (a, b) => new Date(b.created_at) - new Date(a.created_at)
+        ).slice(0, 4);
+        const bestSellers = [...state.products]
+          .sort((a, b) => (Number(b.old_price) - Number(b.price)) - (Number(a.old_price) - Number(a.price)))
+          .slice(0, 4);
+
+        trendingGrid.innerHTML = trending.length
+          ? trending.map(renderProductCard).join("")
+          : `<div class="empty-state" style="grid-column:1/-1;"><div class="empty-state-icon">🛍</div><h3>No products found</h3><p>Add products from the admin panel to show them here.</p></div>`;
+
+        newArrivalsGrid.innerHTML = newArrivals.length
+          ? newArrivals.map(renderProductCard).join("")
+          : `<div class="empty-state" style="grid-column:1/-1;"><div class="empty-state-icon">✨</div><h3>No new arrivals yet</h3><p>Fresh products will appear here automatically.</p></div>`;
+
+        bestSellersGrid.innerHTML = bestSellers.length
+          ? bestSellers.map(renderProductCard).join("")
+          : `<div class="empty-state" style="grid-column:1/-1;"><div class="empty-state-icon">★</div><h3>No best sellers yet</h3><p>Top products will appear here once inventory is added.</p></div>`;
+
+        revealItems();
+      } catch (error) {
+        const errorMarkup = `
+          <div class="empty-state" style="grid-column:1/-1;">
+            <div class="empty-state-icon">!</div>
+            <h3>Unable to load products</h3>
+            <p>Please check your Supabase connection and table data.</p>
+          </div>
         `;
-      });
-
-      grid.innerHTML = html;
+        trendingGrid.innerHTML = errorMarkup;
+        newArrivalsGrid.innerHTML = errorMarkup;
+        bestSellersGrid.innerHTML = errorMarkup;
+        console.error("Homepage product load error:", error);
+      }
     }
 
-    function viewProduct(productId) {
-      localStorage.setItem("selectedProductId", productId);
-      window.location.href = "product-detail.html";
+    function handleSearch(query) {
+      const value = String(query || "").trim();
+      if (!value) {
+        window.location.href = "shop.html";
+        return;
+      }
+      window.location.href = `shop.html?search=${encodeURIComponent(value)}`;
     }
 
-    loadHomeProducts();
+    document.addEventListener("click", event => {
+      const addCartBtn = event.target.closest(".add-cart-btn");
+      const wishlistBtn = event.target.closest(".wishlist-btn");
+      const closeBtn = event.target.closest(".close-panel");
+      const overlay = event.target.closest(".overlay");
+
+      if (addCartBtn) {
+        addToCart(addCartBtn.dataset.id);
+      }
+
+      if (wishlistBtn) {
+        toggleWishlist(wishlistBtn.dataset.id);
+        wishlistBtn.classList.toggle("active");
+      }
+
+      if (closeBtn) {
+        closePanel(closeBtn.closest(".mobile-menu-panel, .mobile-search-panel"));
+      }
+
+      if (overlay) {
+        const panel = overlay.parentElement;
+        closePanel(panel);
+      }
+    });
+
+    menuToggle?.addEventListener("click", () => openPanel(mobileMenuPanel));
+    mobileSearchToggle?.addEventListener("click", () => openPanel(mobileSearchPanel));
+    themeToggle?.addEventListener("click", toggleTheme);
+
+    headerSearchForm?.addEventListener("submit", event => {
+      event.preventDefault();
+      handleSearch(document.getElementById("headerSearchInput").value);
+    });
+
+    mobileSearchForm?.addEventListener("submit", event => {
+      event.preventDefault();
+      handleSearch(document.getElementById("mobileSearchInput").value);
+    });
+
+    initTheme();
+    updateCounts();
+    loadHomepageProducts();
   </script>
-
 </body>
 </html>
