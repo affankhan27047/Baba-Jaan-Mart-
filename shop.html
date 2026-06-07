@@ -1,184 +1,982 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shop - BABA JAAN MART</title>
-
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/responsive.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-    .shop-container { display:flex; gap:30px; padding:30px 5%; }
-    .filter-sidebar { width:250px; background:white; padding:20px; border-radius:8px; height:fit-content; }
-    .filter-section { margin-bottom:20px; padding-bottom:25px; border-bottom:1px solid var(--border-color); }
-    .filter-section h4 { margin-bottom:12px; font-size:14px; text-transform:uppercase; }
-    .filter-options label { display:block; margin-bottom:8px; font-size:14px; cursor:pointer; }
-    .content-area { flex:1; }
-    .sort-container { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
-    .product-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:20px; }
-    .product-card { background:white; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
-    .product-card img { width:100%; height:300px; object-fit:cover; }
-    .product-info { padding:15px; }
-    .product-info h3 { margin-bottom:10px; font-size:18px; }
-    .old-price { text-decoration:line-through; color:gray; }
-    .current-price { font-weight:bold; margin-left:10px; color:black; }
-    .view-btn { width:100%; padding:12px; background:black; color:white; border:none; border-radius:6px; cursor:pointer; margin-top:10px; }
-  </style>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
+  <title>Shop | BABA JAAN MART</title>
+  <meta
+    name="description"
+    content="Browse premium men's fashion products at BABA JAAN MART with search, category filters, sorting and pagination."
+  />
+  <meta name="theme-color" content="#111111" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
 </head>
-
 <body>
+  <a href="#main-content" class="skip-link">Skip to content</a>
 
-  <div class="shop-container">
-    <aside class="filter-sidebar">
-      <h3>Filters</h3>
-      <hr style="margin:10px 0; border:0; border-top:1px solid var(--border-color);">
-
-      <div class="filter-section">
-        <h4>Category</h4>
-        <div class="filter-options">
-          <label><input type="checkbox" value="Jeans"> Jeans</label>
-          <label><input type="checkbox" value="Shirts"> Shirts</label>
-          <label><input type="checkbox" value="T-Shirt"> T-Shirts</label>
-          <label><input type="checkbox" value="Pants"> Cargo & Linen Pants</label>
+  <header class="site-header">
+    <div class="top-strip">
+      <div class="container">
+        <p>Premium Men's Fashion • Smart Filters • Secure Checkout</p>
+        <div class="top-strip-links">
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
         </div>
       </div>
+    </div>
 
-      <div class="filter-section">
-        <h4>Size</h4>
-        <div class="filter-options">
-          <label><input type="checkbox" value="M"> M</label>
-          <label><input type="checkbox" value="L"> L</label>
-          <label><input type="checkbox" value="XL"> XL</label>
-          <label><input type="checkbox" value="30"> 30</label>
-          <label><input type="checkbox" value="32"> 32</label>
+    <div class="container">
+      <div class="navbar">
+        <div class="nav-left">
+          <button class="icon-btn menu-toggle show-on-mobile" type="button" aria-label="Open menu">
+            <span aria-hidden="true">☰</span>
+          </button>
+
+          <a href="index.html" class="brand" aria-label="BABA JAAN MART home">
+            <span class="brand-mark">BJ</span>
+            <span class="brand-text">
+              <span class="brand-title">BABA JAAN MART</span>
+              <span class="brand-subtitle">Premium Men's Wear</span>
+            </span>
+          </a>
+        </div>
+
+        <form class="header-search" id="headerSearchForm">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="M20 20L17 17"></path>
+          </svg>
+          <input
+            type="search"
+            id="headerSearchInput"
+            placeholder="Search jeans, shirts, cargos..."
+            aria-label="Search products"
+          />
+        </form>
+
+        <nav class="desktop-nav" aria-label="Primary navigation">
+          <a href="index.html">Home</a>
+          <a href="shop.html" class="active">Shop</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+          <a href="admin.html">Admin</a>
+        </nav>
+
+        <div class="nav-right">
+          <button class="icon-btn mobile-search-toggle show-on-mobile" type="button" aria-label="Open search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="M20 20L17 17"></path>
+            </svg>
+          </button>
+
+          <button class="icon-btn show-on-mobile" id="filterDrawerToggle" type="button" aria-label="Open filters">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M3 5h18"></path>
+              <path d="M6 12h12"></path>
+              <path d="M10 19h4"></path>
+            </svg>
+          </button>
+
+          <button class="icon-btn" type="button" id="themeToggle" aria-label="Toggle theme">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+
+          <a href="wishlist.html" class="icon-btn hide-mobile" aria-label="Wishlist">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M12 21s-6.716-4.35-9.192-8.237C1.28 10.38 2.095 7 5.09 6.16c1.9-.533 3.574.173 4.91 1.6 1.337-1.427 3.011-2.133 4.91-1.6 2.995.84 3.81 4.22 2.282 6.603C18.716 16.65 12 21 12 21z"></path>
+            </svg>
+            <span class="icon-badge-count" id="wishlistCount">0</span>
+          </a>
+
+          <a href="cart.html" class="icon-btn" aria-label="Cart">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="9" cy="20" r="1"></circle>
+              <circle cx="18" cy="20" r="1"></circle>
+              <path d="M3 4h2l2.2 10.4a1 1 0 0 0 1 .8h9.6a1 1 0 0 0 1-.8L21 7H7"></path>
+            </svg>
+            <span class="icon-badge-count" id="cartCount">0</span>
+          </a>
         </div>
       </div>
+    </div>
+  </header>
 
-      <div class="filter-section">
-        <h4>Price Range</h4>
-        <input type="range" min="200" max="5000" step="100" style="width:100%;">
-        <div style="display:flex; justify-content:space-between; font-size:12px; margin-top:5px;">
-          <span>₹200</span><span>₹5,000+</span>
-        </div>
+  <div class="mobile-menu-panel" id="mobileMenuPanel" aria-hidden="true">
+    <div class="overlay"></div>
+    <aside class="mobile-panel" aria-label="Mobile menu">
+      <div class="panel-header">
+        <h2 class="panel-title">Menu</h2>
+        <button class="icon-btn close-panel" type="button" aria-label="Close menu">✕</button>
       </div>
+
+      <nav class="mobile-nav-links" aria-label="Mobile navigation">
+        <a href="index.html">Home <span>→</span></a>
+        <a href="shop.html">Shop <span>→</span></a>
+        <a href="wishlist.html">Wishlist <span>→</span></a>
+        <a href="cart.html">Cart <span>→</span></a>
+        <a href="about.html">About <span>→</span></a>
+        <a href="contact.html">Contact <span>→</span></a>
+        <a href="admin.html">Admin <span>→</span></a>
+      </nav>
     </aside>
-
-    <main class="content-area">
-      <div class="sort-container">
-        <span style="font-weight:600;" id="item-count">Loading Products...</span>
-
-        <select id="sortSelect" onchange="sortProducts()" style="padding:8px; border-radius:4px; border:1px solid var(--border-color);">
-          <option value="newest">Sort By: Newest</option>
-          <option value="low-high">Price: Low to High</option>
-          <option value="high-low">Price: High to Low</option>
-        </select>
-      </div>
-
-      <div class="product-grid" id="shop-product-grid"></div>
-    </main>
   </div>
 
+  <div class="mobile-search-panel" id="mobileSearchPanel" aria-hidden="true">
+    <div class="overlay"></div>
+    <div class="mobile-panel">
+      <div class="panel-header">
+        <h2 class="panel-title">Search</h2>
+        <button class="icon-btn close-panel" type="button" aria-label="Close search">✕</button>
+      </div>
+      <form class="search-box" id="mobileSearchForm">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <path d="M20 20L17 17"></path>
+        </svg>
+        <input
+          type="search"
+          id="mobileSearchInput"
+          placeholder="Search latest styles..."
+          aria-label="Search products"
+        />
+      </form>
+    </div>
+  </div>
+
+  <div class="filter-drawer" id="filterDrawer" aria-hidden="true">
+    <div class="overlay"></div>
+    <div class="drawer">
+      <div class="drawer-header">
+        <h2 class="drawer-title">Filters</h2>
+        <button class="icon-btn close-panel" type="button" aria-label="Close filters">✕</button>
+      </div>
+
+      <form id="mobileFilterForm" class="form-grid">
+        <div class="field-group">
+          <label for="mobileCategoryFilter">Category</label>
+          <div class="select-box">
+            <select id="mobileCategoryFilter">
+              <option value="">All Categories</option>
+              <option value="Jeans">Jeans</option>
+              <option value="Shirts">Shirts</option>
+              <option value="T-Shirts">T-Shirts</option>
+              <option value="Cargo Pants">Cargo Pants</option>
+              <option value="Linen Pants">Linen Pants</option>
+              <option value="Lowers">Lowers</option>
+              <option value="Shorts">Shorts</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="mobileMinPrice">Min Price</label>
+          <div class="input-box">
+            <input type="number" id="mobileMinPrice" placeholder="0" min="0" />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="mobileMaxPrice">Max Price</label>
+          <div class="input-box">
+            <input type="number" id="mobileMaxPrice" placeholder="5000" min="0" />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="mobileSortBy">Sort By</label>
+          <div class="select-box">
+            <select id="mobileSortBy">
+              <option value="newest">Newest First</option>
+              <option value="price_low">Price: Low to High</option>
+              <option value="price_high">Price: High to Low</option>
+              <option value="name_asc">Name: A to Z</option>
+              <option value="name_desc">Name: Z to A</option>
+              <option value="discount">Biggest Discount</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <button type="button" class="btn btn-secondary btn-block" id="clearMobileFiltersBtn">Clear</button>
+          <button type="submit" class="btn btn-primary btn-block">Apply Filters</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <main id="main-content">
+    <section class="section-sm">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="index.html">Home</a></li>
+            <li><span aria-current="page">Shop</span></li>
+          </ol>
+        </nav>
+
+        <div class="page-header">
+          <p class="section-kicker">Premium Catalog</p>
+          <h1 class="page-title">Shop Men's Fashion</h1>
+          <p class="page-subtitle">
+            Discover premium essentials with dynamic search, category filters, sorting and pagination.
+          </p>
+        </div>
+
+        <div class="product-toolbar">
+          <form class="search-box" id="shopSearchForm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="M20 20L17 17"></path>
+            </svg>
+            <input
+              type="search"
+              id="shopSearchInput"
+              placeholder="Search products..."
+              aria-label="Search products"
+            />
+          </form>
+
+          <div class="select-box hide-on-mobile">
+            <select id="categoryFilter" aria-label="Filter by category">
+              <option value="">All Categories</option>
+              <option value="Jeans">Jeans</option>
+              <option value="Shirts">Shirts</option>
+              <option value="T-Shirts">T-Shirts</option>
+              <option value="Cargo Pants">Cargo Pants</option>
+              <option value="Linen Pants">Linen Pants</option>
+              <option value="Lowers">Lowers</option>
+              <option value="Shorts">Shorts</option>
+            </select>
+          </div>
+
+          <div class="select-box hide-on-mobile">
+            <select id="priceFilter" aria-label="Filter by price">
+              <option value="">Any Price</option>
+              <option value="0-499">Under ₹499</option>
+              <option value="500-999">₹500 - ₹999</option>
+              <option value="1000-1499">₹1000 - ₹1499</option>
+              <option value="1500-1999">₹1500 - ₹1999</option>
+              <option value="2000-5000">₹2000+</option>
+            </select>
+          </div>
+
+          <div class="select-box">
+            <select id="sortBy" aria-label="Sort products">
+              <option value="newest">Newest First</option>
+              <option value="price_low">Price: Low to High</option>
+              <option value="price_high">Price: High to Low</option>
+              <option value="name_asc">Name: A to Z</option>
+              <option value="name_desc">Name: Z to A</option>
+              <option value="discount">Biggest Discount</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="filter-chip-row" id="quickCategoryChips" aria-label="Quick categories">
+          <button class="filter-chip active" type="button" data-category="">All</button>
+          <button class="filter-chip" type="button" data-category="Jeans">Jeans</button>
+          <button class="filter-chip" type="button" data-category="Shirts">Shirts</button>
+          <button class="filter-chip" type="button" data-category="T-Shirts">T-Shirts</button>
+          <button class="filter-chip" type="button" data-category="Cargo Pants">Cargo Pants</button>
+          <button class="filter-chip" type="button" data-category="Linen Pants">Linen Pants</button>
+          <button class="filter-chip" type="button" data-category="Lowers">Lowers</button>
+          <button class="filter-chip" type="button" data-category="Shorts">Shorts</button>
+        </div>
+
+        <div class="section-sm" style="padding-bottom:0;">
+          <div class="section-title-wrap" style="margin-bottom:1rem;">
+            <div>
+              <p class="text-muted" id="resultsSummary">Loading products...</p>
+            </div>
+            <button type="button" class="btn btn-ghost hide-on-mobile" id="clearFiltersBtn">
+              Clear Filters
+            </button>
+          </div>
+
+          <div class="products-grid" id="productsGrid" aria-live="polite">
+            <article class="product-card skeleton-card skeleton"></article>
+            <article class="product-card skeleton-card skeleton"></article>
+            <article class="product-card skeleton-card skeleton"></article>
+            <article class="product-card skeleton-card skeleton"></article>
+            <article class="product-card skeleton-card skeleton"></article>
+            <article class="product-card skeleton-card skeleton"></article>
+            <article class="product-card skeleton-card skeleton"></article>
+            <article class="product-card skeleton-card skeleton"></article>
+          </div>
+
+          <div class="pagination" id="pagination"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="index.html" class="brand" aria-label="BABA JAAN MART home">
+              <span class="brand-mark">BJ</span>
+              <span class="brand-text">
+                <span class="brand-title">BABA JAAN MART</span>
+                <span class="brand-subtitle">Premium Men's Wear</span>
+              </span>
+            </a>
+            <p>
+              Modern men's fashion with a premium shopping experience built for speed, style and trust.
+            </p>
+          </div>
+
+          <div class="footer-col">
+            <h4>Categories</h4>
+            <div class="footer-links">
+              <a href="shop.html?category=Jeans">Jeans</a>
+              <a href="shop.html?category=Shirts">Shirts</a>
+              <a href="shop.html?category=T-Shirts">T-Shirts</a>
+              <a href="shop.html?category=Cargo Pants">Cargo Pants</a>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h4>Pages</h4>
+            <div class="footer-links">
+              <a href="index.html">Home</a>
+              <a href="wishlist.html">Wishlist</a>
+              <a href="cart.html">Cart</a>
+              <a href="contact.html">Contact</a>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h4>Support</h4>
+            <div class="footer-links">
+              <a href="about.html">About Us</a>
+              <a href="admin.html">Admin</a>
+              <a href="checkout.html">Checkout</a>
+              <a href="contact.html">Help</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container">
+        <div class="footer-bottom-inner">
+          <p>© 2026 BABA JAAN MART. All rights reserved.</p>
+          <div class="footer-bottom-links">
+            <a href="shop.html">Shop</a>
+            <a href="cart.html">Cart</a>
+            <a href="contact.html">Support</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
+    const SUPABASE_URL = "https://kwslileixrznlycqjqoj.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_gFXTHh-8OEcI5O-YbAT9rQ_n5LJTTMv";
     const supabaseClient = window.supabase.createClient(
-      "https://kwslileixrznlycqjqoj.supabase.co",
-      "sb_publishable_gFXTHh-8OEcI5O-YbAT9rQ_n5LJTTMv"
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
     );
 
-    let allProducts = [];
+    const state = {
+      allProducts: [],
+      filteredProducts: [],
+      currentPage: 1,
+      perPage: window.innerWidth >= 1024 ? 12 : 8,
+      filters: {
+        search: "",
+        category: "",
+        minPrice: "",
+        maxPrice: "",
+        priceRange: "",
+        sortBy: "newest"
+      },
+      wishlist: JSON.parse(localStorage.getItem("bjm_wishlist") || "[]"),
+      cart: JSON.parse(localStorage.getItem("bjm_cart") || "[]")
+    };
 
-    async function loadProducts() {
-      const grid = document.getElementById("shop-product-grid");
-      const itemCount = document.getElementById("item-count");
+    const rupee = new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
+      maximumFractionDigits: 0
+    });
 
-      grid.innerHTML = "<h3>Loading Products...</h3>";
+    const menuToggle = document.querySelector(".menu-toggle");
+    const mobileSearchToggle = document.querySelector(".mobile-search-toggle");
+    const filterDrawerToggle = document.getElementById("filterDrawerToggle");
+    const mobileMenuPanel = document.getElementById("mobileMenuPanel");
+    const mobileSearchPanel = document.getElementById("mobileSearchPanel");
+    const filterDrawer = document.getElementById("filterDrawer");
+    const themeToggle = document.getElementById("themeToggle");
 
-      const { data, error } = await supabaseClient
-        .from("products")
-        .select("*")
-        .order("id", { ascending:false });
+    const productsGrid = document.getElementById("productsGrid");
+    const paginationEl = document.getElementById("pagination");
+    const resultsSummary = document.getElementById("resultsSummary");
 
-      if (error) {
-        console.log(error);
-        grid.innerHTML = "<h3>Products load nahi hue.</h3>";
-        itemCount.innerText = "Error loading products";
-        return;
-      }
+    const headerSearchForm = document.getElementById("headerSearchForm");
+    const mobileSearchForm = document.getElementById("mobileSearchForm");
+    const shopSearchForm = document.getElementById("shopSearchForm");
 
-      allProducts = data || [];
-      renderProducts(allProducts);
+    const headerSearchInput = document.getElementById("headerSearchInput");
+    const mobileSearchInput = document.getElementById("mobileSearchInput");
+    const shopSearchInput = document.getElementById("shopSearchInput");
+
+    const categoryFilter = document.getElementById("categoryFilter");
+    const priceFilter = document.getElementById("priceFilter");
+    const sortBy = document.getElementById("sortBy");
+
+    const mobileCategoryFilter = document.getElementById("mobileCategoryFilter");
+    const mobileMinPrice = document.getElementById("mobileMinPrice");
+    const mobileMaxPrice = document.getElementById("mobileMaxPrice");
+    const mobileSortBy = document.getElementById("mobileSortBy");
+    const mobileFilterForm = document.getElementById("mobileFilterForm");
+
+    const clearFiltersBtn = document.getElementById("clearFiltersBtn");
+    const clearMobileFiltersBtn = document.getElementById("clearMobileFiltersBtn");
+
+    const cartCount = document.getElementById("cartCount");
+    const wishlistCount = document.getElementById("wishlistCount");
+    const quickCategoryChips = document.getElementById("quickCategoryChips");
+
+    function setThemeIcon(theme) {
+      themeToggle.innerHTML =
+        theme === "dark"
+          ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path></svg>`
+          : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
     }
 
-    function renderProducts(products) {
-      const grid = document.getElementById("shop-product-grid");
-      const itemCount = document.getElementById("item-count");
+    function initTheme() {
+      const savedTheme = localStorage.getItem("bjm_theme");
+      const preferredTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+      const theme = savedTheme || preferredTheme;
+      document.documentElement.setAttribute("data-theme", theme);
+      setThemeIcon(theme);
+    }
 
-      itemCount.innerText = `Showing ${products.length} Products`;
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute("data-theme") || "light";
+      const next = current === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      localStorage.setItem("bjm_theme", next);
+      setThemeIcon(next);
+    }
 
-      if (products.length === 0) {
-        grid.innerHTML = "<h3>No products found.</h3>";
-        return;
+    function openPanel(panel) {
+      panel.classList.add("active");
+      panel.setAttribute("aria-hidden", "false");
+      document.body.classList.add("menu-open");
+    }
+
+    function closePanel(panel) {
+      panel.classList.remove("active");
+      panel.setAttribute("aria-hidden", "true");
+      if (!document.querySelector(".mobile-menu-panel.active, .mobile-search-panel.active, .filter-drawer.active")) {
+        document.body.classList.remove("menu-open");
       }
+    }
 
-      let html = "";
+    function updateCounts() {
+      cartCount.textContent = state.cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+      wishlistCount.textContent = state.wishlist.length;
+    }
 
-      products.forEach(product => {
-        html += `
-          <div class="product-card">
-            <img src="${product.image_url}" alt="${product.name}">
+    function saveCart() {
+      localStorage.setItem("bjm_cart", JSON.stringify(state.cart));
+      updateCounts();
+    }
 
-            <div class="product-info">
-              <h3>${product.name || "Product"}</h3>
+    function saveWishlist() {
+      localStorage.setItem("bjm_wishlist", JSON.stringify(state.wishlist));
+      updateCounts();
+    }
 
-              <p>
-                <span class="old-price">₹${product.old_price || 0}</span>
-                <span class="current-price">₹${product.price || 0}</span>
-              </p>
+    function getDiscountPercent(price, oldPrice) {
+      const current = Number(price) || 0;
+      const old = Number(oldPrice) || 0;
+      if (!old || old <= current) return 0;
+      return Math.round(((old - current) / old) * 100);
+    }
 
-              <p>Category: ${product.category || "-"}</p>
-              <p>Size: ${product.size || "-"}</p>
-              <p>Stock: ${product.stock || 0}</p>
+    function getStockLabel(stock) {
+      const qty = Number(stock) || 0;
+      if (qty <= 0) return { text: "Out of Stock", className: "out-stock" };
+      if (qty <= 5) return { text: `Only ${qty} left`, className: "low-stock" };
+      return { text: "In Stock", className: "in-stock" };
+    }
 
-              <button class="view-btn" onclick="viewProduct(${product.id})">
-                View Product
+    function renderProductCard(product) {
+      const discount = getDiscountPercent(product.price, product.old_price);
+      const stock = getStockLabel(product.stock);
+      const image = product.image_url || "https://via.placeholder.com/600x750?text=BABA+JAAN+MART";
+      const rating = (4 + ((product.id || 1) % 10) / 10).toFixed(1);
+
+      const isWishlisted = state.wishlist.some(item => String(item.id) === String(product.id));
+
+      return `
+        <article class="product-card reveal">
+          <div class="product-media">
+            <img
+              src="${image}"
+              alt="${product.name || "Product image"}"
+              width="600"
+              height="750"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="product-badges">
+              ${discount ? `<span class="badge badge-primary">${discount}% OFF</span>` : `<span class="badge">New</span>`}
+              <span class="badge">${product.category || "Fashion"}</span>
+            </div>
+            <div class="product-actions-top">
+              <button class="icon-btn wishlist-btn ${isWishlisted ? "active" : ""}" type="button" aria-label="Add to wishlist" data-id="${product.id}">
+                ♥
               </button>
             </div>
           </div>
+
+          <div class="product-info">
+            <p class="product-category">${product.category || "Fashion"}</p>
+            <h3 class="product-title">${product.name || "Premium Product"}</h3>
+
+            <div class="price-row">
+              <span class="price-current">${rupee.format(Number(product.price) || 0)}</span>
+              ${product.old_price ? `<span class="price-old">${rupee.format(Number(product.old_price))}</span>` : ""}
+              ${discount ? `<span class="price-discount">Save ${discount}%</span>` : ""}
+            </div>
+
+            <div class="product-meta">
+              <span class="product-rating"><span class="star">★</span> ${rating}</span>
+              <span class="product-stock ${stock.className}">${stock.text}</span>
+            </div>
+
+            <div class="product-card-actions">
+              <a href="product-detail.html?id=${product.id}" class="btn btn-primary">View Product</a>
+              <button class="icon-btn add-cart-btn" type="button" aria-label="Add to cart" data-id="${product.id}">
+                +
+              </button>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function revealItems() {
+      document.querySelectorAll(".reveal").forEach(item => item.classList.add("show"));
+    }
+
+    function parsePriceRange(value) {
+      if (!value) return { min: null, max: null };
+      const [min, max] = value.split("-").map(Number);
+      return {
+        min: Number.isFinite(min) ? min : null,
+        max: Number.isFinite(max) ? max : null
+      };
+    }
+
+    function applyFilters() {
+      let products = [...state.allProducts];
+      const searchValue = state.filters.search.trim().toLowerCase();
+
+      if (searchValue) {
+        products = products.filter(product => {
+          const text = [
+            product.name,
+            product.category,
+            product.description,
+            product.size
+          ]
+            .join(" ")
+            .toLowerCase();
+          return text.includes(searchValue);
+        });
+      }
+
+      if (state.filters.category) {
+        products = products.filter(
+          product => String(product.category || "").toLowerCase() === state.filters.category.toLowerCase()
+        );
+      }
+
+      let minPrice = state.filters.minPrice !== "" ? Number(state.filters.minPrice) : null;
+      let maxPrice = state.filters.maxPrice !== "" ? Number(state.filters.maxPrice) : null;
+
+      if ((!minPrice && minPrice !== 0) && (!maxPrice && maxPrice !== 0) && state.filters.priceRange) {
+        const parsed = parsePriceRange(state.filters.priceRange);
+        minPrice = parsed.min;
+        maxPrice = parsed.max;
+      }
+
+      if (minPrice !== null && !Number.isNaN(minPrice)) {
+        products = products.filter(product => Number(product.price) >= minPrice);
+      }
+
+      if (maxPrice !== null && !Number.isNaN(maxPrice)) {
+        products = products.filter(product => Number(product.price) <= maxPrice);
+      }
+
+      switch (state.filters.sortBy) {
+        case "price_low":
+          products.sort((a, b) => Number(a.price) - Number(b.price));
+          break;
+        case "price_high":
+          products.sort((a, b) => Number(b.price) - Number(a.price));
+          break;
+        case "name_asc":
+          products.sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
+          break;
+        case "name_desc":
+          products.sort((a, b) => String(b.name || "").localeCompare(String(a.name || "")));
+          break;
+        case "discount":
+          products.sort((a, b) => {
+            const aDiscount = (Number(a.old_price) || 0) - (Number(a.price) || 0);
+            const bDiscount = (Number(b.old_price) || 0) - (Number(b.price) || 0);
+            return bDiscount - aDiscount;
+          });
+          break;
+        case "newest":
+        default:
+          products.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+          break;
+      }
+
+      state.filteredProducts = products;
+      state.currentPage = 1;
+      renderProducts();
+      syncUrl();
+      updateFilterUI();
+    }
+
+    function renderProducts() {
+      const total = state.filteredProducts.length;
+      const totalPages = Math.max(1, Math.ceil(total / state.perPage));
+      if (state.currentPage > totalPages) state.currentPage = totalPages;
+
+      const start = (state.currentPage - 1) * state.perPage;
+      const end = start + state.perPage;
+      const pageItems = state.filteredProducts.slice(start, end);
+
+      if (!pageItems.length) {
+        productsGrid.innerHTML = `
+          <div class="empty-state" style="grid-column:1/-1;">
+            <div class="empty-state-icon">🛍</div>
+            <h3>No products found</h3>
+            <p>Try changing your search, category or price filters to discover more styles.</p>
+          </div>
         `;
+      } else {
+        productsGrid.innerHTML = pageItems.map(renderProductCard).join("");
+        revealItems();
+      }
+
+      const searchText = state.filters.search ? ` for "${state.filters.search}"` : "";
+      const categoryText = state.filters.category ? ` in ${state.filters.category}` : "";
+      resultsSummary.textContent = `${total} product${total === 1 ? "" : "s"} found${searchText}${categoryText}`;
+
+      renderPagination(totalPages);
+    }
+
+    function renderPagination(totalPages) {
+      paginationEl.innerHTML = "";
+      if (totalPages <= 1) return;
+
+      const createButton = (label, page, active = false, disabled = false) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = label;
+        if (active) btn.classList.add("active");
+        btn.disabled = disabled;
+        btn.addEventListener("click", () => {
+          if (disabled) return;
+          state.currentPage = page;
+          renderProducts();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+        return btn;
+      };
+
+      paginationEl.appendChild(
+        createButton("Prev", Math.max(1, state.currentPage - 1), false, state.currentPage === 1)
+      );
+
+      for (let i = 1; i <= totalPages; i += 1) {
+        paginationEl.appendChild(createButton(String(i), i, i === state.currentPage));
+      }
+
+      paginationEl.appendChild(
+        createButton("Next", Math.min(totalPages, state.currentPage + 1), false, state.currentPage === totalPages)
+      );
+    }
+
+    function updateFilterUI() {
+      shopSearchInput.value = state.filters.search;
+      headerSearchInput.value = state.filters.search;
+      mobileSearchInput.value = state.filters.search;
+
+      categoryFilter.value = state.filters.category;
+      sortBy.value = state.filters.sortBy;
+
+      mobileCategoryFilter.value = state.filters.category;
+      mobileMinPrice.value = state.filters.minPrice;
+      mobileMaxPrice.value = state.filters.maxPrice;
+      mobileSortBy.value = state.filters.sortBy;
+
+      document.querySelectorAll("#quickCategoryChips .filter-chip").forEach(chip => {
+        chip.classList.toggle("active", chip.dataset.category === state.filters.category);
+        if (!state.filters.category && chip.dataset.category === "") {
+          chip.classList.add("active");
+        }
       });
-
-      grid.innerHTML = html;
     }
 
-    function viewProduct(productId) {
-      localStorage.setItem("selectedProductId", productId);
-      window.location.href = "product-detail.html";
+    function syncUrl() {
+      const params = new URLSearchParams();
+
+      if (state.filters.search) params.set("search", state.filters.search);
+      if (state.filters.category) params.set("category", state.filters.category);
+      if (state.filters.sortBy && state.filters.sortBy !== "newest") params.set("sort", state.filters.sortBy);
+      if (state.filters.minPrice !== "") params.set("min", state.filters.minPrice);
+      if (state.filters.maxPrice !== "") params.set("max", state.filters.maxPrice);
+      if (state.filters.priceRange) params.set("price", state.filters.priceRange);
+
+      const url = `${window.location.pathname}${params.toString() ? `?${params.toString()}` : ""}`;
+      window.history.replaceState({}, "", url);
     }
 
-    function sortProducts() {
-      const sortValue = document.getElementById("sortSelect").value;
-      let products = [...allProducts];
-
-      if (sortValue === "low-high") {
-        products.sort((a, b) => Number(a.price || 0) - Number(b.price || 0));
-      }
-
-      if (sortValue === "high-low") {
-        products.sort((a, b) => Number(b.price || 0) - Number(a.price || 0));
-      }
-
-      if (sortValue === "newest") {
-        products.sort((a, b) => Number(b.id || 0) - Number(a.id || 0));
-      }
-
-      renderProducts(products);
+    function loadFiltersFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      state.filters.search = params.get("search") || "";
+      state.filters.category = params.get("category") || "";
+      state.filters.sortBy = params.get("sort") || "newest";
+      state.filters.minPrice = params.get("min") || "";
+      state.filters.maxPrice = params.get("max") || "";
+      state.filters.priceRange = params.get("price") || "";
     }
 
+    function clearFilters() {
+      state.filters = {
+        search: "",
+        category: "",
+        minPrice: "",
+        maxPrice: "",
+        priceRange: "",
+        sortBy: "newest"
+      };
+      state.currentPage = 1;
+      updateFilterUI();
+      applyFilters();
+      priceFilter.value = "";
+    }
+
+    function addToCart(productId) {
+      const product = state.allProducts.find(item => String(item.id) === String(productId));
+      if (!product) return;
+
+      const existing = state.cart.find(item => String(item.id) === String(productId));
+      if (existing) {
+        existing.quantity = (existing.quantity || 1) + 1;
+      } else {
+        state.cart.push({
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          old_price: product.old_price,
+          image_url: product.image_url,
+          category: product.category,
+          size: product.size || "M",
+          quantity: 1
+        });
+      }
+
+      saveCart();
+    }
+
+    function toggleWishlist(productId) {
+      const existingIndex = state.wishlist.findIndex(item => String(item.id) === String(productId));
+      const product = state.allProducts.find(item => String(item.id) === String(productId));
+      if (!product) return;
+
+      if (existingIndex > -1) {
+        state.wishlist.splice(existingIndex, 1);
+      } else {
+        state.wishlist.push({
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          old_price: product.old_price,
+          image_url: product.image_url,
+          category: product.category
+        });
+      }
+
+      saveWishlist();
+      renderProducts();
+    }
+
+    async function loadProducts() {
+      try {
+        const { data, error } = await supabaseClient
+          .from("products")
+          .select("*")
+          .order("created_at", { ascending: false });
+
+        if (error) throw error;
+
+        state.allProducts = Array.isArray(data) ? data : [];
+        applyFilters();
+      } catch (error) {
+        console.error("Shop page load error:", error);
+        productsGrid.innerHTML = `
+          <div class="empty-state" style="grid-column:1/-1;">
+            <div class="empty-state-icon">!</div>
+            <h3>Unable to load products</h3>
+            <p>Please check your Supabase connection or products table.</p>
+          </div>
+        `;
+        resultsSummary.textContent = "0 products found";
+      }
+    }
+
+    function handleSearchSubmit(value) {
+      state.filters.search = String(value || "").trim();
+      state.currentPage = 1;
+      applyFilters();
+      closePanel(mobileSearchPanel);
+    }
+
+    document.addEventListener("click", event => {
+      const closeBtn = event.target.closest(".close-panel");
+      const overlay = event.target.closest(".overlay");
+      const addCartBtn = event.target.closest(".add-cart-btn");
+      const wishlistBtn = event.target.closest(".wishlist-btn");
+      const categoryChip = event.target.closest("#quickCategoryChips .filter-chip");
+
+      if (closeBtn) {
+        const panel = closeBtn.closest(".mobile-menu-panel, .mobile-search-panel, .filter-drawer");
+        if (panel) closePanel(panel);
+      }
+
+      if (overlay) {
+        const panel = overlay.parentElement;
+        closePanel(panel);
+      }
+
+      if (addCartBtn) {
+        addToCart(addCartBtn.dataset.id);
+      }
+
+      if (wishlistBtn) {
+        toggleWishlist(wishlistBtn.dataset.id);
+      }
+
+      if (categoryChip) {
+        state.filters.category = categoryChip.dataset.category || "";
+        categoryFilter.value = state.filters.category;
+        mobileCategoryFilter.value = state.filters.category;
+        state.currentPage = 1;
+        applyFilters();
+      }
+    });
+
+    menuToggle?.addEventListener("click", () => openPanel(mobileMenuPanel));
+    mobileSearchToggle?.addEventListener("click", () => openPanel(mobileSearchPanel));
+    filterDrawerToggle?.addEventListener("click", () => openPanel(filterDrawer));
+    themeToggle?.addEventListener("click", toggleTheme);
+
+    headerSearchForm?.addEventListener("submit", event => {
+      event.preventDefault();
+      handleSearchSubmit(headerSearchInput.value);
+    });
+
+    mobileSearchForm?.addEventListener("submit", event => {
+      event.preventDefault();
+      handleSearchSubmit(mobileSearchInput.value);
+    });
+
+    shopSearchForm?.addEventListener("submit", event => {
+      event.preventDefault();
+      handleSearchSubmit(shopSearchInput.value);
+    });
+
+    categoryFilter?.addEventListener("change", event => {
+      state.filters.category = event.target.value;
+      mobileCategoryFilter.value = event.target.value;
+      applyFilters();
+    });
+
+    priceFilter?.addEventListener("change", event => {
+      state.filters.priceRange = event.target.value;
+      state.filters.minPrice = "";
+      state.filters.maxPrice = "";
+      mobileMinPrice.value = "";
+      mobileMaxPrice.value = "";
+      applyFilters();
+    });
+
+    sortBy?.addEventListener("change", event => {
+      state.filters.sortBy = event.target.value;
+      mobileSortBy.value = event.target.value;
+      applyFilters();
+    });
+
+    mobileFilterForm?.addEventListener("submit", event => {
+      event.preventDefault();
+      state.filters.category = mobileCategoryFilter.value;
+      state.filters.minPrice = mobileMinPrice.value;
+      state.filters.maxPrice = mobileMaxPrice.value;
+      state.filters.priceRange = "";
+      state.filters.sortBy = mobileSortBy.value;
+
+      categoryFilter.value = state.filters.category;
+      priceFilter.value = "";
+      sortBy.value = state.filters.sortBy;
+
+      applyFilters();
+      closePanel(filterDrawer);
+    });
+
+    clearFiltersBtn?.addEventListener("click", clearFilters);
+    clearMobileFiltersBtn?.addEventListener("click", () => {
+      mobileCategoryFilter.value = "";
+      mobileMinPrice.value = "";
+      mobileMaxPrice.value = "";
+      mobileSortBy.value = "newest";
+    });
+
+    window.addEventListener("resize", () => {
+      const nextPerPage = window.innerWidth >= 1024 ? 12 : 8;
+      if (nextPerPage !== state.perPage) {
+        state.perPage = nextPerPage;
+        renderProducts();
+      }
+    });
+
+    initTheme();
+    updateCounts();
+    loadFiltersFromUrl();
+    updateFilterUI();
+    if (state.filters.priceRange) priceFilter.value = state.filters.priceRange;
     loadProducts();
   </script>
-
 </body>
 </html>
