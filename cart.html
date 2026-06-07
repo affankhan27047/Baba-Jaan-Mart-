@@ -1,65 +1,595 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Shopping Bag - BABA JAAN MART</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
+  <title>Cart | BABA JAAN MART</title>
+  <meta
+    name="description"
+    content="Review your cart, update quantity, remove items and continue to secure checkout at BABA JAAN MART."
+  />
+  <meta name="theme-color" content="#111111" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
 </head>
 <body>
-  <div style="display:grid;grid-template-columns:2fr 1fr;gap:30px;padding:40px 5%;">
-    <div style="background:white;padding:20px;border-radius:8px;">
-      <h3 id="bagTitle">Shopping Bag</h3>
-      <div id="cartItemBox"></div>
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <header class="site-header">
+    <div class="top-strip">
+      <div class="container">
+        <p>Secure Cart • Transparent Pricing • Fast Checkout</p>
+        <div class="top-strip-links">
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
     </div>
 
-    <div style="background:white;padding:20px;border-radius:8px;height:fit-content;">
-      <h3>Price Details</h3>
-      <hr>
-      <div style="display:flex;justify-content:space-between;margin:12px 0;">
-        <span>Total Amount</span><b id="totalAmount">₹0</b>
+    <div class="container">
+      <div class="navbar">
+        <div class="nav-left">
+          <button class="icon-btn menu-toggle show-on-mobile" type="button" aria-label="Open menu">
+            <span aria-hidden="true">☰</span>
+          </button>
+
+          <a href="index.html" class="brand" aria-label="BABA JAAN MART home">
+            <span class="brand-mark">BJ</span>
+            <span class="brand-text">
+              <span class="brand-title">BABA JAAN MART</span>
+              <span class="brand-subtitle">Premium Men's Wear</span>
+            </span>
+          </a>
+        </div>
+
+        <form class="header-search" id="headerSearchForm">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="M20 20L17 17"></path>
+          </svg>
+          <input
+            type="search"
+            id="headerSearchInput"
+            placeholder="Search jeans, shirts, cargos..."
+            aria-label="Search products"
+          />
+        </form>
+
+        <nav class="desktop-nav" aria-label="Primary navigation">
+          <a href="index.html">Home</a>
+          <a href="shop.html">Shop</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+          <a href="admin.html">Admin</a>
+        </nav>
+
+        <div class="nav-right">
+          <button class="icon-btn mobile-search-toggle show-on-mobile" type="button" aria-label="Open search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="M20 20L17 17"></path>
+            </svg>
+          </button>
+
+          <button class="icon-btn" type="button" id="themeToggle" aria-label="Toggle theme">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+
+          <a href="wishlist.html" class="icon-btn hide-mobile" aria-label="Wishlist">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M12 21s-6.716-4.35-9.192-8.237C1.28 10.38 2.095 7 5.09 6.16c1.9-.533 3.574.173 4.91 1.6 1.337-1.427 3.011-2.133 4.91-1.6 2.995.84 3.81 4.22 2.282 6.603C18.716 16.65 12 21 12 21z"></path>
+            </svg>
+            <span class="icon-badge-count" id="wishlistCount">0</span>
+          </a>
+
+          <a href="cart.html" class="icon-btn active" aria-label="Cart">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="9" cy="20" r="1"></circle>
+              <circle cx="18" cy="20" r="1"></circle>
+              <path d="M3 4h2l2.2 10.4a1 1 0 0 0 1 .8h9.6a1 1 0 0 0 1-.8L21 7H7"></path>
+            </svg>
+            <span class="icon-badge-count" id="cartCount">0</span>
+          </a>
+        </div>
       </div>
-      <button class="btn-add-cart" style="padding:12px;font-size:16px;margin-top:15px;" onclick="goCheckout()">
-        PLACE ORDER
-      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu-panel" id="mobileMenuPanel" aria-hidden="true">
+    <div class="overlay"></div>
+    <aside class="mobile-panel" aria-label="Mobile menu">
+      <div class="panel-header">
+        <h2 class="panel-title">Menu</h2>
+        <button class="icon-btn close-panel" type="button" aria-label="Close menu">✕</button>
+      </div>
+
+      <nav class="mobile-nav-links" aria-label="Mobile navigation">
+        <a href="index.html">Home <span>→</span></a>
+        <a href="shop.html">Shop <span>→</span></a>
+        <a href="wishlist.html">Wishlist <span>→</span></a>
+        <a href="cart.html">Cart <span>→</span></a>
+        <a href="about.html">About <span>→</span></a>
+        <a href="contact.html">Contact <span>→</span></a>
+        <a href="admin.html">Admin <span>→</span></a>
+      </nav>
+    </aside>
+  </div>
+
+  <div class="mobile-search-panel" id="mobileSearchPanel" aria-hidden="true">
+    <div class="overlay"></div>
+    <div class="mobile-panel">
+      <div class="panel-header">
+        <h2 class="panel-title">Search</h2>
+        <button class="icon-btn close-panel" type="button" aria-label="Close search">✕</button>
+      </div>
+      <form class="search-box" id="mobileSearchForm">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <path d="M20 20L17 17"></path>
+        </svg>
+        <input
+          type="search"
+          id="mobileSearchInput"
+          placeholder="Search latest styles..."
+          aria-label="Search products"
+        />
+      </form>
     </div>
   </div>
 
-  <script>
-    const item = JSON.parse(localStorage.getItem("cartItem"));
+  <main id="main-content">
+    <section class="section-sm">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="index.html">Home</a></li>
+            <li><span aria-current="page">Cart</span></li>
+          </ol>
+        </nav>
 
-    if (!item) {
-      document.getElementById("cartItemBox").innerHTML = "<p>Your bag is empty.</p>";
-    } else {
-      document.getElementById("bagTitle").innerText = `Shopping Bag (1 Item)`;
-      document.getElementById("totalAmount").innerText = `₹${item.price}`;
+        <div class="page-header">
+          <p class="section-kicker">Your Bag</p>
+          <h1 class="page-title">Shopping Cart</h1>
+          <p class="page-subtitle" id="cartItemSummary">Review your selected items before checkout.</p>
+        </div>
 
-      document.getElementById("cartItemBox").innerHTML = `
-        <div style="display:flex;gap:20px;border-bottom:1px solid #ddd;padding:15px 0;">
-          <img src="${item.image}" style="width:90px;height:120px;object-fit:cover;">
-          <div>
-            <h4>${item.name}</h4>
-            <p style="font-size:13px;color:#777;">Size: ${item.size}</p>
-            <p><b>₹${item.price}</b></p>
-            <button onclick="removeItem()" style="border:none;background:none;color:red;cursor:pointer;font-size:13px;margin-top:10px;">
-              Remove
-            </button>
+        <div class="cart-layout">
+          <section class="cart-items-panel">
+            <div id="cartItemsList" class="cart-items-list" aria-live="polite">
+              <article class="cart-item-card skeleton" style="min-height: 160px;"></article>
+              <article class="cart-item-card skeleton" style="min-height: 160px;"></article>
+            </div>
+          </section>
+
+          <aside class="cart-summary-panel">
+            <div class="cart-summary-card">
+              <div class="summary-head">
+                <h2>Order Summary</h2>
+                <p>Clear totals before payment</p>
+              </div>
+
+              <div class="summary-lines">
+                <div class="summary-line">
+                  <span>Subtotal</span>
+                  <strong id="subtotalAmount">₹0</strong>
+                </div>
+                <div class="summary-line">
+                  <span>Shipping</span>
+                  <strong id="shippingAmount">₹0</strong>
+                </div>
+                <div class="summary-line">
+                  <span>Discount</span>
+                  <strong id="discountAmount">₹0</strong>
+                </div>
+                <div class="summary-line total">
+                  <span>Total</span>
+                  <strong id="totalAmount">₹0</strong>
+                </div>
+              </div>
+
+              <div class="trust-note-card">
+                <div class="trust-note-icon">✓</div>
+                <div>
+                  <strong>Secure Razorpay Checkout</strong>
+                  <p>Your payment flow continues safely in the next step.</p>
+                </div>
+              </div>
+
+              <div class="summary-actions">
+                <a href="checkout.html" class="btn btn-primary btn-block" id="checkoutBtn">Proceed to Checkout</a>
+                <a href="shop.html" class="btn btn-secondary btn-block">Continue Shopping</a>
+              </div>
+            </div>
+
+            <div class="cart-help-card">
+              <h3>Why shop with us</h3>
+              <ul class="detail-list">
+                <li>Premium men's fashion with modern silhouettes.</li>
+                <li>Fast order processing and status tracking.</li>
+                <li>Easy quantity editing before payment.</li>
+              </ul>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="sticky-cart-bar" id="stickyCartBar">
+    <div class="container">
+      <div class="sticky-cart-bar-inner">
+        <div>
+          <p class="sticky-label" id="stickyCartItems">0 items</p>
+          <h3 id="stickyCartTotal">₹0</h3>
+        </div>
+        <a href="checkout.html" class="btn btn-primary" id="stickyCheckoutBtn">Checkout</a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="index.html" class="brand" aria-label="BABA JAAN MART home">
+              <span class="brand-mark">BJ</span>
+              <span class="brand-text">
+                <span class="brand-title">BABA JAAN MART</span>
+                <span class="brand-subtitle">Premium Men's Wear</span>
+              </span>
+            </a>
+            <p>
+              Modern men's fashion with a premium shopping experience built for speed, style and trust.
+            </p>
+          </div>
+
+          <div class="footer-col">
+            <h4>Categories</h4>
+            <div class="footer-links">
+              <a href="shop.html?category=Jeans">Jeans</a>
+              <a href="shop.html?category=Shirts">Shirts</a>
+              <a href="shop.html?category=T-Shirts">T-Shirts</a>
+              <a href="shop.html?category=Cargo Pants">Cargo Pants</a>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h4>Pages</h4>
+            <div class="footer-links">
+              <a href="index.html">Home</a>
+              <a href="shop.html">Shop</a>
+              <a href="wishlist.html">Wishlist</a>
+              <a href="checkout.html">Checkout</a>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h4>Support</h4>
+            <div class="footer-links">
+              <a href="contact.html">Contact</a>
+              <a href="about.html">About</a>
+              <a href="admin.html">Admin</a>
+              <a href="cart.html">Cart</a>
+            </div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container">
+        <div class="footer-bottom-inner">
+          <p>© 2026 BABA JAAN MART. All rights reserved.</p>
+          <div class="footer-bottom-links">
+            <a href="shop.html">Shop</a>
+            <a href="checkout.html">Checkout</a>
+            <a href="contact.html">Support</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const state = {
+      cart: JSON.parse(localStorage.getItem("bjm_cart") || "[]"),
+      wishlist: JSON.parse(localStorage.getItem("bjm_wishlist") || "[]")
+    };
+
+    const rupee = new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
+      maximumFractionDigits: 0
+    });
+
+    const cartItemsList = document.getElementById("cartItemsList");
+    const cartItemSummary = document.getElementById("cartItemSummary");
+    const subtotalAmount = document.getElementById("subtotalAmount");
+    const shippingAmount = document.getElementById("shippingAmount");
+    const discountAmount = document.getElementById("discountAmount");
+    const totalAmount = document.getElementById("totalAmount");
+    const checkoutBtn = document.getElementById("checkoutBtn");
+    const stickyCheckoutBtn = document.getElementById("stickyCheckoutBtn");
+    const stickyCartBar = document.getElementById("stickyCartBar");
+    const stickyCartItems = document.getElementById("stickyCartItems");
+    const stickyCartTotal = document.getElementById("stickyCartTotal");
+    const cartCount = document.getElementById("cartCount");
+    const wishlistCount = document.getElementById("wishlistCount");
+    const themeToggle = document.getElementById("themeToggle");
+
+    const menuToggle = document.querySelector(".menu-toggle");
+    const mobileSearchToggle = document.querySelector(".mobile-search-toggle");
+    const mobileMenuPanel = document.getElementById("mobileMenuPanel");
+    const mobileSearchPanel = document.getElementById("mobileSearchPanel");
+    const headerSearchForm = document.getElementById("headerSearchForm");
+    const mobileSearchForm = document.getElementById("mobileSearchForm");
+    const headerSearchInput = document.getElementById("headerSearchInput");
+    const mobileSearchInput = document.getElementById("mobileSearchInput");
+
+    function setThemeIcon(theme) {
+      themeToggle.innerHTML =
+        theme === "dark"
+          ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path></svg>`
+          : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
+    }
+
+    function initTheme() {
+      const savedTheme = localStorage.getItem("bjm_theme");
+      const preferredTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+      const theme = savedTheme || preferredTheme;
+      document.documentElement.setAttribute("data-theme", theme);
+      setThemeIcon(theme);
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute("data-theme") || "light";
+      const next = current === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      localStorage.setItem("bjm_theme", next);
+      setThemeIcon(next);
+    }
+
+    function openPanel(panel) {
+      panel.classList.add("active");
+      panel.setAttribute("aria-hidden", "false");
+      document.body.classList.add("menu-open");
+    }
+
+    function closePanel(panel) {
+      panel.classList.remove("active");
+      panel.setAttribute("aria-hidden", "true");
+      if (!document.querySelector(".mobile-menu-panel.active, .mobile-search-panel.active")) {
+        document.body.classList.remove("menu-open");
+      }
+    }
+
+    function saveCart() {
+      localStorage.setItem("bjm_cart", JSON.stringify(state.cart));
+      updateCounts();
+      renderCart();
+    }
+
+    function updateCounts() {
+      cartCount.textContent = state.cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+      wishlistCount.textContent = state.wishlist.length;
+    }
+
+    function getDiscountValue(item) {
+      const price = Number(item.price) || 0;
+      const oldPrice = Number(item.old_price) || 0;
+      if (!oldPrice || oldPrice <= price) return 0;
+      return (oldPrice - price) * (item.quantity || 1);
+    }
+
+    function getCartTotals() {
+      const subtotal = state.cart.reduce(
+        (sum, item) => sum + (Number(item.price) || 0) * (item.quantity || 1),
+        0
+      );
+      const discount = state.cart.reduce((sum, item) => sum + getDiscountValue(item), 0);
+      const shipping = subtotal > 1499 ? 0 : subtotal > 0 ? 99 : 0;
+      const total = subtotal + shipping;
+
+      return { subtotal, shipping, discount, total };
+    }
+
+    function updateSummary() {
+      const totals = getCartTotals();
+      const totalItems = state.cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+
+      cartItemSummary.textContent =
+        totalItems > 0
+          ? `${totalItems} item${totalItems === 1 ? "" : "s"} ready for checkout.`
+          : "Your cart is currently empty.";
+
+      subtotalAmount.textContent = rupee.format(totals.subtotal);
+      shippingAmount.textContent = totals.shipping === 0 && totals.subtotal > 0 ? "Free" : rupee.format(totals.shipping);
+      discountAmount.textContent = totals.discount ? `- ${rupee.format(totals.discount)}` : rupee.format(0);
+      totalAmount.textContent = rupee.format(totals.total);
+
+      stickyCartItems.textContent = `${totalItems} item${totalItems === 1 ? "" : "s"}`;
+      stickyCartTotal.textContent = rupee.format(totals.total);
+
+      const disabled = state.cart.length === 0;
+      checkoutBtn.classList.toggle("disabled", disabled);
+      stickyCheckoutBtn.classList.toggle("disabled", disabled);
+
+      if (disabled) {
+        checkoutBtn.setAttribute("aria-disabled", "true");
+        stickyCheckoutBtn.setAttribute("aria-disabled", "true");
+        checkoutBtn.addEventListener("click", preventEmptyCheckout);
+        stickyCheckoutBtn.addEventListener("click", preventEmptyCheckout);
+      } else {
+        checkoutBtn.removeAttribute("aria-disabled");
+        stickyCheckoutBtn.removeAttribute("aria-disabled");
+        checkoutBtn.removeEventListener("click", preventEmptyCheckout);
+        stickyCheckoutBtn.removeEventListener("click", preventEmptyCheckout);
+      }
+    }
+
+    function preventEmptyCheckout(event) {
+      if (state.cart.length === 0) {
+        event.preventDefault();
+      }
+    }
+
+    function renderCartItem(item, index) {
+      const image = item.image_url || "https://via.placeholder.com/220x260?text=BABA+JAAN+MART";
+      const itemTotal = (Number(item.price) || 0) * (item.quantity || 1);
+
+      return `
+        <article class="cart-item-card" data-index="${index}">
+          <div class="cart-item-media">
+            <img
+              src="${image}"
+              alt="${item.name || "Product image"}"
+              width="220"
+              height="260"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+
+          <div class="cart-item-content">
+            <div class="cart-item-top">
+              <div>
+                <p class="product-category">${item.category || "Fashion"}</p>
+                <h2 class="cart-item-title">${item.name || "Premium Product"}</h2>
+                <div class="cart-item-meta">
+                  <span>Size: <strong>${item.size || "M"}</strong></span>
+                  <span>Price: <strong>${rupee.format(Number(item.price) || 0)}</strong></span>
+                </div>
+              </div>
+              <button type="button" class="cart-remove-btn" data-action="remove" data-index="${index}">
+                Remove
+              </button>
+            </div>
+
+            <div class="cart-item-bottom">
+              <div class="quantity-control" aria-label="Quantity selector">
+                <button type="button" data-action="decrease" data-index="${index}" aria-label="Decrease quantity">−</button>
+                <span>${item.quantity || 1}</span>
+                <button type="button" data-action="increase" data-index="${index}" aria-label="Increase quantity">+</button>
+              </div>
+
+              <div class="cart-item-total">
+                <span>Total</span>
+                <strong>${rupee.format(itemTotal)}</strong>
+              </div>
+            </div>
+          </div>
+        </article>
       `;
     }
 
-    function removeItem() {
-      localStorage.removeItem("cartItem");
-      location.reload();
+    function renderCart() {
+      if (!state.cart.length) {
+        cartItemsList.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">🛍</div>
+            <h2>Your bag is empty</h2>
+            <p>Explore the latest premium styles and add your favorites to continue.</p>
+            <a href="shop.html" class="btn btn-primary">Start Shopping</a>
+          </div>
+        `;
+      } else {
+        cartItemsList.innerHTML = state.cart.map(renderCartItem).join("");
+      }
+
+      updateSummary();
     }
 
-    function goCheckout() {
-      if (!item) {
-        alert("Your bag is empty.");
+    function updateQuantity(index, change) {
+      const item = state.cart[index];
+      if (!item) return;
+
+      item.quantity = (item.quantity || 1) + change;
+
+      if (item.quantity <= 0) {
+        state.cart.splice(index, 1);
+      }
+
+      saveCart();
+    }
+
+    function removeItem(index) {
+      state.cart.splice(index, 1);
+      saveCart();
+    }
+
+    function handleSearchSubmit(value) {
+      const query = String(value || "").trim();
+      if (!query) {
+        window.location.href = "shop.html";
         return;
       }
-      window.location.href = "checkout.html";
+      window.location.href = `shop.html?search=${encodeURIComponent(query)}`;
     }
+
+    document.addEventListener("click", event => {
+      const closeBtn = event.target.closest(".close-panel");
+      const overlay = event.target.closest(".overlay");
+      const actionBtn = event.target.closest("[data-action]");
+
+      if (closeBtn) {
+        const panel = closeBtn.closest(".mobile-menu-panel, .mobile-search-panel");
+        if (panel) closePanel(panel);
+      }
+
+      if (overlay) {
+        const panel = overlay.parentElement;
+        closePanel(panel);
+      }
+
+      if (actionBtn) {
+        const index = Number(actionBtn.dataset.index);
+        const action = actionBtn.dataset.action;
+
+        if (action === "increase") updateQuantity(index, 1);
+        if (action === "decrease") updateQuantity(index, -1);
+        if (action === "remove") removeItem(index);
+      }
+    });
+
+    menuToggle?.addEventListener("click", () => openPanel(mobileMenuPanel));
+    mobileSearchToggle?.addEventListener("click", () => openPanel(mobileSearchPanel));
+    themeToggle?.addEventListener("click", toggleTheme);
+
+    headerSearchForm?.addEventListener("submit", event => {
+      event.preventDefault();
+      handleSearchSubmit(headerSearchInput.value);
+    });
+
+    mobileSearchForm?.addEventListener("submit", event => {
+      event.preventDefault();
+      handleSearchSubmit(mobileSearchInput.value);
+    });
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 260 && state.cart.length > 0) {
+        stickyCartBar.classList.add("active");
+      } else {
+        stickyCartBar.classList.remove("active");
+      }
+    });
+
+    initTheme();
+    updateCounts();
+    renderCart();
   </script>
 </body>
 </html>
