@@ -2,136 +2,720 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Checkout - BABA JAAN MART</title>
-  <link rel="stylesheet" href="css/style.css">
-
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-</head>
-
-<body>
-  <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:30px;padding:40px 5%;">
-    
-    <div style="background:white;padding:25px;border-radius:8px;">
-      <h2>Delivery Address</h2>
-
-      <input id="customerName" placeholder="Full Name" style="width:100%;padding:12px;margin:10px 0;">
-      <input id="customerPhone" placeholder="Mobile Number" style="width:100%;padding:12px;margin:10px 0;">
-      <textarea id="customerAddress" placeholder="Full Address" style="width:100%;padding:12px;margin:10px 0;height:90px;"></textarea>
-      <input id="customerCity" placeholder="City" style="width:100%;padding:12px;margin:10px 0;">
-      <input id="customerPincode" placeholder="Pincode" style="width:100%;padding:12px;margin:10px 0;">
-    </div>
-
-    <div style="background:white;padding:25px;border-radius:8px;height:fit-content;">
-      <h2>Order Summary</h2>
-      <div id="orderSummary"></div>
-
-      <p style="color:red;font-size:14px;margin:15px 0;">
-        Cash on Delivery available nahi hai. Online payment required hai.
-      </p>
-
-      <button class="btn-add-cart" style="padding:12px;font-size:16px;" onclick="placeOrder()">
-        PAY NOW
-      </button>
-    </div>
-
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <script>
-    const SUPABASE_URL = "https://kwslileixrznlycqjqoj.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_gFXTHh-8OEcI5O-YbAT9rQ_n5LJTTMv";
-
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    const item = JSON.parse(localStorage.getItem("cartItem"));
-
-    if (!item) {
-      document.getElementById("orderSummary").innerHTML = "<p>Your bag is empty.</p>";
-    } else {
-      document.getElementById("orderSummary").innerHTML = `
-        <p><b>Product:</b> ${item.name}</p>
-        <p><b>Size:</b> ${item.size}</p>
-        <p><b>Quantity:</b> ${item.quantity}</p>
-        <p><b>Total:</b> ₹${item.price}</p>
-      `;
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>BABA JAAN MART · Checkout</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    async function placeOrder() {
-      if (!item) {
-        alert("Your bag is empty.");
-        return;
+    body {
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+      background: #ffffff;
+      color: #000000;
+      line-height: 1.4;
+    }
+
+    :root {
+      --yellow: #F5B041;
+      --yellow-dark: #E67E22;
+      --black: #000000;
+      --white: #ffffff;
+      --gray-50: #fafafa;
+      --gray-100: #f5f5f5;
+      --gray-200: #e5e5e5;
+      --gray-300: #d4d4d4;
+      --gray-700: #404040;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.03);
+      --shadow-md: 0 8px 20px rgba(0,0,0,0.05);
+      --shadow-lg: 0 20px 35px rgba(0,0,0,0.08);
+    }
+
+    .top-bar {
+      background: #000000;
+      color: white;
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      border-bottom: 2px solid var(--yellow);
+    }
+
+    .brand {
+      font-size: 1.65rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #FFFFFF 0%, #F5B041 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .back-link {
+      color: var(--yellow);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border-bottom: 1px solid transparent;
+      transition: 0.2s;
+    }
+
+    .back-link:hover {
+      border-bottom-color: var(--yellow);
+    }
+
+    .checkout-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    .checkout-title {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      margin-bottom: 2rem;
+      border-left: 6px solid var(--yellow);
+      padding-left: 1rem;
+    }
+
+    .checkout-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    @media (min-width: 992px) {
+      .checkout-layout {
+        flex-direction: row;
+        align-items: flex-start;
       }
-
-      const name = document.getElementById("customerName").value.trim();
-      const phone = document.getElementById("customerPhone").value.trim();
-      const address = document.getElementById("customerAddress").value.trim();
-      const city = document.getElementById("customerCity").value.trim();
-      const pincode = document.getElementById("customerPincode").value.trim();
-
-      if (!name || !phone || !address || !city || !pincode) {
-        alert("Please fill all delivery details.");
-        return;
+      .customer-form-section {
+        flex: 1.2;
       }
+      .order-summary-section {
+        flex: 0.8;
+        position: sticky;
+        top: 1.5rem;
+      }
+    }
 
+    /* Form Styles */
+    .form-card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 1.8rem;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--gray-100);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      color: #1a1a1a;
+    }
+
+    .form-group input, 
+    .form-group textarea {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 16px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      transition: 0.2s;
+      background: var(--gray-50);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--yellow);
+      background: white;
+      box-shadow: 0 0 0 3px rgba(245, 176, 65, 0.1);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    /* Order Summary */
+    .summary-card {
+      background: var(--gray-50);
+      border-radius: 24px;
+      padding: 1.8rem;
+      box-shadow: var(--shadow-md);
+      position: sticky;
+      top: 1.5rem;
+    }
+
+    .summary-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid var(--yellow);
+      display: inline-block;
+      padding-bottom: 0.3rem;
+    }
+
+    .order-items {
+      max-height: 400px;
+      overflow-y: auto;
+      margin-bottom: 1.5rem;
+    }
+
+    .order-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .order-item-img {
+      width: 65px;
+      height: 65px;
+      object-fit: cover;
+      border-radius: 12px;
+      background: var(--gray-100);
+    }
+
+    .order-item-details {
+      flex: 1;
+    }
+
+    .order-item-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .order-item-meta {
+      font-size: 0.75rem;
+      color: var(--gray-700);
+      margin-bottom: 0.3rem;
+    }
+
+    .order-item-price {
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    .order-item-quantity {
+      font-size: 0.8rem;
+      color: #666;
+    }
+
+    .summary-divider {
+      height: 1px;
+      background: var(--gray-300);
+      margin: 1rem 0;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.8rem;
+      font-size: 0.95rem;
+    }
+
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 2px solid var(--black);
+    }
+
+    .pay-btn {
+      width: 100%;
+      background: #000000;
+      color: white;
+      padding: 1rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pay-btn:hover:not(:disabled) {
+      background: var(--yellow-dark);
+      color: black;
+      transform: scale(0.98);
+    }
+
+    .pay-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .error-message {
+      color: #e11d48;
+      font-size: 0.8rem;
+      margin-top: 0.3rem;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    .empty-cart {
+      text-align: center;
+      padding: 3rem;
+      background: var(--gray-50);
+      border-radius: 24px;
+    }
+
+    .empty-cart p {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .shop-now-btn {
+      background: black;
+      color: white;
+      padding: 0.8rem 2rem;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    @media (max-width: 640px) {
+      .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+      .checkout-container {
+        padding: 1rem;
+      }
+      .form-card, .summary-card {
+        padding: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <span class="brand">BABA JAAN MART</span>
+  <a href="cart.html" class="back-link">← BACK TO CART</a>
+</div>
+
+<div class="checkout-container" id="checkoutContainer">
+  <h1 class="checkout-title">SECURE CHECKOUT</h1>
+  <div id="checkoutContent">
+    <!-- Dynamic content will be loaded here -->
+    <div class="loading">Loading your order...</div>
+  </div>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  // Supabase Configuration
+  const SUPABASE_URL = "https://kwslileixrznlycqjqoj.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3c2xpbGVpeHJ6bmx5Y3FqcW9qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2NTY2MDgsImV4cCI6MjA5NTIzMjYwOH0.t5j4URbC5iCOySScCyJpyq6ngYUAGt7P94fmK0bypLc";
+  
+  const RAZORPAY_KEY = "rzp_live_Sy3eXxd8kgVFAa";
+  const STORAGE_KEY = 'bjm_cart';
+
+  let currentCart = [];
+  let isProcessing = false;
+
+  // Helper: get cart
+  function getCart() {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (!stored) return [];
+    try {
+      return JSON.parse(stored);
+    } catch(e) { return []; }
+  }
+
+  // Calculate subtotal
+  function calculateSubtotal(cart) {
+    return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  }
+
+  // Escape HTML
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    });
+  }
+
+  // Render order summary
+  function renderOrderSummary(cart) {
+    if (!cart.length) return '';
+    
+    let itemsHtml = '';
+    cart.forEach(item => {
+      itemsHtml += `
+        <div class="order-item">
+          <img class="order-item-img" src="${escapeHtml(item.image_url) || 'https://placehold.co/400x400?text=No+Image'}" alt="${escapeHtml(item.name)}">
+          <div class="order-item-details">
+            <div class="order-item-name">${escapeHtml(item.name)}</div>
+            <div class="order-item-meta">Size: ${escapeHtml(item.size)}</div>
+            <div class="order-item-price">₹${item.price.toFixed(2)}</div>
+            <div class="order-item-quantity">Qty: ${item.quantity}</div>
+          </div>
+        </div>
+      `;
+    });
+
+    const subtotal = calculateSubtotal(cart);
+    const total = subtotal;
+
+    return `
+      <div class="summary-card">
+        <div class="summary-title">ORDER SUMMARY</div>
+        <div class="order-items">
+          ${itemsHtml}
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span>₹${subtotal.toFixed(2)}</span>
+        </div>
+        <div class="summary-row">
+          <span>Shipping</span>
+          <span>FREE</span>
+        </div>
+        <div class="summary-total">
+          <span>Total Payable</span>
+          <span>₹${total.toFixed(2)}</span>
+        </div>
+        <button id="payNowBtn" class="pay-btn">PAY NOW ₹${total.toFixed(2)} →</button>
+      </div>
+    `;
+  }
+
+  // Render customer form
+  function renderCustomerForm() {
+    return `
+      <div class="form-card">
+        <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 1.5rem;">Delivery Information</h3>
+        <form id="checkoutForm">
+          <div class="form-group">
+            <label>Full Name *</label>
+            <input type="text" id="fullName" name="fullName" placeholder="John Doe" required>
+            <div class="error-message" id="nameError">Please enter your full name</div>
+          </div>
+          
+          <div class="form-group">
+            <label>Mobile Number *</label>
+            <input type="tel" id="mobile" name="mobile" placeholder="9876543210" pattern="[0-9]{10}" required>
+            <div class="error-message" id="mobileError">Please enter a valid 10-digit mobile number</div>
+          </div>
+          
+          <div class="form-group">
+            <label>Full Address *</label>
+            <textarea id="address" name="address" rows="3" placeholder="House/Flat No., Building, Street, Landmark" required></textarea>
+            <div class="error-message" id="addressError">Please enter your complete address</div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label>City *</label>
+              <input type="text" id="city" name="city" placeholder="Mumbai" required>
+              <div class="error-message" id="cityError">Please enter city name</div>
+            </div>
+            
+            <div class="form-group">
+              <label>Pincode *</label>
+              <input type="text" id="pincode" name="pincode" placeholder="400001" pattern="[0-9]{6}" required>
+              <div class="error-message" id="pincodeError">Please enter a valid 6-digit pincode</div>
+            </div>
+          </div>
+        </form>
+      </div>
+    `;
+  }
+
+  // Validate form
+  function validateForm() {
+    let isValid = true;
+    
+    const name = document.getElementById('fullName')?.value.trim();
+    const mobile = document.getElementById('mobile')?.value.trim();
+    const address = document.getElementById('address')?.value.trim();
+    const city = document.getElementById('city')?.value.trim();
+    const pincode = document.getElementById('pincode')?.value.trim();
+    
+    // Name validation
+    if (!name) {
+      document.getElementById('nameError')?.classList.add('show');
+      isValid = false;
+    } else {
+      document.getElementById('nameError')?.classList.remove('show');
+    }
+    
+    // Mobile validation
+    const mobileRegex = /^[0-9]{10}$/;
+    if (!mobile || !mobileRegex.test(mobile)) {
+      document.getElementById('mobileError')?.classList.add('show');
+      isValid = false;
+    } else {
+      document.getElementById('mobileError')?.classList.remove('show');
+    }
+    
+    // Address validation
+    if (!address) {
+      document.getElementById('addressError')?.classList.add('show');
+      isValid = false;
+    } else {
+      document.getElementById('addressError')?.classList.remove('show');
+    }
+    
+    // City validation
+    if (!city) {
+      document.getElementById('cityError')?.classList.add('show');
+      isValid = false;
+    } else {
+      document.getElementById('cityError')?.classList.remove('show');
+    }
+    
+    // Pincode validation
+    const pincodeRegex = /^[0-9]{6}$/;
+    if (!pincode || !pincodeRegex.test(pincode)) {
+      document.getElementById('pincodeError')?.classList.add('show');
+      isValid = false;
+    } else {
+      document.getElementById('pincodeError')?.classList.remove('show');
+    }
+    
+    return isValid;
+  }
+
+  // Insert order into Supabase
+  async function insertOrder(orderData) {
+    const url = `${SUPABASE_URL}/rest/v1/orders`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(orderData)
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to save order');
+    }
+    return true;
+  }
+
+  // Initialize Razorpay payment
+  function initPayment(orderData, totalAmount) {
+    return new Promise((resolve, reject) => {
       const options = {
-        key: "rzp_live_Sy3eXxd8kgVFAa",
-        amount: item.price * 100,
+        key: RAZORPAY_KEY,
+        amount: totalAmount * 100, // Amount in paise
         currency: "INR",
         name: "BABA JAAN MART",
-        description: item.name,
-
-        handler: async function (response) {
-          const orderData = {
-            customer_name: name,
-            phone: phone,
-            address: address,
-            city: city,
-            pincode: pincode,
-            products: [item],
-            total_amount: item.price,
-            payment_status: "paid",
-            order_status: "new",
-            razorpay_payment_id: response.razorpay_payment_id
-          };
-
-          const { data, error } = await supabaseClient
-            .from("orders")
-            .insert([orderData])
-            .select();
-
-          if (error) {
-            console.log(error);
-            alert("Payment ho gaya, lekin order save nahi hua. Screenshot bhejo.");
-            return;
-          }
-
-          localStorage.removeItem("cartItem");
-
-          alert("Payment Successful! Order placed.");
-
-          window.location.href = "success.html";
-        },
-
+        description: `Order from ${orderData.customer_name}`,
+        image: "https://via.placeholder.com/100x100?text=BJM",
         prefill: {
-          name: name,
-          contact: phone
+          name: orderData.customer_name,
+          contact: orderData.phone,
         },
-
-        notes: {
-          address: address,
-          city: city,
-          pincode: pincode
-        },
-
         theme: {
-          color: "#facc15"
+          color: "#F5B041"
+        },
+        handler: function(response) {
+          // Payment successful
+          resolve(response);
+        },
+        modal: {
+          ondismiss: function() {
+            reject(new Error('Payment cancelled'));
+          }
         }
       };
+      
+      const razorpay = new Razorpay(options);
+      razorpay.open();
+    });
+  }
 
-      const rzp = new Razorpay(options);
-      rzp.open();
+  // Process checkout
+  async function processCheckout() {
+    if (isProcessing) return;
+    
+    if (!validateForm()) {
+      return;
     }
-  </script>
+    
+    const cart = getCart();
+    if (!cart.length) {
+      alert('Your cart is empty!');
+      window.location.href = 'shop.html';
+      return;
+    }
+    
+    isProcessing = true;
+    const payBtn = document.getElementById('payNowBtn');
+    if (payBtn) {
+      payBtn.disabled = true;
+      payBtn.textContent = 'Processing...';
+    }
+    
+    try {
+      // Get form values
+      const fullName = document.getElementById('fullName').value.trim();
+      const mobile = document.getElementById('mobile').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const city = document.getElementById('city').value.trim();
+      const pincode = document.getElementById('pincode').value.trim();
+      const totalAmount = calculateSubtotal(cart);
+      
+      // Prepare products data (store as JSON string)
+      const productsData = cart.map(item => ({
+        id: item.id,
+        name: item.name,
+        size: item.size,
+        quantity: item.quantity,
+        price: item.price,
+        image_url: item.image_url
+      }));
+      
+      // First, initialize payment
+      const orderDataForPayment = {
+        customer_name: fullName,
+        phone: mobile,
+        address: address,
+        city: city,
+        pincode: pincode
+      };
+      
+      const paymentResponse = await initPayment(orderDataForPayment, totalAmount);
+      
+      // Payment successful, now save to Supabase
+      const orderToSave = {
+        customer_name: fullName,
+        phone: mobile,
+        address: address,
+        city: city,
+        pincode: pincode,
+        products: JSON.stringify(productsData),
+        total_amount: totalAmount,
+        payment_status: "paid",
+        order_status: "new",
+        razorpay_payment_id: paymentResponse.razorpay_payment_id,
+        created_at: new Date().toISOString()
+      };
+      
+      await insertOrder(orderToSave);
+      
+      // Clear cart
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem('bjm_cart_instructions');
+      
+      // Redirect to success page
+      window.location.href = 'success.html';
+      
+    } catch (error) {
+      console.error('Checkout error:', error);
+      alert(error.message || 'Payment failed. Please try again.');
+      if (payBtn) {
+        payBtn.disabled = false;
+        payBtn.textContent = `PAY NOW ₹${calculateSubtotal(getCart()).toFixed(2)} →`;
+      }
+    } finally {
+      isProcessing = false;
+    }
+  }
+
+  // Main render function
+  function renderCheckout() {
+    const cart = getCart();
+    const container = document.getElementById('checkoutContent');
+    
+    if (!cart.length) {
+      container.innerHTML = `
+        <div class="empty-cart">
+          <p>🛒 Your cart is empty</p>
+          <a href="shop.html" class="shop-now-btn">SHOP NOW</a>
+        </div>
+      `;
+      return;
+    }
+    
+    currentCart = cart;
+    
+    container.innerHTML = `
+      <div class="checkout-layout">
+        <div class="customer-form-section">
+          ${renderCustomerForm()}
+        </div>
+        <div class="order-summary-section">
+          ${renderOrderSummary(cart)}
+        </div>
+      </div>
+    `;
+    
+    // Attach payment button event listener
+    const payBtn = document.getElementById('payNowBtn');
+    if (payBtn) {
+      payBtn.addEventListener('click', processCheckout);
+    }
+    
+    // Add real-time validation styling
+    const inputs = ['fullName', 'mobile', 'address', 'city', 'pincode'];
+    inputs.forEach(inputId => {
+      const input = document.getElementById(inputId);
+      if (input) {
+        input.addEventListener('input', function() {
+          const errorId = inputId + 'Error';
+          const errorEl = document.getElementById(errorId);
+          if (errorEl) {
+            errorEl.classList.remove('show');
+          }
+        });
+      }
+    });
+  }
+  
+  // Initialize page
+  renderCheckout();
+  
+  // Listen for cart changes (in case user modifies cart from another tab)
+  window.addEventListener('storage', (e) => {
+    if (e.key === STORAGE_KEY) {
+      renderCheckout();
+    }
+  });
+</script>
 </body>
 </html>
