@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>About Us | BABA JAAN MART</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: #000000;
+            color: #e5e5e5;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --gold: #F5B041;
+            --gold-dark: #D4A017;
+            --gold-light: #FDE9C9;
+            --black: #0a0a0a;
+            --black-soft: #111111;
+            --white: #ffffff;
+            --gray-mid: #888888;
+            --border-dim: #2a2a2a;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: var(--black);
+            border-bottom: 1px solid var(--border-dim);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo a {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--gold), #ffd966);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--gold);
+        }
+
+        .cart-wishlist-icons {
+            display: flex;
+            gap: 1.2rem;
+            align-items: center;
+        }
+
+        .icon-badge {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .badge-count {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: var(--gold);
+            color: black;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.8rem;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .mobile-nav {
+            display: none;
+            flex-direction: column;
+            background: #0f0f0f;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-dim);
+        }
+
+        .mobile-nav a {
+            padding: 0.8rem 0;
+            font-size: 1.1rem;
+            border-bottom: 1px solid #222;
+        }
+
+        .mobile-nav a:last-child {
+            border-bottom: none;
+        }
+
+        /* Buttons */
+        .btn-gold {
+            background: var(--gold);
+            color: black;
+            font-weight: 600;
+            padding: 0.8rem 1.8rem;
+            border-radius: 40px;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 1rem;
+        }
+
+        .btn-gold:hover {
+            background: #e6a017;
+            transform: scale(0.98);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #0b0b0b 0%, #1a1a1a 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-dim);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            color: #ccc;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Section Title */
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title h2 {
+            color: var(--gold);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title p {
+            color: #aaa;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Story Section */
+        .story-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            line-height: 1.6;
+            color: #ddd;
+        }
+
+        /* Grids */
+        .grid-3, .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .feature-card {
+            background: #111;
+            border-radius: 24px;
+            padding: 1.8rem;
+            border: 1px solid var(--border-dim);
+            transition: transform 0.2s, border-color 0.2s;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: var(--gold);
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+
+        .feature-card p {
+            color: #aaa;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Store Details */
+        .store-details {
+            background: linear-gradient(135deg, #0f0f0f 0%, #0a0a0a 100%);
+            border-radius: 28px;
+            padding: 2rem;
+            border: 1px solid var(--border-dim);
+            margin: 2rem 0;
+        }
+
+        .store-details h3 {
+            color: var(--gold);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .store-details p {
+            margin-bottom: 0.5rem;
+            color: #ccc;
+        }
+
+        /* Start Shopping */
+        .start-shopping {
+            text-align: center;
+            margin: 2rem 0 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #050505;
+            border-top: 1px solid var(--border-dim);
+            text-align: center;
+            padding: 2rem;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+            .nav-links {
+                display: none;
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .container {
+                padding: 2rem 1rem;
+            }
+            .section-title h2 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="logo"><a href="index.html">BABA JAAN MART</a></div>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="about.html" class="active">About</a>
+        <a href="contact.html">Contact</a>
+    </div>
+    <div class="cart-wishlist-icons">
+        <div class="icon-badge" id="wishlistIconBtn">
+            ❤️ <span id="wishlistCount" class="badge-count">0</span>
+        </div>
+        <div class="icon-badge" id="cartIconBtn">
+            🛒 <span id="cartCount" class="badge-count">0</span>
+        </div>
+    </div>
+    <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-nav" id="mobileNav">
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+</div>
+
+<!-- Hero Section -->
+<section class="hero">
+    <h1>About BABA JAAN MART</h1>
+    <p>Your trusted destination for quality products and seamless shopping experience</p>
+</section>
+
+<div class="container">
+    <!-- Our Story -->
+    <div class="section-title">
+        <h2>Our Story</h2>
+        <p>Built on trust, driven by quality</p>
+    </div>
+    <div class="story-content">
+        <p>BABA JAAN MART started with a simple vision — to bring genuine, high-quality products to customers with a seamless shopping experience. Based in the heart of Khetasarai, we have grown into a trusted name for shoppers who value authenticity, reliability, and premium service.</p>
+        <p style="margin-top: 1rem;">Every day, we strive to exceed expectations by offering carefully selected products, secure transactions, and swift delivery across India.</p>
+    </div>
+
+    <!-- Why Choose Us -->
+    <div class="section-title" style="margin-top: 4rem;">
+        <h2>Why Choose Us</h2>
+        <p>What makes us different</p>
+    </div>
+    <div class="grid-3">
+        <div class="feature-card">
+            <div class="feature-icon">⭐</div>
+            <h3>Quality Checked Products</h3>
+            <p>Every item undergoes rigorous quality inspection before reaching your doorstep.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🔒</div>
+            <h3>Secure Payments</h3>
+            <p>Your transactions are 100% safe with our encrypted payment gateways.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🚚</div>
+            <h3>Fast Delivery</h3>
+            <p>Swift shipping with real-time tracking for all orders across India.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🔄</div>
+            <h3>7-Day Return Policy</h3>
+            <p>Easy & hassle-free returns within 7 days of delivery.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">✉️</div>
+            <h3>Email Customer Support</h3>
+            <p>Reach us anytime at babajanmart4366@gmail.com — we respond within 24 hours.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🏪</div>
+            <h3>Physical Store Presence</h3>
+            <p>Visit our store at Khetasarai for a premium in-person shopping experience.</p>
+        </div>
+    </div>
+
+    <!-- Store Details -->
+    <div class="store-details">
+        <h3>📍 Store Information</h3>
+        <p><strong>Address:</strong> Khetasarai, Dobhi Mode, Opposite Bhartiya Vidyapeeth School</p>
+        <p><strong>Email:</strong> babajanmart4366@gmail.com</p>
+        <p><strong>Website:</strong> babajanmart.com</p>
+    </div>
+
+    <!-- Start Shopping Button -->
+    <div class="start-shopping">
+        <a href="shop.html" class="btn-gold">🛍️ Start Shopping →</a>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <p>© 2025 BABA JAAN MART — Quality & Trust</p>
+</footer>
+
+<script>
+    // Update wishlist and cart counters
+    function updateCounters() {
+        let wishlist = JSON.parse(localStorage.getItem('bjm_wishlist')) || [];
+        let cart = JSON.parse(localStorage.getItem('bjm_cart')) || [];
+        
+        let wishCount = document.getElementById('wishlistCount');
+        let cartCount = document.getElementById('cartCount');
+        
+        if (wishCount) wishCount.innerText = wishlist.length;
+        if (cartCount) {
+            let totalQty = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            cartCount.innerText = totalQty;
+        }
+    }
+
+    updateCounters();
+
+    // Mobile menu toggle
+    document.getElementById('mobileMenuBtn')?.addEventListener('click', () => {
+        const mobileNav = document.getElementById('mobileNav');
+        mobileNav.style.display = mobileNav.style.display === 'flex' ? 'none' : 'flex';
+    });
+    
+    // Wishlist icon click
+    document.getElementById('wishlistIconBtn')?.addEventListener('click', () => {
+        window.location.href = 'wishlist.html';
+    });
+    
+    // Cart icon click
+    document.getElementById('cartIconBtn')?.addEventListener('click', () => {
+        window.location.href = 'cart.html';
+    });
+    
+    // Listen for storage changes
+    window.addEventListener('storage', updateCounters);
+</script>
+</body>
+</html>
