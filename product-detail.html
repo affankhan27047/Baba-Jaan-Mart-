@@ -72,7 +72,8 @@
             margin-bottom: 1.5rem;
         }
 
-        .main-image {
+        .main-image-container {
+            position: relative;
             width: 100%;
             background: white;
             border-radius: 24px;
@@ -80,12 +81,124 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.05);
         }
 
+        .main-image {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+        }
+
         .main-image img {
             width: 100%;
-            height: auto;
-            aspect-ratio: 1 / 1;
+            height: 100%;
             object-fit: cover;
             display: block;
+        }
+
+        /* Gallery Navigation Arrows */
+        .gallery-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.6);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            z-index: 10;
+        }
+
+        .gallery-nav:hover {
+            background: rgba(0,0,0,0.8);
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .gallery-nav-prev {
+            left: 12px;
+        }
+
+        .gallery-nav-next {
+            right: 12px;
+        }
+
+        /* Image Counter */
+        .image-counter {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            z-index: 10;
+            backdrop-filter: blur(4px);
+        }
+
+        /* Thumbnail Gallery */
+        .thumbnail-gallery {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            overflow-x: auto;
+            scrollbar-width: thin;
+            padding-bottom: 4px;
+        }
+
+        .thumbnail-gallery::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .thumbnail-gallery::-webkit-scrollbar-track {
+            background: #e0e0e0;
+            border-radius: 10px;
+        }
+
+        .thumbnail-gallery::-webkit-scrollbar-thumb {
+            background: #f5b642;
+            border-radius: 10px;
+        }
+
+        .thumbnail-item {
+            flex-shrink: 0;
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        @media (min-width: 768px) {
+            .thumbnail-item {
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+        .thumbnail-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .thumbnail-item.active {
+            border-color: #f5b642;
+            box-shadow: 0 0 0 2px rgba(245, 182, 66, 0.3);
+        }
+
+        .thumbnail-item:hover:not(.active) {
+            border-color: #ddd;
+            transform: scale(0.98);
         }
 
         /* Product info */
@@ -425,6 +538,20 @@
             font-size: 0.85rem;
             white-space: nowrap;
         }
+
+        /* Touch swipe hint */
+        .swipe-hint {
+            display: none;
+            text-align: center;
+            font-size: 0.7rem;
+            color: #888;
+            margin-top: 0.5rem;
+        }
+        @media (max-width: 768px) {
+            .swipe-hint {
+                display: block;
+            }
+        }
     </style>
 </head>
 <body>
@@ -540,6 +667,22 @@
         localStorage.setItem("bjm_recently_viewed", JSON.stringify(recents));
     }
 
+    // Gallery Helper: Get all product images (main + gallery)
+    function getAllProductImages(product) {
+        const images = [product.image_url];
+        if (product.gallery_images && Array.isArray(product.gallery_images)) {
+            for (let img of product.gallery_images) {
+                if (img && typeof img === 'string' && img.trim() !== '') {
+                    images.push(img);
+                }
+            }
+        }
+        // Filter out duplicates and invalid URLs
+        return images.filter((img, index, self) => 
+            img && img.trim() !== '' && self.indexOf(img) === index
+        );
+    }
+
     // Render product page
     async function renderProductPage() {
         const container = document.getElementById("detailContent");
@@ -575,21 +718,48 @@
             ? Math.round(((product.old_price - product.price) / product.old_price) * 100) 
             : null;
 
-        // Build HTML structure
+        // Get all gallery images
+        const allImages = getAllProductImages(product);
+        const hasGallery = allImages.length > 1;
+
+        // Build stock status HTML
         let stockStatusHtml = '';
         if (stockCount <= 0) stockStatusHtml = '<span class="out-of-stock">Out of Stock</span>';
         else if (stockCount <= 5) stockStatusHtml = `<span class="low-stock">Only ${stockCount} left</span>`;
         else stockStatusHtml = `<span class="in-stock">In Stock (${stockCount})</span>`;
 
-        const imageUrl = product.image_url || 'https://placehold.co/600x600?text=BABA+JAAN';
+        const defaultImage = product.image_url || 'https://placehold.co/600x600?text=BABA+JAAN';
+
+        // Build thumbnail gallery HTML
+        let thumbnailHtml = '';
+        if (hasGallery) {
+            thumbnailHtml = `
+                <div class="thumbnail-gallery" id="thumbnailGallery">
+                    ${allImages.map((img, idx) => `
+                        <div class="thumbnail-item ${idx === 0 ? 'active' : ''}" data-image-index="${idx}">
+                            <img src="${img}" alt="Thumbnail ${idx + 1}" loading="lazy" onerror="this.src='https://placehold.co/100x100?text=Error'">
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="swipe-hint">← Swipe images →</div>
+            `;
+        }
 
         // main html
         let mainHtml = `
             <div class="product-detail-layout">
                 <div class="product-gallery">
-                    <div class="main-image">
-                        <img src="${imageUrl}" alt="${product.name}" id="productMainImage">
+                    <div class="main-image-container">
+                        <div class="main-image">
+                            <img src="${defaultImage}" alt="${product.name}" id="productMainImage" onerror="this.src='https://placehold.co/600x600?text=Image+Error'">
+                        </div>
+                        ${hasGallery ? `
+                            <button class="gallery-nav gallery-nav-prev" id="prevImageBtn" aria-label="Previous image">‹</button>
+                            <button class="gallery-nav gallery-nav-next" id="nextImageBtn" aria-label="Next image">›</button>
+                            <div class="image-counter" id="imageCounter">1 / ${allImages.length}</div>
+                        ` : ''}
                     </div>
+                    ${thumbnailHtml}
                 </div>
                 <div class="product-info">
                     <h1 class="product-name">${escapeHtml(product.name)}</h1>
@@ -652,7 +822,100 @@
         `;
         container.innerHTML = mainHtml;
 
-        // after render attach logic
+        // --- GALLERY FUNCTIONALITY ---
+        if (hasGallery) {
+            const mainImage = document.getElementById('productMainImage');
+            const prevBtn = document.getElementById('prevImageBtn');
+            const nextBtn = document.getElementById('nextImageBtn');
+            const counter = document.getElementById('imageCounter');
+            const thumbnails = document.querySelectorAll('.thumbnail-item');
+            let currentIndex = 0;
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            function updateGallery(index) {
+                if (index < 0) index = 0;
+                if (index >= allImages.length) index = allImages.length - 1;
+                currentIndex = index;
+                
+                // Update main image
+                if (mainImage) {
+                    mainImage.src = allImages[currentIndex];
+                    mainImage.alt = `Product image ${currentIndex + 1}`;
+                    mainImage.onerror = function() {
+                        this.src = 'https://placehold.co/600x600?text=Image+Error';
+                    };
+                }
+                
+                // Update counter
+                if (counter) {
+                    counter.textContent = `${currentIndex + 1} / ${allImages.length}`;
+                }
+                
+                // Update active thumbnail
+                thumbnails.forEach((thumb, idx) => {
+                    if (idx === currentIndex) {
+                        thumb.classList.add('active');
+                    } else {
+                        thumb.classList.remove('active');
+                    }
+                });
+            }
+
+            // Previous button
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    updateGallery(currentIndex - 1);
+                });
+            }
+            
+            // Next button
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    updateGallery(currentIndex + 1);
+                });
+            }
+            
+            // Thumbnail clicks
+            thumbnails.forEach((thumb, index) => {
+                thumb.addEventListener('click', () => {
+                    updateGallery(index);
+                });
+            });
+            
+            // Touch swipe support for mobile
+            const galleryContainer = document.querySelector('.main-image-container');
+            if (galleryContainer) {
+                galleryContainer.addEventListener('touchstart', (e) => {
+                    touchStartX = e.changedTouches[0].screenX;
+                }, { passive: true });
+                
+                galleryContainer.addEventListener('touchend', (e) => {
+                    touchEndX = e.changedTouches[0].screenX;
+                    const swipeThreshold = 50;
+                    if (touchEndX < touchStartX - swipeThreshold) {
+                        // Swipe left -> next image
+                        updateGallery(currentIndex + 1);
+                    } else if (touchEndX > touchStartX + swipeThreshold) {
+                        // Swipe right -> previous image
+                        updateGallery(currentIndex - 1);
+                    }
+                });
+            }
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') {
+                    updateGallery(currentIndex - 1);
+                    e.preventDefault();
+                } else if (e.key === 'ArrowRight') {
+                    updateGallery(currentIndex + 1);
+                    e.preventDefault();
+                }
+            });
+        }
+
+        // after render attach logic (Cart, Size, Quantity - unchanged)
         let selectedSize = null;
         const sizeBtns = document.querySelectorAll('.size-btn');
         const selectSizeInput = document.getElementById('selectedSizeInput');
@@ -767,7 +1030,7 @@
         products.forEach(p => {
             html += `
                 <a href="product-detail.html?id=${p.id}" class="product-card">
-                    <img src="${p.image_url || 'https://placehold.co/400x400?text=Product'}" alt="${escapeHtml(p.name)}" loading="lazy">
+                    <img src="${p.image_url || 'https://placehold.co/400x400?text=Product'}" alt="${escapeHtml(p.name)}" loading="lazy" onerror="this.src='https://placehold.co/400x400?text=Error'">
                     <div class="card-info">
                         <div class="card-name">${escapeHtml(p.name).substring(0, 30)}</div>
                         <div class="card-price">₹${Number(p.price).toLocaleString('en-IN')}</div>
@@ -792,7 +1055,7 @@
         recents.slice(0, 8).forEach(p => {
             html += `
                 <a href="product-detail.html?id=${p.id}" class="product-card">
-                    <img src="${p.image_url || 'https://placehold.co/400x400?text=Product'}" alt="${escapeHtml(p.name)}" loading="lazy">
+                    <img src="${p.image_url || 'https://placehold.co/400x400?text=Product'}" alt="${escapeHtml(p.name)}" loading="lazy" onerror="this.src='https://placehold.co/400x400?text=Error'">
                     <div class="card-info">
                         <div class="card-name">${escapeHtml(p.name).substring(0, 30)}</div>
                         <div class="card-price">₹${Number(p.price).toLocaleString('en-IN')}</div>
