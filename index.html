@@ -43,7 +43,6 @@
       --header-h: 56px;
       --strip-h: 32px;
       --ease-out: cubic-bezier(0.2, 0.9, 0.4, 1);
-      --ease-spring: cubic-bezier(0.34, 1.2, 0.64, 1);
     }
 
     [data-theme="light"] {
@@ -101,7 +100,6 @@
       border: 1px solid var(--border-strong);
       box-shadow: 0 8px 20px rgba(0,0,0,0.2);
       pointer-events: none;
-      white-space: nowrap;
     }
     .toast-notification.show {
       transform: translateX(-50%) translateY(0);
@@ -196,7 +194,6 @@
     .panel-header { padding: 16px; display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); }
     .mobile-nav-links a { display: flex; padding: 14px 12px; font-family: var(--font-display); font-weight: 700; text-transform: uppercase; color: var(--muted); }
 
-    /* Hero 3D refined */
     .hero-3d {
       position: relative;
       background: radial-gradient(circle at 20% 30%, #0c0c0c, #000000);
@@ -246,7 +243,6 @@
     .btn-outline { background: transparent; border-color: var(--border-strong); color: var(--white); }
     .btn-outline:hover { border-color: var(--yellow); color: var(--yellow); }
 
-    /* Floating cards smoother */
     .floating-cards {
       position: relative;
       perspective: 1200px;
@@ -397,7 +393,6 @@
     .footer-bottom { border-top: 1px solid var(--border); margin-top: 40px; padding-top: 24px; text-align: center; font-size: 11px; color: var(--muted-2); }
     .bg-surface { background: var(--surface); }
 
-    /* email button */
     .email-btn {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -486,7 +481,7 @@
 
 <footer class="footer">
   <div class="container footer-grid"><div><a href="index.html" class="brand"><div class="brand-logo">BJM</div><span class="brand-title">BABA JAAN MART</span></a><p style="margin-top: 12px; color:var(--muted);">Premium Men's Fashion · Quality checked essentials.</p></div>
-  <div><h4>Shop</h4><div class="footer-links"><a href="shop.html?category=Jeans">Jeans</a><a href="shop.html?category=Shirts">Shirts</a><a href="shop.html?category=T-Shirts">T-Shirts</a><a href="shop.html?category=Cargo%20Pants">Cargos</a></div></div>
+  <div><h4>Shop</h4><div class="footer-links"><a href="shop.html?category=Jeans">Jeans</a><a href="shop.html?category=Shirts">Shirts</a><a href="shop.html?category=T-Shirts">T-Shirts</a><a href="shop.html?category=Cargo Pants">Cargos</a></div></div>
   <div><h4>Help</h4><div class="footer-links"><a href="about.html">About</a><a href="contact.html">Contact</a><a href="wishlist.html">Wishlist</a><a href="cart.html">Cart</a></div></div>
   <div><h4>Contact</h4><a href="mailto:babajanmart4366@gmail.com" class="email-btn">✉️ babajanmart4366@gmail.com</a></div></div>
   <div class="footer-bottom"><div class="container"><p>© 2026 BABA JAAN MART. All rights reserved.</p></div></div>
@@ -498,12 +493,22 @@
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3c2xpbGVpeHJ6bmx5Y3FqcW9qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2NTY2MDgsImV4cCI6MjA5NTIzMjYwOH0.t5j4URbC5iCOySScCyJpyq6ngYUAGt7P94fmK0bypLc";
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   
-  function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){ if(m === '&') return '&amp;'; if(m === '<') return '&lt;'; if(m === '>') return '&gt;'; return m;}); }
+  // Security: Escape HTML to prevent XSS
+  function escapeHtml(str) { 
+    if(!str) return ''; 
+    return str.replace(/[&<>]/g, function(m){ 
+      if(m === '&') return '&amp;'; 
+      if(m === '<') return '&lt;'; 
+      if(m === '>') return '&gt;'; 
+      return m;
+    }); 
+  }
   
   let products = [];
   let wishlist = JSON.parse(localStorage.getItem("bjm_wishlist") || "[]");
   let cart = JSON.parse(localStorage.getItem("bjm_cart") || "[]");
 
+  // Premium toast notification (replaces alerts)
   function showToast(msg, isError = false) {
     let existing = document.querySelector('.toast-notification');
     if(existing) existing.remove();
@@ -517,50 +522,74 @@
   }
 
   function updateCounters() { 
-    document.getElementById("cartCount").innerText = cart.reduce((s,i)=> s+(i.quantity||1),0); 
-    document.getElementById("wishlistCount").innerText = wishlist.length; 
+    const cartCount = cart.reduce((s,i)=> s+(i.quantity||1),0);
+    const cartEl = document.getElementById("cartCount");
+    const wishlistEl = document.getElementById("wishlistCount");
+    if(cartEl) cartEl.innerText = cartCount;
+    if(wishlistEl) wishlistEl.innerText = wishlist.length;
+    localStorage.setItem("bjm_cart", JSON.stringify(cart));
     localStorage.setItem("bjm_wishlist", JSON.stringify(wishlist));
   }
-  function formatPrice(p) { return new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(p); }
+  
+  function formatPrice(p) { 
+    return new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(p || 0); 
+  }
 
   function renderProductCard(p) {
-    let safeName = escapeHtml(p.name);
+    if(!p) return '';
+    let safeName = escapeHtml(p.name) || 'Product';
     let safeImg = p.image_url || 'https://via.placeholder.com/400x500?text=BJM';
-    return `<div class="product-card" data-product-id="${p.id}"><div class="product-img"><img src="${safeImg}" alt="${safeName}" loading="lazy"></div><div class="product-info"><div class="product-title">${safeName}</div><div class="price">${formatPrice(p.price)} ${p.old_price ? `<span class="old-price">${formatPrice(p.old_price)}</span>` : ''}</div><div style="display:flex; gap:8px; margin-top:10px;"><a href="product-detail.html?id=${p.id}" class="btn btn-outline" style="padding:0 12px; height:36px;">View</a><button class="add-cart" data-id="${p.id}" data-name="${safeName}" data-price="${p.price}" data-oldprice="${p.old_price||''}" data-img="${safeImg}" data-category="${escapeHtml(p.category||'')}" style="background:var(--yellow); border-radius:30px; width:36px;">+</button></div></div></div>`;
+    let safeCategory = escapeHtml(p.category) || '';
+    let oldPriceHtml = p.old_price ? `<span class="old-price">${formatPrice(p.old_price)}</span>` : '';
+    
+    return `<div class="product-card" data-product-id="${p.id}">
+      <div class="product-img">
+        <img src="${safeImg}" alt="${safeName}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x500?text=Image+Not+Found'">
+      </div>
+      <div class="product-info">
+        <div class="product-title">${safeName}</div>
+        <div class="price">${formatPrice(p.price)} ${oldPriceHtml}</div>
+        <div style="display:flex; gap:8px; margin-top:10px;">
+          <a href="product-detail.html?id=${p.id}" class="btn btn-outline" style="padding:0 12px; height:36px;">View</a>
+          <button class="add-cart" data-id="${p.id}" data-name="${safeName}" data-price="${p.price}" data-oldprice="${p.old_price||''}" data-img="${safeImg}" data-category="${safeCategory}" data-stock="${p.stock||0}" style="background:var(--yellow); border-radius:30px; width:36px; cursor:pointer;">+</button>
+          <button class="wishlist-btn" data-id="${p.id}" data-name="${safeName}" data-price="${p.price}" data-img="${safeImg}" style="background:transparent; border-radius:30px; width:36px; cursor:pointer; color:${wishlist.some(i=>String(i.id)===String(p.id)) ? 'var(--yellow)' : 'var(--muted)'};">❤️</button>
+        </div>
+      </div>
+    </div>`;
   }
 
-  async function loadHomeData() {
-    const newArrivalsGrid = document.getElementById("newArrivalsGrid");
-    try {
-      const { data, error } = await supabase.from("products").select("*").order("created_at", { ascending: false }).limit(8);
-      if(error) throw error;
-      if(data && data.length) {
-        products = data;
-        newArrivalsGrid.innerHTML = products.slice(0,4).map(renderProductCard).join("");
+  // Wishlist handlers
+  function updateWishlistButtons() {
+    document.querySelectorAll('.wishlist-btn').forEach(btn => {
+      let id = btn.dataset.id;
+      if(wishlist.some(i => String(i.id) === String(id))) {
+        btn.style.color = 'var(--yellow)';
       } else {
-        newArrivalsGrid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px;">✨ No products available. Check back soon!</div>`;
+        btn.style.color = 'var(--muted)';
       }
-      const marqueeTrack = document.getElementById("marqueeTrack");
-      if(products.length) {
-        let marqueeItems = products.slice(0,8).map(p => `<div class="marquee-card"><img src="${p.image_url||'https://via.placeholder.com/240'}" alt="${escapeHtml(p.name)}" loading="lazy"><h4>${escapeHtml(p.name?.slice(0,18))}</h4><span style="color:var(--yellow);">${formatPrice(p.price)}</span></div>`).join('');
-        marqueeTrack.innerHTML = marqueeItems + marqueeItems;
-      } else {
-        marqueeTrack.innerHTML = `<div class="marquee-card">Premium Jeans</div><div class="marquee-card">Modern Shirts</div><div class="marquee-card">Cargo Pants</div><div class="marquee-card">Linen Shorts</div>`.repeat(2);
-      }
-      attachCartEvents();
-    } catch(err) {
-      console.error("Supabase error:", err);
-      newArrivalsGrid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px;">⚠️ Unable to load products. Please try again later.</div>`;
-      marqueeTrack.innerHTML = `<div class="marquee-card">Premium Selection</div><div class="marquee-card">Latest Arrivals</div>`.repeat(2);
-    }
-  }
-
-  function attachCartEvents() {
-    document.querySelectorAll(".add-cart").forEach(btn => {
-      btn.removeEventListener('click', handleAddCart);
-      btn.addEventListener('click', handleAddCart);
     });
   }
+
+  function handleWishlist(e) {
+    let btn = e.currentTarget;
+    let id = btn.dataset.id;
+    let name = btn.dataset.name;
+    let price = parseFloat(btn.dataset.price);
+    let image_url = btn.dataset.img;
+    
+    let existingIndex = wishlist.findIndex(i => String(i.id) === String(id));
+    if(existingIndex > -1) {
+      wishlist.splice(existingIndex, 1);
+      showToast(`♡ Removed from wishlist`);
+    } else {
+      wishlist.push({ id, name, price, image_url });
+      showToast(`❤️ Added to wishlist`);
+    }
+    localStorage.setItem("bjm_wishlist", JSON.stringify(wishlist));
+    updateCounters();
+    updateWishlistButtons();
+  }
+
   function handleAddCart(e) {
     let btn = e.currentTarget;
     let id = btn.dataset.id;
@@ -569,32 +598,149 @@
     let old_price = btn.dataset.oldprice ? parseFloat(btn.dataset.oldprice) : null;
     let image_url = btn.dataset.img;
     let category = btn.dataset.category;
+    let stock = parseInt(btn.dataset.stock) || 10;
+    
     let existing = cart.find(i=>String(i.id)===String(id));
     if(existing) {
-      existing.quantity = (existing.quantity||1) + 1;
+      if((existing.quantity||1) < stock) {
+        existing.quantity = (existing.quantity||1) + 1;
+        showToast(`✓ ${name} quantity updated`);
+      } else {
+        showToast(`⚠️ Only ${stock} items in stock`, true);
+        return;
+      }
     } else {
       cart.push({ id, name, price, old_price, image_url, category, quantity: 1 });
+      showToast(`✓ ${name} added to cart`);
     }
     localStorage.setItem("bjm_cart", JSON.stringify(cart));
     updateCounters();
-    showToast(`✓ ${name} added to cart`);
   }
 
-  function initTheme(){ let saved=localStorage.getItem("bjm_theme")||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"); document.documentElement.setAttribute("data-theme",saved); }
-  function toggleTheme(){ let cur=document.documentElement.getAttribute("data-theme"); let next=cur==="dark"?"light":"dark"; document.documentElement.setAttribute("data-theme",next); localStorage.setItem("bjm_theme",next); }
+  function attachCartEvents() {
+    document.querySelectorAll(".add-cart").forEach(btn => {
+      btn.removeEventListener('click', handleAddCart);
+      btn.addEventListener('click', handleAddCart);
+    });
+    document.querySelectorAll(".wishlist-btn").forEach(btn => {
+      btn.removeEventListener('click', handleWishlist);
+      btn.addEventListener('click', handleWishlist);
+    });
+  }
+
+  async function loadHomeData() {
+    const newArrivalsGrid = document.getElementById("newArrivalsGrid");
+    const marqueeTrack = document.getElementById("marqueeTrack");
+    
+    try {
+      console.log("Loading products from Supabase...");
+      const { data, error } = await supabase
+        .from("products")
+        .select("id, name, price, old_price, image_url, category, stock, created_at")
+        .order("created_at", { ascending: false })
+        .limit(8);
+      
+      if(error) {
+        console.error("Supabase error:", error);
+        throw error;
+      }
+      
+      console.log(`Loaded ${data?.length || 0} products`);
+      
+      if(data && data.length > 0) {
+        products = data;
+        // Render new arrivals
+        const arrivalsHtml = products.slice(0,4).map(p => renderProductCard(p)).join('');
+        newArrivalsGrid.innerHTML = arrivalsHtml;
+        
+        // Render marquee
+        let marqueeItems = products.slice(0,8).map(p => `
+          <div class="marquee-card">
+            <img src="${p.image_url || 'https://via.placeholder.com/240'}" alt="${escapeHtml(p.name)}" loading="lazy" onerror="this.src='https://via.placeholder.com/240'">
+            <h4>${escapeHtml(p.name?.slice(0,18))}</h4>
+            <span style="color:var(--yellow);">${formatPrice(p.price)}</span>
+          </div>
+        `).join('');
+        marqueeTrack.innerHTML = marqueeItems + marqueeItems;
+      } else {
+        newArrivalsGrid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:60px 20px;">
+          <h3>✨ No products available</h3><p>Check back soon for new arrivals!</p></div>`;
+        marqueeTrack.innerHTML = `<div class="marquee-card">Premium Jeans</div><div class="marquee-card">Modern Shirts</div><div class="marquee-card">Cargo Pants</div>`.repeat(2);
+      }
+      attachCartEvents();
+      updateWishlistButtons();
+    } catch(err) {
+      console.error("Fatal error loading products:", err);
+      newArrivalsGrid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:60px 20px;">
+        <h3>⚠️ Unable to load products</h3><p>Please check your connection and try again.</p>
+        <button onclick="location.reload()" style="margin-top:16px; background:var(--yellow); color:var(--ink); padding:10px 24px; border-radius:30px;">Retry</button></div>`;
+      marqueeTrack.innerHTML = `<div class="marquee-card">Loading...</div><div class="marquee-card">Please refresh</div>`.repeat(2);
+    }
+  }
+
+  // Theme management
+  function initTheme(){ 
+    let saved=localStorage.getItem("bjm_theme")||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"); 
+    document.documentElement.setAttribute("data-theme",saved); 
+  }
+  function toggleTheme(){ 
+    let cur=document.documentElement.getAttribute("data-theme"); 
+    let next=cur==="dark"?"light":"dark"; 
+    document.documentElement.setAttribute("data-theme",next); 
+    localStorage.setItem("bjm_theme",next);
+    showToast(`${next === 'dark' ? '🌙 Dark' : '☀️ Light'} mode activated`);
+  }
+  
   document.getElementById("themeToggle")?.addEventListener("click",toggleTheme);
   
-  document.querySelectorAll(".menu-toggle, .mobile-search-toggle").forEach(btn=>btn.addEventListener("click",()=>{let panel=btn.classList.contains("menu-toggle")?document.getElementById("mobileMenuPanel"):document.getElementById("mobileSearchPanel"); panel.classList.add("active");}));
-  document.querySelectorAll(".close-panel, .overlay").forEach(el=>el.addEventListener("click",()=>{document.getElementById("mobileMenuPanel")?.classList.remove("active"); document.getElementById("mobileSearchPanel")?.classList.remove("active");}));
+  // Mobile menu handlers
+  document.querySelectorAll(".menu-toggle, .mobile-search-toggle").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      let panel=btn.classList.contains("menu-toggle")?document.getElementById("mobileMenuPanel"):document.getElementById("mobileSearchPanel"); 
+      if(panel) panel.classList.add("active");
+    });
+  });
+  document.querySelectorAll(".close-panel, .overlay").forEach(el=>{
+    el.addEventListener("click",()=>{
+      document.getElementById("mobileMenuPanel")?.classList.remove("active"); 
+      document.getElementById("mobileSearchPanel")?.classList.remove("active");
+    });
+  });
   
+  // Search handlers
   const headerSearch = document.getElementById("globalSearchInput"); 
-  if(headerSearch) headerSearch.addEventListener("keypress",e=>{ if(e.key==="Enter" && headerSearch.value.trim()) window.location.href=`shop.html?search=${encodeURIComponent(headerSearch.value.trim())}`; else if(e.key==="Enter") showToast("Please enter a search term", true);});
+  if(headerSearch) {
+    headerSearch.addEventListener("keypress",e=>{ 
+      if(e.key==="Enter") {
+        let val = headerSearch.value.trim();
+        if(val) window.location.href=`shop.html?search=${encodeURIComponent(val)}`;
+        else showToast("Please enter a search term", true);
+      }
+    });
+  }
   const mobileSearch = document.getElementById("mobileSearchInput"); 
-  if(mobileSearch) mobileSearch.addEventListener("keypress",e=>{ if(e.key==="Enter" && mobileSearch.value.trim()) window.location.href=`shop.html?search=${encodeURIComponent(mobileSearch.value.trim())}`; else if(e.key==="Enter") showToast("Please enter a search term", true);});
+  if(mobileSearch) {
+    mobileSearch.addEventListener("keypress",e=>{ 
+      if(e.key==="Enter") {
+        let val = mobileSearch.value.trim();
+        if(val) window.location.href=`shop.html?search=${encodeURIComponent(val)}`;
+        else showToast("Please enter a search term", true);
+      }
+    });
+  }
   
-  document.querySelectorAll(".cat-card").forEach(card=>{ card.addEventListener("click",()=>{ let cat = card.querySelector("h3")?.innerText; if(cat) window.location.href=`shop.html?category=${encodeURIComponent(cat)}`; }); });
+  // Category click handlers
+  document.querySelectorAll(".cat-card").forEach(card=>{ 
+    card.addEventListener("click",()=>{ 
+      let cat = card.querySelector("h3")?.innerText; 
+      if(cat) window.location.href=`shop.html?category=${encodeURIComponent(cat)}`; 
+    }); 
+  });
   
-  updateCounters(); initTheme(); loadHomeData();
+  // Initialize
+  updateCounters(); 
+  initTheme(); 
+  loadHomeData();
 </script>
 </body>
 </html>
