@@ -18,6 +18,30 @@
       color: #111;
     }
 
+    /* Access Denied Screen */
+    .access-denied {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: #000;
+      color: white;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .access-denied h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #f5b642;
+    }
+
+    .access-denied p {
+      font-size: 1.1rem;
+      color: #ccc;
+    }
+
     /* Header */
     .admin-header {
       background: #000000;
@@ -43,7 +67,7 @@
       color: #f5b642;
     }
 
-    .refresh-btn {
+    .refresh-btn, .logout-btn {
       background: #f5b642;
       border: none;
       padding: 0.6rem 1.2rem;
@@ -52,10 +76,21 @@
       cursor: pointer;
       color: #000;
       transition: all 0.2s;
+      margin-left: 0.5rem;
+    }
+
+    .logout-btn {
+      background: #dc2626;
+      color: white;
     }
 
     .refresh-btn:hover {
       background: #e0a130;
+      transform: scale(0.98);
+    }
+
+    .logout-btn:hover {
+      background: #b91c1c;
       transform: scale(0.98);
     }
 
@@ -393,129 +428,125 @@
 </head>
 <body>
 
-<script>
-// Password protection
-let pass = prompt("Enter Admin Password");
-
-if (!pass || pass !== "Affan@@4366") {
-  document.body.innerHTML = "<div style='text-align:center;margin-top:100px;'><h1 style='color:#000;'>⛔ Access Denied</h1><p style='color:#666;'>Invalid or empty password.</p></div>";
-  throw new Error("Access Denied");
-}
-</script>
-
-<header class="admin-header">
-  <div class="logo">
-    <h2>BABA JAAN <span>MART</span> • ADMIN</h2>
-  </div>
-  <button class="refresh-btn" onclick="refreshAllData()">⟳ Refresh All</button>
-</header>
-
-<div class="dashboard-container">
-  <!-- PRODUCT MANAGEMENT SECTION -->
-  <div class="section-card">
-    <div class="section-header">
-      <h2><i>📦</i> Add New Product</h2>
+<!-- Admin Dashboard Wrapper - Hidden by default until authentication -->
+<div id="adminApp" style="display:none;">
+  <header class="admin-header">
+    <div class="logo">
+      <h2>BABA JAAN <span>MART</span> • ADMIN</h2>
     </div>
-    <div class="section-body">
-      <form id="productForm">
-        <div class="form-grid">
-          <div class="form-group">
-            <label>Product Name *</label>
-            <input type="text" id="productName" required>
-          </div>
-          <div class="form-group">
-            <label>Price (₹) *</label>
-            <input type="number" id="productPrice" step="0.01" required>
-          </div>
-          <div class="form-group">
-            <label>Old Price (₹)</label>
-            <input type="number" id="productOldPrice" step="0.01">
-          </div>
-          <div class="form-group">
-            <label>Category *</label>
-            <select id="productCategory" required>
-              <option value="">Select Category</option>
-              <option value="Jeans">Jeans</option>
-              <option value="Shirts">Shirts</option>
-              <option value="T-Shirts">T-Shirts</option>
-              <option value="Cargo Pants">Cargo Pants</option>
-              <option value="Linen Pants">Linen Pants</option>
-              <option value="Lowers">Lowers</option>
-              <option value="Shorts">Shorts</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Sizes (comma separated)</label>
-            <input type="text" id="productSizes" placeholder="M,L,XL,XXL">
-          </div>
-          <div class="form-group">
-            <label>Stock Quantity *</label>
-            <input type="number" id="productStock" required>
-          </div>
-          <div class="form-group">
-            <label>Description</label>
-            <textarea id="productDescription" rows="3" placeholder="Product details..."></textarea>
-          </div>
-        </div>
-
-        <!-- Main Image Upload -->
-        <div class="form-group">
-          <label>Main Product Image *</label>
-          <div class="image-upload-area" id="mainImageUploadArea">
-            <p>📸 Click to upload main image</p>
-            <input type="file" id="mainImageInput" accept="image/*" style="display:none">
-          </div>
-          <div id="mainImagePreview" class="image-preview-grid"></div>
-        </div>
-
-        <!-- Gallery Images Upload -->
-        <div class="form-group">
-          <label>Gallery Images (Multiple)</label>
-          <div class="image-upload-area" id="galleryUploadArea">
-            <p>🖼️ Click to upload multiple images</p>
-            <input type="file" id="galleryInput" accept="image/*" multiple style="display:none">
-          </div>
-          <div id="galleryPreview" class="image-preview-grid"></div>
-        </div>
-
-        <button type="submit" class="btn-submit" id="submitProductBtn">➕ Add Product</button>
-      </form>
+    <div>
+      <button class="refresh-btn" onclick="refreshAllData()">⟳ Refresh All</button>
+      <button class="logout-btn" onclick="logoutAdmin()">🚪 Logout</button>
     </div>
-  </div>
+  </header>
 
-  <!-- PRODUCT LIST SECTION -->
-  <div class="section-card">
-    <div class="section-header">
-      <h2><i>🛍️</i> Manage Products</h2>
-    </div>
-    <div class="section-body">
-      <div id="productsListContainer">
-        <div style="text-align:center; padding:2rem;">Loading products...</div>
+  <div class="dashboard-container">
+    <!-- PRODUCT MANAGEMENT SECTION -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2><i>📦</i> Add New Product</h2>
+      </div>
+      <div class="section-body">
+        <form id="productForm">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Product Name *</label>
+              <input type="text" id="productName" required>
+            </div>
+            <div class="form-group">
+              <label>Price (₹) *</label>
+              <input type="number" id="productPrice" step="0.01" required>
+            </div>
+            <div class="form-group">
+              <label>Old Price (₹)</label>
+              <input type="number" id="productOldPrice" step="0.01">
+            </div>
+            <div class="form-group">
+              <label>Category *</label>
+              <select id="productCategory" required>
+                <option value="">Select Category</option>
+                <option value="Jeans">Jeans</option>
+                <option value="Shirts">Shirts</option>
+                <option value="T-Shirts">T-Shirts</option>
+                <option value="Cargo Pants">Cargo Pants</option>
+                <option value="Linen Pants">Linen Pants</option>
+                <option value="Lowers">Lowers</option>
+                <option value="Shorts">Shorts</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Sizes (comma separated)</label>
+              <input type="text" id="productSizes" placeholder="M,L,XL,XXL">
+            </div>
+            <div class="form-group">
+              <label>Stock Quantity *</label>
+              <input type="number" id="productStock" required>
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <textarea id="productDescription" rows="3" placeholder="Product details..."></textarea>
+            </div>
+          </div>
+
+          <!-- Main Image Upload -->
+          <div class="form-group">
+            <label>Main Product Image *</label>
+            <div class="image-upload-area" id="mainImageUploadArea">
+              <p>📸 Click to upload main image</p>
+              <input type="file" id="mainImageInput" accept="image/*" style="display:none">
+            </div>
+            <div id="mainImagePreview" class="image-preview-grid"></div>
+          </div>
+
+          <!-- Gallery Images Upload -->
+          <div class="form-group">
+            <label>Gallery Images (Multiple)</label>
+            <div class="image-upload-area" id="galleryUploadArea">
+              <p>🖼️ Click to upload multiple images</p>
+              <input type="file" id="galleryInput" accept="image/*" multiple style="display:none">
+            </div>
+            <div id="galleryPreview" class="image-preview-grid"></div>
+          </div>
+
+          <button type="submit" class="btn-submit" id="submitProductBtn">➕ Add Product</button>
+        </form>
       </div>
     </div>
-  </div>
 
-  <!-- ORDERS MANAGEMENT SECTION (Existing) -->
-  <div class="section-card">
-    <div class="section-header">
-      <h2><i>📋</i> Orders Management</h2>
+    <!-- PRODUCT LIST SECTION -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2><i>🛍️</i> Manage Products</h2>
+      </div>
+      <div class="section-body">
+        <div id="productsListContainer">
+          <div style="text-align:center; padding:2rem;">Loading products...</div>
+        </div>
+      </div>
     </div>
-    <div class="section-body">
-      <p id="orderCount" style="margin-bottom:1rem; font-weight:600;">Loading orders...</p>
-      <div class="orders-table-wrapper">
-        <table class="orders-table">
-          <thead>
-            <tr><th>Order ID</th><th>Date</th><th>Customer</th><th>Phone</th><th>Address</th><th>Product</th><th>Amount</th><th>Payment</th><th>Order Status</th><th>Payment ID</th></tr>
-          </thead>
-          <tbody id="ordersTable"></tbody>
-        </table>
+
+    <!-- ORDERS MANAGEMENT SECTION -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2><i>📋</i> Orders Management</h2>
+      </div>
+      <div class="section-body">
+        <p id="orderCount" style="margin-bottom:1rem; font-weight:600;">Loading orders...</p>
+        <div class="orders-table-wrapper">
+          <table class="orders-table">
+            <thead>
+              <tr><th>Order ID</th><th>Date</th><th>Customer</th><th>Phone</th><th>Address</th><th>Product</th><th>Amount</th><th>Payment</th><th>Order Status</th><th>Payment ID</th></tr>
+            </thead>
+            <tbody id="ordersTable"></tbody>
+           </table>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-// Supabase Client (same as your existing)
+// Supabase Client
 const supabaseClient = window.supabase.createClient(
   "https://kwslileixrznlycqjqoj.supabase.co",
   "sb_publishable_gFXTHh-8OEcI5O-YbAT9rQ_n5LJTTMv"
@@ -524,6 +555,116 @@ const supabaseClient = window.supabase.createClient(
 // Global variables for image uploads
 let mainImageFile = null;
 let galleryImageFiles = [];
+
+// ============================================
+// AUTHENTICATION CHECK
+// ============================================
+function checkAuthentication() {
+  // Check if already authenticated in this session
+  const isAuthenticated = sessionStorage.getItem("bjm_admin_auth");
+  
+  if (isAuthenticated === "true") {
+    // Already logged in, show dashboard
+    document.getElementById("adminApp").style.display = "block";
+    initializeDashboard();
+    return;
+  }
+  
+  // Ask for password
+  let pass = prompt("Enter Admin Password");
+  
+  // Check if password is correct (not empty, not cancelled, matches)
+  if (pass && pass === "Affan@@4366") {
+    // Authentication successful
+    sessionStorage.setItem("bjm_admin_auth", "true");
+    document.getElementById("adminApp").style.display = "block";
+    initializeDashboard();
+  } else {
+    // Authentication failed - show full screen access denied
+    document.body.innerHTML = `
+      <div class="access-denied">
+        <h1>⛔ Access Denied</h1>
+        <p>Invalid or missing password.</p>
+        <button onclick="location.reload()" style="margin-top:2rem; padding:0.75rem 1.5rem; background:#f5b642; color:#000; border:none; border-radius:40px; cursor:pointer; font-weight:600;">Try Again</button>
+      </div>
+    `;
+    // Stop all execution
+    throw new Error("Access Denied - Unauthorized");
+  }
+}
+
+// Logout function
+function logoutAdmin() {
+  sessionStorage.removeItem("bjm_admin_auth");
+  location.reload();
+}
+
+// Initialize dashboard after authentication
+function initializeDashboard() {
+  // Show message
+  showMessage("Welcome, Admin! ✅", false);
+  
+  // Load all data
+  loadOrders();
+  loadProducts();
+  
+  // Setup form handlers
+  setupFormHandlers();
+}
+
+// Setup all form and UI handlers
+function setupFormHandlers() {
+  // Main Image Upload UI
+  const mainUploadArea = document.getElementById('mainImageUploadArea');
+  const mainImageInput = document.getElementById('mainImageInput');
+  const mainPreview = document.getElementById('mainImagePreview');
+  
+  if (mainUploadArea) {
+    mainUploadArea.addEventListener('click', () => mainImageInput.click());
+  }
+  
+  if (mainImageInput) {
+    mainImageInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) {
+        mainImageFile = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          mainPreview.innerHTML = `
+            <div class="preview-item">
+              <img src="${event.target.result}" alt="Main preview">
+              <button class="remove-btn" onclick="removeMainImage()">✕</button>
+            </div>
+          `;
+        };
+        reader.readAsDataURL(mainImageFile);
+      }
+    });
+  }
+  
+  // Gallery Images Upload UI
+  const galleryUploadArea = document.getElementById('galleryUploadArea');
+  const galleryInput = document.getElementById('galleryInput');
+  const galleryPreview = document.getElementById('galleryPreview');
+  
+  if (galleryUploadArea) {
+    galleryUploadArea.addEventListener('click', () => galleryInput.click());
+  }
+  
+  if (galleryInput) {
+    galleryInput.addEventListener('change', (e) => {
+      if (e.target.files) {
+        galleryImageFiles = Array.from(e.target.files);
+        renderGalleryPreviews();
+      }
+    });
+  }
+  
+  // Product form submit
+  const productForm = document.getElementById('productForm');
+  if (productForm) {
+    productForm.addEventListener('submit', addProductHandler);
+  }
+}
 
 // Helper: Show status message
 function showMessage(msg, isError = false) {
@@ -557,7 +698,6 @@ async function uploadImage(file, path) {
   
   if (error) throw error;
   
-  // Get public URL
   const { data: publicUrlData } = supabaseClient.storage
     .from('products')
     .getPublicUrl(path);
@@ -565,48 +705,18 @@ async function uploadImage(file, path) {
   return publicUrlData.publicUrl;
 }
 
-// Main Image Upload UI
-const mainUploadArea = document.getElementById('mainImageUploadArea');
-const mainImageInput = document.getElementById('mainImageInput');
-const mainPreview = document.getElementById('mainImagePreview');
-
-mainUploadArea.addEventListener('click', () => mainImageInput.click());
-mainImageInput.addEventListener('change', (e) => {
-  if (e.target.files && e.target.files[0]) {
-    mainImageFile = e.target.files[0];
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      mainPreview.innerHTML = `
-        <div class="preview-item">
-          <img src="${event.target.result}" alt="Main preview">
-          <button class="remove-btn" onclick="removeMainImage()">✕</button>
-        </div>
-      `;
-    };
-    reader.readAsDataURL(mainImageFile);
-  }
-});
-
 window.removeMainImage = function() {
   mainImageFile = null;
-  mainImageInput.value = '';
-  mainPreview.innerHTML = '';
+  const mainImageInput = document.getElementById('mainImageInput');
+  const mainPreview = document.getElementById('mainImagePreview');
+  if (mainImageInput) mainImageInput.value = '';
+  if (mainPreview) mainPreview.innerHTML = '';
 };
 
-// Gallery Images Upload UI
-const galleryUploadArea = document.getElementById('galleryUploadArea');
-const galleryInput = document.getElementById('galleryInput');
-const galleryPreview = document.getElementById('galleryPreview');
-
-galleryUploadArea.addEventListener('click', () => galleryInput.click());
-galleryInput.addEventListener('change', (e) => {
-  if (e.target.files) {
-    galleryImageFiles = Array.from(e.target.files);
-    renderGalleryPreviews();
-  }
-});
-
 function renderGalleryPreviews() {
+  const galleryPreview = document.getElementById('galleryPreview');
+  if (!galleryPreview) return;
+  
   galleryPreview.innerHTML = '';
   galleryImageFiles.forEach((file, index) => {
     const reader = new FileReader();
@@ -626,14 +736,16 @@ function renderGalleryPreviews() {
 window.removeGalleryImage = function(index) {
   galleryImageFiles.splice(index, 1);
   renderGalleryPreviews();
-  // Reset input
-  const dt = new DataTransfer();
-  galleryImageFiles.forEach(f => dt.items.add(f));
-  galleryInput.files = dt.files;
+  const galleryInput = document.getElementById('galleryInput');
+  if (galleryInput) {
+    const dt = new DataTransfer();
+    galleryImageFiles.forEach(f => dt.items.add(f));
+    galleryInput.files = dt.files;
+  }
 };
 
-// Add Product with Image Uploads
-document.getElementById('productForm').addEventListener('submit', async (e) => {
+// Add Product Handler
+async function addProductHandler(e) {
   e.preventDefault();
   
   const submitBtn = document.getElementById('submitProductBtn');
@@ -697,9 +809,12 @@ document.getElementById('productForm').addEventListener('submit', async (e) => {
     document.getElementById('productForm').reset();
     mainImageFile = null;
     galleryImageFiles = [];
-    mainPreview.innerHTML = '';
-    galleryPreview.innerHTML = '';
-    galleryInput.value = '';
+    const mainPreview = document.getElementById('mainImagePreview');
+    const galleryPreview = document.getElementById('galleryPreview');
+    const galleryInput = document.getElementById('galleryInput');
+    if (mainPreview) mainPreview.innerHTML = '';
+    if (galleryPreview) galleryPreview.innerHTML = '';
+    if (galleryInput) galleryInput.value = '';
     
     // Refresh product list
     loadProducts();
@@ -711,11 +826,13 @@ document.getElementById('productForm').addEventListener('submit', async (e) => {
     submitBtn.disabled = false;
     submitBtn.innerHTML = '➕ Add Product';
   }
-});
+}
 
 // Load Products
 async function loadProducts() {
   const container = document.getElementById('productsListContainer');
+  if (!container) return;
+  
   container.innerHTML = '<div style="text-align:center; padding:2rem;"><span class="loading-spinner"></span> Loading products...</div>';
   
   try {
@@ -776,7 +893,7 @@ window.deleteProduct = async (productId) => {
   }
 };
 
-// ORDERS MANAGEMENT (Existing functionality - preserved)
+// Load Orders
 async function loadOrders() {
   const table = document.getElementById("ordersTable");
   const countText = document.getElementById("orderCount");
@@ -793,11 +910,11 @@ async function loadOrders() {
   if (error) {
     console.log(error);
     table.innerHTML = "<tr><td colspan='10' style='text-align:center;color:#dc2626;'>Orders load nahi hue.</td></tr>";
-    countText.innerText = "Failed to load orders";
+    if (countText) countText.innerText = "Failed to load orders";
     return;
   }
   
-  countText.innerText = `📊 Total Orders: ${data.length}`;
+  if (countText) countText.innerText = `📊 Total Orders: ${data.length}`;
   
   let html = "";
   data.forEach(order => {
@@ -837,7 +954,8 @@ async function loadOrders() {
   table.innerHTML = html;
 }
 
-async function updateStatus(orderId, status) {
+// Update Order Status
+window.updateStatus = async (orderId, status) => {
   const { error } = await supabaseClient
     .from("orders")
     .update({ order_status: status })
@@ -850,8 +968,9 @@ async function updateStatus(orderId, status) {
   }
   
   showMessage("✅ Order status updated");
-}
+};
 
+// Refresh all data
 function refreshAllData() {
   loadOrders();
   loadProducts();
@@ -868,9 +987,8 @@ function escapeHtml(str) {
   });
 }
 
-// Initialize
-loadOrders();
-loadProducts();
+// Start the authentication process
+checkAuthentication();
 </script>
 
 </body>
