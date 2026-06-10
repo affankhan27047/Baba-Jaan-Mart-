@@ -94,6 +94,48 @@
       gap: 16px;
     }
 
+    /* ========== FIXED WISHLIST BUTTON ALIGNMENT ========== */
+    .wishlist-btn {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      line-height: 1 !important;
+      font-size: 1.05rem !important;
+      padding: 0 !important;
+      background: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      border: none;
+    }
+
+    .wishlist-btn svg,
+    .wishlist-btn span {
+      display: block;
+      margin: 0;
+      transform: translateY(0);
+    }
+
+    [data-theme="dark"] .wishlist-btn {
+      background: #2a2a2a;
+      color: #ffffff;
+    }
+
+    .wishlist-btn:hover {
+      transform: scale(1.1);
+      background: var(--accent-red);
+      color: white;
+    }
+
+    .wishlist-btn.active {
+      background: var(--accent-red);
+      color: white;
+      transform: scale(1.05);
+    }
+
     /* ========== HERO SECTION - LESS BULKY ON MOBILE ========== */
     .hero-premium {
       position: relative;
@@ -433,46 +475,6 @@
       background: rgba(0,0,0,0.7);
       color: white;
       backdrop-filter: blur(4px);
-    }
-
-    /* Enhanced Wishlist Button */
-    .product-actions-top {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      z-index: 5;
-    }
-
-    .wishlist-btn {
-      background: white;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      font-size: 1.2rem;
-      border: none;
-    }
-
-    [data-theme="dark"] .wishlist-btn {
-      background: #2a2a2a;
-      color: #ffffff;
-    }
-
-    .wishlist-btn:hover {
-      transform: scale(1.1);
-      background: var(--accent-red);
-      color: white;
-    }
-
-    .wishlist-btn.active {
-      background: var(--accent-red);
-      color: white;
-      transform: scale(1.05);
     }
 
     /* Enhanced Product Info */
