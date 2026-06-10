@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>My Wishlist | BABA JAAN MART</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: #000000;
+            color: #e5e5e5;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --gold: #F5B041;
+            --gold-dark: #D4A017;
+            --gold-light: #FDE9C9;
+            --black: #0a0a0a;
+            --black-soft: #111111;
+            --white: #ffffff;
+            --gray-mid: #888888;
+            --border-dim: #2a2a2a;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: var(--black);
+            border-bottom: 1px solid var(--border-dim);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo a {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--gold), #ffd966);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .cart-wishlist-icons {
+            display: flex;
+            gap: 1.2rem;
+            align-items: center;
+        }
+
+        .icon-badge {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .badge-count {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: var(--gold);
+            color: black;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.8rem;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .mobile-nav {
+            display: none;
+            flex-direction: column;
+            background: #0f0f0f;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-dim);
+        }
+
+        .mobile-nav a {
+            padding: 0.8rem 0;
+            font-size: 1.1rem;
+            border-bottom: 1px solid #222;
+        }
+
+        .mobile-nav a:last-child {
+            border-bottom: none;
+        }
+
+        /* Buttons */
+        .btn-gold {
+            background: var(--gold);
+            color: black;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 0.85rem;
+        }
+
+        .btn-gold:hover {
+            background: #e6a017;
+            transform: scale(0.98);
+        }
+
+        .btn-outline-gold {
+            background: transparent;
+            border: 1.5px solid var(--gold);
+            color: var(--gold);
+            padding: 0.45rem 1rem;
+            border-radius: 40px;
+            font-weight: 500;
+            transition: 0.2s;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .btn-outline-gold:hover {
+            background: var(--gold);
+            color: black;
+        }
+
+        /* Wishlist Container */
+        .wishlist-container {
+            max-width: 1300px;
+            margin: 2rem auto;
+            padding: 1rem 2rem;
+            min-height: 60vh;
+        }
+
+        .wishlist-header {
+            margin-bottom: 2rem;
+        }
+
+        .wishlist-header h1 {
+            color: var(--gold);
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .product-card {
+            background: #111;
+            border-radius: 24px;
+            border: 1px solid var(--border-dim);
+            overflow: hidden;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            background: #1a1a1a;
+        }
+
+        .product-info {
+            padding: 1.2rem;
+        }
+
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            color: white;
+        }
+
+        .category {
+            font-size: 0.8rem;
+            color: var(--gold);
+            margin-bottom: 0.6rem;
+        }
+
+        .price-row {
+            margin: 0.5rem 0;
+        }
+
+        .price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--gold);
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: var(--gray-mid);
+            margin-left: 0.6rem;
+            font-size: 0.9rem;
+        }
+
+        .card-buttons {
+            display: flex;
+            gap: 0.6rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .empty-state h2 {
+            color: var(--gold);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state p {
+            color: #aaa;
+            margin-bottom: 2rem;
+        }
+
+        .empty-state .btn-gold {
+            padding: 0.9rem 2rem;
+            font-size: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #050505;
+            border-top: 1px solid var(--border-dim);
+            text-align: center;
+            padding: 2rem;
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+            .nav-links {
+                display: none;
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+            .wishlist-container {
+                padding: 1rem;
+            }
+            .wishlist-header h1 {
+                font-size: 1.8rem;
+            }
+            .products-grid {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="logo"><a href="index.html">BABA JAAN MART</a></div>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+    </div>
+    <div class="cart-wishlist-icons">
+        <div class="icon-badge" id="wishlistIconBtn">
+            ❤️ <span id="wishlistCount" class="badge-count">0</span>
+        </div>
+        <div class="icon-badge" id="cartIconBtn">
+            🛒 <span id="cartCount" class="badge-count">0</span>
+        </div>
+    </div>
+    <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-nav" id="mobileNav">
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+</div>
+
+<!-- Main Wishlist Content -->
+<div class="wishlist-container" id="wishlistRoot">
+    <!-- Dynamic content loaded via JavaScript -->
+</div>
+
+<!-- Footer -->
+<footer>
+    <p>© 2025 BABA JAAN MART — Your Wishlist, Always Ready</p>
+</footer>
+
+<script>
+    // Update wishlist and cart counters
+    function updateCounters() {
+        let wishlist = JSON.parse(localStorage.getItem('bjm_wishlist')) || [];
+        let cart = JSON.parse(localStorage.getItem('bjm_cart')) || [];
+        
+        let wishCount = document.getElementById('wishlistCount');
+        let cartCount = document.getElementById('cartCount');
+        
+        if (wishCount) wishCount.innerText = wishlist.length;
+        if (cartCount) {
+            let totalQty = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            cartCount.innerText = totalQty;
+        }
+    }
+
+    // Add product to cart (matches shop.html format)
+    function addToCart(product) {
+        let cart = JSON.parse(localStorage.getItem('bjm_cart')) || [];
+        const existingIndex = cart.findIndex(item => item.id === product.id);
+        
+        if (existingIndex !== -1) {
+            cart[existingIndex].quantity = (cart[existingIndex].quantity || 1) + 1;
+        } else {
+            const cartItem = {
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                old_price: product.old_price || null,
+                image_url: product.image_url,
+                category: product.category,
+                size: product.size || 'One Size',
+                quantity: 1
+            };
+            cart.push(cartItem);
+        }
+        
+        localStorage.setItem('bjm_cart', JSON.stringify(cart));
+        updateCounters();
+        
+        // Optional: show quick feedback
+        alert(`${product.name} added to cart!`);
+    }
+
+    // Remove product from wishlist
+    function removeFromWishlist(productId) {
+        let wishlist = JSON.parse(localStorage.getItem('bjm_wishlist')) || [];
+        const newWishlist = wishlist.filter(item => item.id !== productId);
+        localStorage.setItem('bjm_wishlist', JSON.stringify(newWishlist));
+        renderWishlist(); // Re-render the wishlist
+        updateCounters();
+    }
+
+    // Render wishlist products
+    function renderWishlist() {
+        const container = document.getElementById('wishlistRoot');
+        const wishlist = JSON.parse(localStorage.getItem('bjm_wishlist')) || [];
+        
+        // Empty state
+        if (!wishlist.length) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <h2>❤️ Your Wishlist is Empty</h2>
+                    <p>Save your favourite products here and they will appear.</p>
+                    <a href="shop.html" class="btn-gold">Continue Shopping →</a>
+                </div>
+            `;
+            return;
+        }
+        
+        // Render products grid
+        let productsHtml = `
+            <div class="wishlist-header">
+                <h1>My Wishlist</h1>
+                <p>${wishlist.length} item${wishlist.length !== 1 ? 's' : ''} saved</p>
+            </div>
+            <div class="products-grid">
+        `;
+        
+        wishlist.forEach(product => {
+            const oldPriceHtml = product.old_price ? `<span class="old-price">₹${product.old_price}</span>` : '';
+            const imageUrl = product.image_url || 'https://placehold.co/400x400/222/white?text=Product';
+            
+            productsHtml += `
+                <div class="product-card" data-id="${product.id}">
+                    <img class="product-img" src="${imageUrl}" alt="${product.name}" onerror="this.src='https://placehold.co/400x400/222/white?text=No+Image'">
+                    <div class="product-info">
+                        <div class="product-name">${escapeHtml(product.name)}</div>
+                        <div class="category">${escapeHtml(product.category || 'General')}</div>
+                        <div class="price-row">
+                            <span class="price">₹${product.price}</span>
+                            ${oldPriceHtml}
+                        </div>
+                        <div class="card-buttons">
+                            <a href="product-detail.html?id=${product.id}" class="btn-outline-gold">View Product</a>
+                            <button class="btn-gold add-to-cart-btn" data-id="${product.id}">Add to Cart</button>
+                            <button class="btn-outline-gold remove-btn" data-id="${product.id}">Remove</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        productsHtml += `</div>`;
+        container.innerHTML = productsHtml;
+        
+        // Attach event listeners to buttons
+        document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const productId = btn.getAttribute('data-id');
+                const product = wishlist.find(p => p.id == productId);
+                if (product) addToCart(product);
+            });
+        });
+        
+        document.querySelectorAll('.remove-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const productId = btn.getAttribute('data-id');
+                removeFromWishlist(productId);
+            });
+        });
+    }
+    
+    // Helper to escape HTML
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+    
+    // Demo: Add sample products if wishlist is empty (for testing)
+    function initializeSampleWishlist() {
+        let wishlist = JSON.parse(localStorage.getItem('bjm_wishlist')) || [];
+        
+        if (wishlist.length === 0) {
+            // Sample products for demonstration
+            const sampleProducts = [
+                {
+                    id: "sample_1",
+                    name: "Premium Cotton Shirt",
+                    price: 2499,
+                    old_price: 3999,
+                    image_url: "https://placehold.co/400x400/333/gold?text=Shirt",
+                    category: "Men's Fashion"
+                },
+                {
+                    id: "sample_2",
+                    name: "Slim Fit Denim Jeans",
+                    price: 3299,
+                    old_price: 4999,
+                    image_url: "https://placehold.co/400x400/333/gold?text=Jeans",
+                    category: "Denim"
+                },
+                {
+                    id: "sample_3",
+                    name: "Leather Sneakers",
+                    price: 4599,
+                    old_price: 6999,
+                    image_url: "https://placehold.co/400x400/333/gold?text=Shoes",
+                    category: "Footwear"
+                }
+            ];
+            localStorage.setItem('bjm_wishlist', JSON.stringify(sampleProducts));
+        }
+    }
+    
+    // Initialize demo data (remove this in production if you want empty wishlist)
+    // Comment the next line to start with empty wishlist
+    initializeSampleWishlist();
+    
+    // Initial render
+    renderWishlist();
+    updateCounters();
+    
+    // Mobile menu toggle
+    document.getElementById('mobileMenuBtn')?.addEventListener('click', () => {
+        const mobileNav = document.getElementById('mobileNav');
+        mobileNav.style.display = mobileNav.style.display === 'flex' ? 'none' : 'flex';
+    });
+    
+    // Wishlist icon click
+    document.getElementById('wishlistIconBtn')?.addEventListener('click', () => {
+        window.location.href = 'wishlist.html';
+    });
+    
+    // Cart icon click
+    document.getElementById('cartIconBtn')?.addEventListener('click', () => {
+        window.location.href = 'cart.html';
+    });
+    
+    // Listen for storage changes from other tabs
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'bjm_wishlist' || e.key === 'bjm_cart') {
+            renderWishlist();
+            updateCounters();
+        }
+    });
+</script>
+</body>
+</html>
