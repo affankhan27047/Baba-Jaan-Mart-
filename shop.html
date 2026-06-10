@@ -6,20 +6,738 @@
     name="viewport"
     content="width=device-width, initial-scale=1.0, viewport-fit=cover"
   />
-  <title>Shop | BABA JAAN MART</title>
+  <title>LUXE SHOP | BABA JAAN MART - Premium Men's Fashion</title>
   <meta
     name="description"
-    content="Browse premium men's fashion products at BABA JAAN MART with search, category filters, sorting and pagination."
+    content="Discover premium men's fashion at BABA JAAN MART. Luxury jeans, shirts, and cargos with free shipping & easy returns."
   />
   <meta name="theme-color" content="#111111" />
+  
+  <!-- Premium Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Playfair+Display:wght@400;500;600;700;800&display=swap"
     rel="stylesheet"
   />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/responsive.css" />
+  
+  <style>
+    /* PREMIUM ENHANCEMENTS - Safe CSS with Fallbacks */
+    
+    :root {
+      --gold: #d4af37;
+      --gold-light: #f5e6b8;
+      --accent-red: #c41e3a;
+      --shadow-premium: 0 20px 35px -10px rgba(0,0,0,0.1);
+      --shadow-hover: 0 30px 45px -15px rgba(0,0,0,0.2);
+      --transition-premium: all 0.4s cubic-bezier(0.2, 0.95, 0.4, 1.05);
+      /* Safe fallbacks for existing CSS variables */
+      --surface-safe: #fafafa;
+      --card-bg-safe: #ffffff;
+      --primary-safe: #111111;
+      --border-safe: #e5e5e5;
+      --text-muted-safe: #888888;
+    }
+
+    [data-theme="dark"] {
+      --surface-safe: #1a1a1a;
+      --card-bg-safe: #2a2a2a;
+      --primary-safe: #ffffff;
+      --border-safe: #3a3a3a;
+      --text-muted-safe: #aaaaaa;
+    }
+
+    /* Logo Styles */
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .logo-image {
+      height: 44px;
+      width: auto;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .brand:hover .logo-image {
+      transform: scale(1.02);
+    }
+
+    @media (max-width: 768px) {
+      .logo-image {
+        height: 38px;
+      }
+    }
+
+    /* Hide old text logo */
+    .brand-mark, 
+    .brand-text {
+      display: none;
+    }
+
+    /* Navbar height adjustment */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 12px 0;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* ========== HERO SECTION - LESS BULKY ON MOBILE ========== */
+    .hero-premium {
+      position: relative;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
+      border-radius: 0 0 40px 40px;
+      margin-bottom: 60px;
+      overflow: hidden;
+      margin-top: -20px;
+    }
+
+    .hero-premium::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" opacity="0.05"><path fill="white" d="M0,0 L1000,0 L1000,1000 L0,1000 Z M200,200 L800,200 L800,800 L200,800 Z"/></svg>') repeat;
+      background-size: 50px;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 80px 60px 100px;
+      text-align: center;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(212,175,55,0.15);
+      backdrop-filter: blur(10px);
+      padding: 8px 24px;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 28px;
+      font-weight: 600;
+      border: 1px solid rgba(212,175,55,0.3);
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 4.5rem;
+      font-weight: 700;
+      color: white;
+      line-height: 1.15;
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-title span {
+      color: var(--gold);
+      display: inline-block;
+    }
+
+    .hero-subtitle {
+      font-size: 1.125rem;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 40px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--gold);
+      color: #0a0a0a;
+      padding: 14px 36px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: var(--transition-premium);
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+    }
+
+    .hero-cta:hover {
+      transform: translateY(-3px);
+      gap: 18px;
+      background: #e6c85c;
+      box-shadow: 0 15px 30px rgba(212,175,55,0.3);
+    }
+
+    .hero-offer {
+      position: absolute;
+      bottom: 30px;
+      right: 30px;
+      background: var(--accent-red);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .hero-content {
+        padding: 50px 20px 60px;
+      }
+      .hero-title {
+        font-size: 2.2rem;
+      }
+      .hero-subtitle {
+        font-size: 0.95rem;
+        margin-bottom: 30px;
+      }
+      .hero-badge {
+        font-size: 0.65rem;
+        padding: 6px 18px;
+        margin-bottom: 20px;
+      }
+      .hero-cta {
+        padding: 12px 28px;
+        font-size: 0.85rem;
+      }
+      .hero-offer {
+        position: static;
+        margin-top: 20px;
+        display: inline-flex;
+        justify-content: center;
+        width: auto;
+      }
+      .hero-premium {
+        margin-bottom: 40px;
+      }
+    }
+
+    /* ========== TRUST SECTION - PROPER CONTAINER ALIGNMENT ========== */
+    .trust-section {
+      background: var(--surface-safe, #fafafa);
+      padding: 50px 0;
+      margin-bottom: 60px;
+      border-radius: 24px;
+      box-shadow: var(--shadow-premium);
+    }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+      text-align: center;
+    }
+
+    .trust-item {
+      transition: transform 0.3s ease;
+    }
+
+    .trust-item:hover {
+      transform: translateY(-5px);
+    }
+
+    .trust-icon {
+      font-size: 2rem;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+
+    .trust-title {
+      font-weight: 700;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      color: var(--primary-safe, #111111);
+    }
+
+    .trust-desc {
+      font-size: 0.75rem;
+      color: var(--text-muted-safe, #888888);
+    }
+
+    @media (max-width: 768px) {
+      .trust-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+      }
+      .trust-section {
+        padding: 35px 0;
+        margin-bottom: 40px;
+      }
+    }
+
+    /* ========== ENHANCED PRODUCT CARDS ========== */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 40px;
+      margin-top: 32px;
+    }
+
+    /* Mobile grid: 2 cards on small screens, 1 on very small */
+    @media (max-width: 640px) {
+      .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .products-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+    }
+
+    .product-card {
+      background: var(--card-bg-safe, #ffffff);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: var(--transition-premium);
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      animation: fadeUp 0.6s ease forwards;
+      opacity: 0;
+    }
+
+    .product-card:nth-child(1) { animation-delay: 0.05s; }
+    .product-card:nth-child(2) { animation-delay: 0.1s; }
+    .product-card:nth-child(3) { animation-delay: 0.15s; }
+    .product-card:nth-child(4) { animation-delay: 0.2s; }
+    .product-card:nth-child(5) { animation-delay: 0.25s; }
+    .product-card:nth-child(6) { animation-delay: 0.3s; }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .product-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .product-media {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 3 / 4;
+      background: var(--surface-safe, #fafafa);
+    }
+
+    .product-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .product-card:hover .product-media img {
+      transform: scale(1.08);
+    }
+
+    /* Quick View Overlay */
+    .quick-view-overlay {
+      position: absolute;
+      bottom: -60px;
+      left: 20px;
+      right: 20px;
+      background: white;
+      color: var(--primary-safe, #111111);
+      padding: 12px;
+      border-radius: 50px;
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: bottom 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      z-index: 10;
+      border: none;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    [data-theme="dark"] .quick-view-overlay {
+      background: #2a2a2a;
+      color: #ffffff;
+    }
+
+    .product-card:hover .quick-view-overlay {
+      bottom: 20px;
+    }
+
+    .quick-view-overlay:hover {
+      background: var(--gold);
+      color: #0a0a0a;
+    }
+
+    /* Enhanced Badges */
+    .product-badges {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      display: flex;
+      gap: 8px;
+      z-index: 5;
+    }
+
+    .badge {
+      padding: 4px 12px;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      backdrop-filter: blur(4px);
+    }
+
+    .badge-primary {
+      background: var(--accent-red);
+      color: white;
+    }
+
+    .badge:not(.badge-primary) {
+      background: rgba(0,0,0,0.7);
+      color: white;
+      backdrop-filter: blur(4px);
+    }
+
+    /* Enhanced Wishlist Button */
+    .product-actions-top {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 5;
+    }
+
+    .wishlist-btn {
+      background: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      font-size: 1.2rem;
+      border: none;
+    }
+
+    [data-theme="dark"] .wishlist-btn {
+      background: #2a2a2a;
+      color: #ffffff;
+    }
+
+    .wishlist-btn:hover {
+      transform: scale(1.1);
+      background: var(--accent-red);
+      color: white;
+    }
+
+    .wishlist-btn.active {
+      background: var(--accent-red);
+      color: white;
+      transform: scale(1.05);
+    }
+
+    /* Enhanced Product Info */
+    .product-info {
+      padding: 22px 20px 24px;
+    }
+
+    .product-category {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--gold);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .product-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    /* Enhanced Price Row */
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .price-current {
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: var(--gold);
+    }
+
+    .price-old {
+      text-decoration: line-through;
+      color: var(--text-muted-safe, #888888);
+      font-size: 0.85rem;
+    }
+
+    .price-discount {
+      background: var(--accent-red);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    /* Enhanced Product Meta */
+    .product-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 0.8rem;
+    }
+
+    .product-rating {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--gold);
+    }
+
+    .star {
+      color: var(--gold);
+      font-size: 0.9rem;
+    }
+
+    .product-stock {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    .product-stock.in-stock {
+      background: rgba(34,197,94,0.15);
+      color: #22c55e;
+    }
+
+    .product-stock.low-stock {
+      background: rgba(249,115,22,0.15);
+      color: #f97316;
+    }
+
+    .product-stock.out-stock {
+      background: rgba(239,68,68,0.15);
+      color: #ef4444;
+    }
+
+    /* Premium Action Buttons */
+    .product-card-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .product-card-actions .btn-primary {
+      flex: 1;
+      background: var(--primary-safe, #111111);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: var(--transition-premium);
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .product-card-actions .btn-primary:hover {
+      background: var(--gold);
+      color: #0a0a0a;
+      transform: translateX(4px);
+    }
+
+    .add-cart-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--surface-safe, #fafafa);
+      border: 1px solid var(--border-safe, #e5e5e5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1.3rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    [data-theme="dark"] .add-cart-btn {
+      background: #2a2a2a;
+      border-color: #3a3a3a;
+      color: #ffffff;
+    }
+
+    .add-cart-btn:hover {
+      background: var(--gold);
+      border-color: var(--gold);
+      transform: rotate(90deg);
+    }
+
+    /* Enhanced Filter Chips */
+    .filter-chip-row {
+      margin: 24px 0 32px;
+      flex-wrap: wrap;
+      display: flex;
+      gap: 10px;
+    }
+
+    .filter-chip {
+      background: transparent;
+      border: 1.5px solid var(--border-safe, #e5e5e5);
+      padding: 8px 22px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-family: inherit;
+      color: var(--primary-safe, #111111);
+    }
+
+    .filter-chip:hover {
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .filter-chip.active {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: #0a0a0a;
+    }
+
+    /* Enhanced Pagination */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 48px;
+      flex-wrap: wrap;
+    }
+
+    .pagination button {
+      min-width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: transparent;
+      border: 1px solid var(--border-safe, #e5e5e5);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-weight: 500;
+      font-family: inherit;
+      color: var(--primary-safe, #111111);
+    }
+
+    .pagination button:hover:not(:disabled) {
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .pagination button.active {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: #0a0a0a;
+    }
+
+    /* Enhanced Toolbar */
+    .product-toolbar {
+      background: var(--surface-safe, #fafafa);
+      padding: 20px 24px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+    }
+
+    /* Section Header Premium */
+    .section-title-wrap {
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title-wrap .text-muted {
+      font-size: 0.9rem;
+      letter-spacing: 0.3px;
+    }
+
+    /* Footer Logo */
+    .footer-brand .brand-logo {
+      margin-bottom: 16px;
+    }
+
+    .footer-brand .logo-image {
+      height: 44px;
+    }
+
+    @media (max-width: 768px) {
+      .footer-brand .logo-image {
+        height: 38px;
+      }
+      .product-info {
+        padding: 16px;
+      }
+      .product-title {
+        font-size: 0.95rem;
+      }
+      .price-current {
+        font-size: 1.1rem;
+      }
+      .filter-chip-row {
+        gap: 8px;
+      }
+      .filter-chip {
+        padding: 6px 16px;
+        font-size: 0.75rem;
+      }
+    }
+  </style>
 </head>
 <body>
   <a href="#main-content" class="skip-link">Skip to content</a>
@@ -27,7 +745,7 @@
   <header class="site-header">
     <div class="top-strip">
       <div class="container">
-        <p>Premium Men's Fashion • Smart Filters • Secure Checkout</p>
+        <p>✨ Premium Men's Fashion • Free Shipping on Orders ₹2000+ • Secure Checkout ✨</p>
         <div class="top-strip-links">
           <a href="about.html">About</a>
           <a href="contact.html">Contact</a>
@@ -42,13 +760,23 @@
             <span aria-hidden="true">☰</span>
           </button>
 
-          <a href="index.html" class="brand" aria-label="BABA JAAN MART home">
-            <span class="brand-mark">BJ</span>
-            <span class="brand-text">
-              <span class="brand-title">BABA JAAN MART</span>
-              <span class="brand-subtitle">Premium Men's Wear</span>
-            </span>
+          <!-- Updated Logo with Image -->
+          <a href="index.html" class="brand-logo" aria-label="BABA JAAN MART home">
+            <img 
+              src="images/bjm-logo.png" 
+              alt="BABA JAAN MART Logo"
+              class="logo-image"
+              width="auto"
+              height="44"
+            />
           </a>
+          
+          <!-- Hidden old text logo for reference (kept for potential fallback) -->
+          <span class="brand-mark" style="display:none;">BJ</span>
+          <span class="brand-text" style="display:none;">
+            <span class="brand-title">BABA JAAN MART</span>
+            <span class="brand-subtitle">Premium Men's Wear</span>
+          </span>
         </div>
 
         <form class="header-search" id="headerSearchForm">
@@ -59,7 +787,7 @@
           <input
             type="search"
             id="headerSearchInput"
-            placeholder="Search jeans, shirts, cargos..."
+            placeholder="Search luxury jeans, shirts, cargos..."
             aria-label="Search products"
           />
         </form>
@@ -114,106 +842,53 @@
     </div>
   </header>
 
-  <div class="mobile-menu-panel" id="mobileMenuPanel" aria-hidden="true">
-    <div class="overlay"></div>
-    <aside class="mobile-panel" aria-label="Mobile menu">
-      <div class="panel-header">
-        <h2 class="panel-title">Menu</h2>
-        <button class="icon-btn close-panel" type="button" aria-label="Close menu">✕</button>
+  <!-- ========== PREMIUM HERO SECTION ========== -->
+  <div class="hero-premium">
+    <div class="hero-content">
+      <span class="hero-badge">
+        <span>✦</span> NEW SEASON ARRIVALS <span>✦</span>
+      </span>
+      <h1 class="hero-title">
+        Elevate Your<br><span>Everyday Style</span>
+      </h1>
+      <p class="hero-subtitle">
+        Discover the finest collection of premium men's fashion. 
+        Crafted for those who appreciate quality, comfort, and timeless design.
+      </p>
+      <div class="hero-cta" id="heroShopBtn">
+        Shop Collection <span>→</span>
       </div>
-
-      <nav class="mobile-nav-links" aria-label="Mobile navigation">
-        <a href="index.html">Home <span>→</span></a>
-        <a href="shop.html">Shop <span>→</span></a>
-        <a href="wishlist.html">Wishlist <span>→</span></a>
-        <a href="cart.html">Cart <span>→</span></a>
-        <a href="about.html">About <span>→</span></a>
-        <a href="contact.html">Contact <span>→</span></a>
-        <a href="admin.html">Admin <span>→</span></a>
-      </nav>
-    </aside>
-  </div>
-
-  <div class="mobile-search-panel" id="mobileSearchPanel" aria-hidden="true">
-    <div class="overlay"></div>
-    <div class="mobile-panel">
-      <div class="panel-header">
-        <h2 class="panel-title">Search</h2>
-        <button class="icon-btn close-panel" type="button" aria-label="Close search">✕</button>
+      <div class="hero-offer">
+        <span>🎁</span> Free Shipping on Orders ₹2000+
       </div>
-      <form class="search-box" id="mobileSearchForm">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <circle cx="11" cy="11" r="7"></circle>
-          <path d="M20 20L17 17"></path>
-        </svg>
-        <input
-          type="search"
-          id="mobileSearchInput"
-          placeholder="Search latest styles..."
-          aria-label="Search products"
-        />
-      </form>
     </div>
   </div>
 
-  <div class="filter-drawer" id="filterDrawer" aria-hidden="true">
-    <div class="overlay"></div>
-    <div class="drawer">
-      <div class="drawer-header">
-        <h2 class="drawer-title">Filters</h2>
-        <button class="icon-btn close-panel" type="button" aria-label="Close filters">✕</button>
+  <!-- ========== TRUST SECTION ========== -->
+  <div class="trust-section">
+    <div class="container">
+      <div class="trust-grid">
+        <div class="trust-item">
+          <div class="trust-icon">🔒</div>
+          <div class="trust-title">Secure Payments</div>
+          <div class="trust-desc">256-bit SSL encryption</div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">🚚</div>
+          <div class="trust-title">Fast Delivery</div>
+          <div class="trust-desc">2-3 business days</div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">🔄</div>
+          <div class="trust-title">Easy Returns</div>
+          <div class="trust-desc">30-day return policy</div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">💎</div>
+          <div class="trust-title">Premium Quality</div>
+          <div class="trust-desc">Handcrafted excellence</div>
+        </div>
       </div>
-
-      <form id="mobileFilterForm" class="form-grid">
-        <div class="field-group">
-          <label for="mobileCategoryFilter">Category</label>
-          <div class="select-box">
-            <select id="mobileCategoryFilter">
-              <option value="">All Categories</option>
-              <option value="Jeans">Jeans</option>
-              <option value="Shirts">Shirts</option>
-              <option value="T-Shirts">T-Shirts</option>
-              <option value="Cargo Pants">Cargo Pants</option>
-              <option value="Linen Pants">Linen Pants</option>
-              <option value="Lowers">Lowers</option>
-              <option value="Shorts">Shorts</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="field-group">
-          <label for="mobileMinPrice">Min Price</label>
-          <div class="input-box">
-            <input type="number" id="mobileMinPrice" placeholder="0" min="0" />
-          </div>
-        </div>
-
-        <div class="field-group">
-          <label for="mobileMaxPrice">Max Price</label>
-          <div class="input-box">
-            <input type="number" id="mobileMaxPrice" placeholder="5000" min="0" />
-          </div>
-        </div>
-
-        <div class="field-group">
-          <label for="mobileSortBy">Sort By</label>
-          <div class="select-box">
-            <select id="mobileSortBy">
-              <option value="newest">Newest First</option>
-              <option value="price_low">Price: Low to High</option>
-              <option value="price_high">Price: High to Low</option>
-              <option value="name_asc">Name: A to Z</option>
-              <option value="name_desc">Name: Z to A</option>
-              <option value="discount">Biggest Discount</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="grid-2">
-          <button type="button" class="btn btn-secondary btn-block" id="clearMobileFiltersBtn">Clear</button>
-          <button type="submit" class="btn btn-primary btn-block">Apply Filters</button>
-        </div>
-      </form>
     </div>
   </div>
 
@@ -323,17 +998,126 @@
     </section>
   </main>
 
+  <!-- MOBILE MENU PANEL (PRESERVED) -->
+  <div class="mobile-menu-panel" id="mobileMenuPanel" aria-hidden="true">
+    <div class="overlay"></div>
+    <aside class="mobile-panel" aria-label="Mobile menu">
+      <div class="panel-header">
+        <h2 class="panel-title">Menu</h2>
+        <button class="icon-btn close-panel" type="button" aria-label="Close menu">✕</button>
+      </div>
+
+      <nav class="mobile-nav-links" aria-label="Mobile navigation">
+        <a href="index.html">Home <span>→</span></a>
+        <a href="shop.html">Shop <span>→</span></a>
+        <a href="wishlist.html">Wishlist <span>→</span></a>
+        <a href="cart.html">Cart <span>→</span></a>
+        <a href="about.html">About <span>→</span></a>
+        <a href="contact.html">Contact <span>→</span></a>
+        <a href="admin.html">Admin <span>→</span></a>
+      </nav>
+    </aside>
+  </div>
+
+  <!-- MOBILE SEARCH PANEL (PRESERVED) -->
+  <div class="mobile-search-panel" id="mobileSearchPanel" aria-hidden="true">
+    <div class="overlay"></div>
+    <div class="mobile-panel">
+      <div class="panel-header">
+        <h2 class="panel-title">Search</h2>
+        <button class="icon-btn close-panel" type="button" aria-label="Close search">✕</button>
+      </div>
+      <form class="search-box" id="mobileSearchForm">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <path d="M20 20L17 17"></path>
+        </svg>
+        <input
+          type="search"
+          id="mobileSearchInput"
+          placeholder="Search latest styles..."
+          aria-label="Search products"
+        />
+      </form>
+    </div>
+  </div>
+
+  <!-- FILTER DRAWER (PRESERVED) -->
+  <div class="filter-drawer" id="filterDrawer" aria-hidden="true">
+    <div class="overlay"></div>
+    <div class="drawer">
+      <div class="drawer-header">
+        <h2 class="drawer-title">Filters</h2>
+        <button class="icon-btn close-panel" type="button" aria-label="Close filters">✕</button>
+      </div>
+
+      <form id="mobileFilterForm" class="form-grid">
+        <div class="field-group">
+          <label for="mobileCategoryFilter">Category</label>
+          <div class="select-box">
+            <select id="mobileCategoryFilter">
+              <option value="">All Categories</option>
+              <option value="Jeans">Jeans</option>
+              <option value="Shirts">Shirts</option>
+              <option value="T-Shirts">T-Shirts</option>
+              <option value="Cargo Pants">Cargo Pants</option>
+              <option value="Linen Pants">Linen Pants</option>
+              <option value="Lowers">Lowers</option>
+              <option value="Shorts">Shorts</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="mobileMinPrice">Min Price</label>
+          <div class="input-box">
+            <input type="number" id="mobileMinPrice" placeholder="0" min="0" />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="mobileMaxPrice">Max Price</label>
+          <div class="input-box">
+            <input type="number" id="mobileMaxPrice" placeholder="5000" min="0" />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="mobileSortBy">Sort By</label>
+          <div class="select-box">
+            <select id="mobileSortBy">
+              <option value="newest">Newest First</option>
+              <option value="price_low">Price: Low to High</option>
+              <option value="price_high">Price: High to Low</option>
+              <option value="name_asc">Name: A to Z</option>
+              <option value="name_desc">Name: Z to A</option>
+              <option value="discount">Biggest Discount</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <button type="button" class="btn btn-secondary btn-block" id="clearMobileFiltersBtn">Clear</button>
+          <button type="submit" class="btn btn-primary btn-block">Apply Filters</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <footer class="footer">
     <div class="footer-top">
       <div class="container">
         <div class="footer-grid">
           <div class="footer-brand">
-            <a href="index.html" class="brand" aria-label="BABA JAAN MART home">
-              <span class="brand-mark">BJ</span>
-              <span class="brand-text">
-                <span class="brand-title">BABA JAAN MART</span>
-                <span class="brand-subtitle">Premium Men's Wear</span>
-              </span>
+            <!-- Footer Logo with Image -->
+            <a href="index.html" class="brand-logo" aria-label="BABA JAAN MART home">
+              <img 
+                src="images/bjm-logo.png" 
+                alt="BABA JAAN MART Logo"
+                class="logo-image"
+                width="auto"
+                height="44"
+              />
             </a>
             <p>
               Modern men's fashion with a premium shopping experience built for speed, style and trust.
@@ -389,6 +1173,18 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
+    // ========== SECURE XSS PROTECTION ==========
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    // ========== COMPLETE PRESERVED FUNCTIONALITY ==========
     const SUPABASE_URL = "https://kwslileixrznlycqjqoj.supabase.co";
     const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_gFXTHh-8OEcI5O-YbAT9rQ_n5LJTTMv";
     const supabaseClient = window.supabase.createClient(
@@ -400,7 +1196,7 @@
       allProducts: [],
       filteredProducts: [],
       currentPage: 1,
-      perPage: window.innerWidth >= 1024 ? 12 : 8,
+      perPage: window.innerWidth >= 1024 ? 12 : (window.innerWidth >= 640 ? 8 : 6),
       filters: {
         search: "",
         category: "",
@@ -419,6 +1215,7 @@
       maximumFractionDigits: 0
     });
 
+    // DOM Elements
     const menuToggle = document.querySelector(".menu-toggle");
     const mobileSearchToggle = document.querySelector(".mobile-search-toggle");
     const filterDrawerToggle = document.getElementById("filterDrawerToggle");
@@ -457,6 +1254,7 @@
     const quickCategoryChips = document.getElementById("quickCategoryChips");
 
     function setThemeIcon(theme) {
+      if (!themeToggle) return;
       themeToggle.innerHTML =
         theme === "dark"
           ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path></svg>`
@@ -482,12 +1280,14 @@
     }
 
     function openPanel(panel) {
+      if (!panel) return;
       panel.classList.add("active");
       panel.setAttribute("aria-hidden", "false");
       document.body.classList.add("menu-open");
     }
 
     function closePanel(panel) {
+      if (!panel) return;
       panel.classList.remove("active");
       panel.setAttribute("aria-hidden", "true");
       if (!document.querySelector(".mobile-menu-panel.active, .mobile-search-panel.active, .filter-drawer.active")) {
@@ -496,8 +1296,8 @@
     }
 
     function updateCounts() {
-      cartCount.textContent = state.cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-      wishlistCount.textContent = state.wishlist.length;
+      if (cartCount) cartCount.textContent = state.cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+      if (wishlistCount) wishlistCount.textContent = state.wishlist.length;
     }
 
     function saveCart() {
@@ -520,10 +1320,11 @@
     function getStockLabel(stock) {
       const qty = Number(stock) || 0;
       if (qty <= 0) return { text: "Out of Stock", className: "out-stock" };
-      if (qty <= 5) return { text: `Only ${qty} left`, className: "low-stock" };
-      return { text: "In Stock", className: "in-stock" };
+      if (qty <= 5) return { text: `🔥 Only ${qty} left`, className: "low-stock" };
+      return { text: "✓ In Stock", className: "in-stock" };
     }
 
+    // SECURE renderProductCard with escapeHtml
     function renderProductCard(product) {
       const discount = getDiscountPercent(product.price, product.old_price);
       const stock = getStockLabel(product.stock);
@@ -531,57 +1332,69 @@
       const rating = (4 + ((product.id || 1) % 10) / 10).toFixed(1);
 
       const isWishlisted = state.wishlist.some(item => String(item.id) === String(product.id));
+      
+      // Escape all user-generated content
+      const safeName = escapeHtml(product.name || "Premium Product");
+      const safeCategory = escapeHtml(product.category || "Fashion");
+      const safeImage = escapeHtml(image);
+      const productId = escapeHtml(String(product.id));
+      const safePrice = Number(product.price) || 0;
+      const safeOldPrice = product.old_price ? Number(product.old_price) : null;
+      const safeDiscount = discount;
+      const safeRating = rating;
+      const safeStockText = stock.text;
+      const safeStockClass = stock.className;
 
       return `
-        <article class="product-card reveal">
+        <article class="product-card">
           <div class="product-media">
             <img
-              src="${image}"
-              alt="${product.name || "Product image"}"
+              src="${safeImage}"
+              alt="${safeName}"
               width="600"
               height="750"
               loading="lazy"
               decoding="async"
+              onerror="this.src='https://via.placeholder.com/600x750?text=No+Image'"
             />
             <div class="product-badges">
-              ${discount ? `<span class="badge badge-primary">${discount}% OFF</span>` : `<span class="badge">New</span>`}
-              <span class="badge">${product.category || "Fashion"}</span>
+              ${safeDiscount ? `<span class="badge badge-primary">${safeDiscount}% OFF</span>` : `<span class="badge">✨ New</span>`}
+              <span class="badge">${safeCategory}</span>
             </div>
             <div class="product-actions-top">
-              <button class="icon-btn wishlist-btn ${isWishlisted ? "active" : ""}" type="button" aria-label="Add to wishlist" data-id="${product.id}">
+              <button class="icon-btn wishlist-btn ${isWishlisted ? "active" : ""}" type="button" aria-label="Add to wishlist" data-id="${productId}">
                 ♥
               </button>
             </div>
+            <button class="quick-view-overlay" data-id="${productId}" data-name="${safeName}" data-price="${safePrice}" data-image="${safeImage}">
+              <span>👁️</span> Quick View
+            </button>
           </div>
 
           <div class="product-info">
-            <p class="product-category">${product.category || "Fashion"}</p>
-            <h3 class="product-title">${product.name || "Premium Product"}</h3>
+            <p class="product-category">${safeCategory}</p>
+            <h3 class="product-title">${safeName}</h3>
 
             <div class="price-row">
-              <span class="price-current">${rupee.format(Number(product.price) || 0)}</span>
-              ${product.old_price ? `<span class="price-old">${rupee.format(Number(product.old_price))}</span>` : ""}
-              ${discount ? `<span class="price-discount">Save ${discount}%</span>` : ""}
+              <span class="price-current">${rupee.format(safePrice)}</span>
+              ${safeOldPrice ? `<span class="price-old">${rupee.format(safeOldPrice)}</span>` : ""}
+              ${safeDiscount ? `<span class="price-discount">Save ${safeDiscount}%</span>` : ""}
             </div>
 
             <div class="product-meta">
-              <span class="product-rating"><span class="star">★</span> ${rating}</span>
-              <span class="product-stock ${stock.className}">${stock.text}</span>
+              <span class="product-rating"><span class="star">★</span> ${safeRating}</span>
+              <span class="product-stock ${safeStockClass}">${escapeHtml(safeStockText)}</span>
             </div>
 
             <div class="product-card-actions">
-              <a href="product-detail.html?id=${product.id}" class="btn btn-primary">View Product</a>
-              <button class="icon-btn add-cart-btn" type="button" aria-label="Add to cart" data-id="${product.id}">
+              <a href="product-detail.html?id=${productId}" class="btn-primary">View Product →</a>
+              <button class="add-cart-btn" type="button" aria-label="Add to cart" data-id="${productId}">
                 +
               </button>
             </div>
           </div>
         </article>
       `;
-    }
-
-    function revealItems() {
-      document.querySelectorAll(".reveal").forEach(item => item.classList.add("show"));
     }
 
     function parsePriceRange(value) {
@@ -676,6 +1489,8 @@
       const end = start + state.perPage;
       const pageItems = state.filteredProducts.slice(start, end);
 
+      if (!productsGrid) return;
+      
       if (!pageItems.length) {
         productsGrid.innerHTML = `
           <div class="empty-state" style="grid-column:1/-1;">
@@ -686,17 +1501,17 @@
         `;
       } else {
         productsGrid.innerHTML = pageItems.map(renderProductCard).join("");
-        revealItems();
       }
 
-      const searchText = state.filters.search ? ` for "${state.filters.search}"` : "";
-      const categoryText = state.filters.category ? ` in ${state.filters.category}` : "";
-      resultsSummary.textContent = `${total} product${total === 1 ? "" : "s"} found${searchText}${categoryText}`;
+      const searchText = state.filters.search ? ` for "${escapeHtml(state.filters.search)}"` : "";
+      const categoryText = state.filters.category ? ` in ${escapeHtml(state.filters.category)}` : "";
+      if (resultsSummary) resultsSummary.textContent = `${total} product${total === 1 ? "" : "s"} found${searchText}${categoryText}`;
 
       renderPagination(totalPages);
     }
 
     function renderPagination(totalPages) {
+      if (!paginationEl) return;
       paginationEl.innerHTML = "";
       if (totalPages <= 1) return;
 
@@ -716,37 +1531,46 @@
       };
 
       paginationEl.appendChild(
-        createButton("Prev", Math.max(1, state.currentPage - 1), false, state.currentPage === 1)
+        createButton("← Prev", Math.max(1, state.currentPage - 1), false, state.currentPage === 1)
       );
 
       for (let i = 1; i <= totalPages; i += 1) {
-        paginationEl.appendChild(createButton(String(i), i, i === state.currentPage));
+        if (i === 1 || i === totalPages || (i >= state.currentPage - 2 && i <= state.currentPage + 2)) {
+          paginationEl.appendChild(createButton(String(i), i, i === state.currentPage));
+        } else if (i === state.currentPage - 3 || i === state.currentPage + 3) {
+          const dots = document.createElement("span");
+          dots.textContent = "...";
+          dots.style.padding = "0 8px";
+          paginationEl.appendChild(dots);
+        }
       }
 
       paginationEl.appendChild(
-        createButton("Next", Math.min(totalPages, state.currentPage + 1), false, state.currentPage === totalPages)
+        createButton("Next →", Math.min(totalPages, state.currentPage + 1), false, state.currentPage === totalPages)
       );
     }
 
     function updateFilterUI() {
-      shopSearchInput.value = state.filters.search;
-      headerSearchInput.value = state.filters.search;
-      mobileSearchInput.value = state.filters.search;
+      if (shopSearchInput) shopSearchInput.value = state.filters.search;
+      if (headerSearchInput) headerSearchInput.value = state.filters.search;
+      if (mobileSearchInput) mobileSearchInput.value = state.filters.search;
 
-      categoryFilter.value = state.filters.category;
-      sortBy.value = state.filters.sortBy;
+      if (categoryFilter) categoryFilter.value = state.filters.category;
+      if (sortBy) sortBy.value = state.filters.sortBy;
 
-      mobileCategoryFilter.value = state.filters.category;
-      mobileMinPrice.value = state.filters.minPrice;
-      mobileMaxPrice.value = state.filters.maxPrice;
-      mobileSortBy.value = state.filters.sortBy;
+      if (mobileCategoryFilter) mobileCategoryFilter.value = state.filters.category;
+      if (mobileMinPrice) mobileMinPrice.value = state.filters.minPrice;
+      if (mobileMaxPrice) mobileMaxPrice.value = state.filters.maxPrice;
+      if (mobileSortBy) mobileSortBy.value = state.filters.sortBy;
 
-      document.querySelectorAll("#quickCategoryChips .filter-chip").forEach(chip => {
-        chip.classList.toggle("active", chip.dataset.category === state.filters.category);
-        if (!state.filters.category && chip.dataset.category === "") {
-          chip.classList.add("active");
-        }
-      });
+      if (quickCategoryChips) {
+        document.querySelectorAll("#quickCategoryChips .filter-chip").forEach(chip => {
+          chip.classList.toggle("active", chip.dataset.category === state.filters.category);
+          if (!state.filters.category && chip.dataset.category === "") {
+            chip.classList.add("active");
+          }
+        });
+      }
     }
 
     function syncUrl() {
@@ -785,10 +1609,10 @@
       state.currentPage = 1;
       updateFilterUI();
       applyFilters();
-      priceFilter.value = "";
+      if (priceFilter) priceFilter.value = "";
     }
 
-    function addToCart(productId) {
+    function addToCart(productId, clickedButton) {
       const product = state.allProducts.find(item => String(item.id) === String(productId));
       if (!product) return;
 
@@ -809,6 +1633,11 @@
       }
 
       saveCart();
+      
+      if (clickedButton) {
+        clickedButton.style.transform = 'scale(1.2)';
+        setTimeout(() => { if(clickedButton) clickedButton.style.transform = ''; }, 200);
+      }
     }
 
     function toggleWishlist(productId) {
@@ -833,6 +1662,12 @@
       renderProducts();
     }
 
+    function openQuickView(productId) {
+      if (productId) {
+        window.location.href = `product-detail.html?id=${encodeURIComponent(productId)}`;
+      }
+    }
+
     async function loadProducts() {
       try {
         const { data, error } = await supabaseClient
@@ -846,14 +1681,16 @@
         applyFilters();
       } catch (error) {
         console.error("Shop page load error:", error);
-        productsGrid.innerHTML = `
-          <div class="empty-state" style="grid-column:1/-1;">
-            <div class="empty-state-icon">!</div>
-            <h3>Unable to load products</h3>
-            <p>Please check your Supabase connection or products table.</p>
-          </div>
-        `;
-        resultsSummary.textContent = "0 products found";
+        if (productsGrid) {
+          productsGrid.innerHTML = `
+            <div class="empty-state" style="grid-column:1/-1;">
+              <div class="empty-state-icon">!</div>
+              <h3>Unable to load products</h3>
+              <p>Please check your Supabase connection or products table.</p>
+            </div>
+          `;
+        }
+        if (resultsSummary) resultsSummary.textContent = "0 products found";
       }
     }
 
@@ -864,12 +1701,24 @@
       closePanel(mobileSearchPanel);
     }
 
+    // Hero shop button scroll
+    const heroShopBtn = document.getElementById("heroShopBtn");
+    if (heroShopBtn) {
+      heroShopBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const toolbar = document.querySelector(".product-toolbar");
+        if (toolbar) toolbar.scrollIntoView({ behavior: "smooth" });
+      });
+    }
+
+    // Event delegation for dynamic elements
     document.addEventListener("click", event => {
       const closeBtn = event.target.closest(".close-panel");
       const overlay = event.target.closest(".overlay");
       const addCartBtn = event.target.closest(".add-cart-btn");
       const wishlistBtn = event.target.closest(".wishlist-btn");
       const categoryChip = event.target.closest("#quickCategoryChips .filter-chip");
+      const quickViewBtn = event.target.closest(".quick-view-overlay");
 
       if (closeBtn) {
         const panel = closeBtn.closest(".mobile-menu-panel, .mobile-search-panel, .filter-drawer");
@@ -882,7 +1731,7 @@
       }
 
       if (addCartBtn) {
-        addToCart(addCartBtn.dataset.id);
+        addToCart(addCartBtn.dataset.id, addCartBtn);
       }
 
       if (wishlistBtn) {
@@ -891,91 +1740,120 @@
 
       if (categoryChip) {
         state.filters.category = categoryChip.dataset.category || "";
-        categoryFilter.value = state.filters.category;
-        mobileCategoryFilter.value = state.filters.category;
+        if (categoryFilter) categoryFilter.value = state.filters.category;
+        if (mobileCategoryFilter) mobileCategoryFilter.value = state.filters.category;
         state.currentPage = 1;
         applyFilters();
       }
+
+      if (quickViewBtn) {
+        event.preventDefault();
+        openQuickView(quickViewBtn.dataset.id);
+      }
     });
 
-    menuToggle?.addEventListener("click", () => openPanel(mobileMenuPanel));
-    mobileSearchToggle?.addEventListener("click", () => openPanel(mobileSearchPanel));
-    filterDrawerToggle?.addEventListener("click", () => openPanel(filterDrawer));
-    themeToggle?.addEventListener("click", toggleTheme);
+    // Event Listeners
+    if (menuToggle) menuToggle.addEventListener("click", () => openPanel(mobileMenuPanel));
+    if (mobileSearchToggle) mobileSearchToggle.addEventListener("click", () => openPanel(mobileSearchPanel));
+    if (filterDrawerToggle) filterDrawerToggle.addEventListener("click", () => openPanel(filterDrawer));
+    if (themeToggle) themeToggle.addEventListener("click", toggleTheme);
 
-    headerSearchForm?.addEventListener("submit", event => {
-      event.preventDefault();
-      handleSearchSubmit(headerSearchInput.value);
-    });
+    if (headerSearchForm) {
+      headerSearchForm.addEventListener("submit", event => {
+        event.preventDefault();
+        handleSearchSubmit(headerSearchInput ? headerSearchInput.value : "");
+      });
+    }
 
-    mobileSearchForm?.addEventListener("submit", event => {
-      event.preventDefault();
-      handleSearchSubmit(mobileSearchInput.value);
-    });
+    if (mobileSearchForm) {
+      mobileSearchForm.addEventListener("submit", event => {
+        event.preventDefault();
+        handleSearchSubmit(mobileSearchInput ? mobileSearchInput.value : "");
+      });
+    }
 
-    shopSearchForm?.addEventListener("submit", event => {
-      event.preventDefault();
-      handleSearchSubmit(shopSearchInput.value);
-    });
+    if (shopSearchForm) {
+      shopSearchForm.addEventListener("submit", event => {
+        event.preventDefault();
+        handleSearchSubmit(shopSearchInput ? shopSearchInput.value : "");
+      });
+    }
 
-    categoryFilter?.addEventListener("change", event => {
-      state.filters.category = event.target.value;
-      mobileCategoryFilter.value = event.target.value;
-      applyFilters();
-    });
+    if (categoryFilter) {
+      categoryFilter.addEventListener("change", event => {
+        state.filters.category = event.target.value;
+        if (mobileCategoryFilter) mobileCategoryFilter.value = event.target.value;
+        applyFilters();
+      });
+    }
 
-    priceFilter?.addEventListener("change", event => {
-      state.filters.priceRange = event.target.value;
-      state.filters.minPrice = "";
-      state.filters.maxPrice = "";
-      mobileMinPrice.value = "";
-      mobileMaxPrice.value = "";
-      applyFilters();
-    });
+    if (priceFilter) {
+      priceFilter.addEventListener("change", event => {
+        state.filters.priceRange = event.target.value;
+        state.filters.minPrice = "";
+        state.filters.maxPrice = "";
+        if (mobileMinPrice) mobileMinPrice.value = "";
+        if (mobileMaxPrice) mobileMaxPrice.value = "";
+        applyFilters();
+      });
+    }
 
-    sortBy?.addEventListener("change", event => {
-      state.filters.sortBy = event.target.value;
-      mobileSortBy.value = event.target.value;
-      applyFilters();
-    });
+    if (sortBy) {
+      sortBy.addEventListener("change", event => {
+        state.filters.sortBy = event.target.value;
+        if (mobileSortBy) mobileSortBy.value = event.target.value;
+        applyFilters();
+      });
+    }
 
-    mobileFilterForm?.addEventListener("submit", event => {
-      event.preventDefault();
-      state.filters.category = mobileCategoryFilter.value;
-      state.filters.minPrice = mobileMinPrice.value;
-      state.filters.maxPrice = mobileMaxPrice.value;
-      state.filters.priceRange = "";
-      state.filters.sortBy = mobileSortBy.value;
+    if (mobileFilterForm) {
+      mobileFilterForm.addEventListener("submit", event => {
+        event.preventDefault();
+        if (mobileCategoryFilter) state.filters.category = mobileCategoryFilter.value;
+        if (mobileMinPrice) state.filters.minPrice = mobileMinPrice.value;
+        if (mobileMaxPrice) state.filters.maxPrice = mobileMaxPrice.value;
+        state.filters.priceRange = "";
+        if (mobileSortBy) state.filters.sortBy = mobileSortBy.value;
 
-      categoryFilter.value = state.filters.category;
-      priceFilter.value = "";
-      sortBy.value = state.filters.sortBy;
+        if (categoryFilter) categoryFilter.value = state.filters.category;
+        if (priceFilter) priceFilter.value = "";
+        if (sortBy) sortBy.value = state.filters.sortBy;
 
-      applyFilters();
-      closePanel(filterDrawer);
-    });
+        applyFilters();
+        closePanel(filterDrawer);
+      });
+    }
 
-    clearFiltersBtn?.addEventListener("click", clearFilters);
-    clearMobileFiltersBtn?.addEventListener("click", () => {
-      mobileCategoryFilter.value = "";
-      mobileMinPrice.value = "";
-      mobileMaxPrice.value = "";
-      mobileSortBy.value = "newest";
-    });
+    if (clearFiltersBtn) clearFiltersBtn.addEventListener("click", clearFilters);
+    if (clearMobileFiltersBtn) {
+      clearMobileFiltersBtn.addEventListener("click", () => {
+        if (mobileCategoryFilter) mobileCategoryFilter.value = "";
+        if (mobileMinPrice) mobileMinPrice.value = "";
+        if (mobileMaxPrice) mobileMaxPrice.value = "";
+        if (mobileSortBy) mobileSortBy.value = "newest";
+      });
+    }
 
+    // Responsive perPage update
     window.addEventListener("resize", () => {
-      const nextPerPage = window.innerWidth >= 1024 ? 12 : 8;
+      let nextPerPage = 12;
+      if (window.innerWidth < 640) {
+        nextPerPage = 6;
+      } else if (window.innerWidth < 1024) {
+        nextPerPage = 8;
+      }
       if (nextPerPage !== state.perPage) {
         state.perPage = nextPerPage;
         renderProducts();
       }
     });
 
+    // Initialize
     initTheme();
     updateCounts();
     loadFiltersFromUrl();
     updateFilterUI();
-    if (state.filters.priceRange) priceFilter.value = state.filters.priceRange;
+    if (priceFilter && state.filters.priceRange) priceFilter.value = state.filters.priceRange;
     loadProducts();
   </script>
 </body>
