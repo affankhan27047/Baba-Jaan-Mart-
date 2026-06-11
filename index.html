@@ -27,18 +27,7 @@
       --toast-bg: #1a1a1a;
       --toast-text: #ffffff;
     }
-    [data-theme="light"] {
-      --black: #f5f5f5;
-      --black-light: #ffffff;
-      --black-card: #e8e8e8;
-      --white: #111111;
-      --white-muted: #333333;
-      --gray: #666666;
-      --border: rgba(0, 0, 0, 0.1);
-      --toast-bg: #333333;
-      --toast-text: #ffffff;
-    }
-    body { background: var(--black); color: var(--white); font-family: 'Inter', sans-serif; overflow-x: hidden; transition: background 0.3s, color 0.3s; }
+    body { background: var(--black); color: var(--white); font-family: 'Inter', sans-serif; overflow-x: hidden; }
     .container { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
     h1, h2, h3, h4, .font-display { font-family: 'Barlow Condensed', sans-serif; letter-spacing: -0.02em; }
 
@@ -48,11 +37,12 @@
 
     /* Header */
     .header { position: sticky; top: 0; z-index: 1000; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
-    [data-theme="light"] .header { background: rgba(245, 245, 245, 0.95); }
     .top-bar { background: var(--yellow); color: var(--black); padding: 8px 0; text-align: center; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; }
     .navbar { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; gap: 20px; flex-wrap: wrap; }
+    .logo { display: flex; align-items: center; text-decoration: none; }
     .logo img { height: 45px; width: auto; object-fit: contain; }
-    @media (max-width: 768px) { .logo img { height: 38px; } }
+    .logo-text { color: var(--yellow); font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 24px; letter-spacing: 1px; text-transform: uppercase; }
+    @media (max-width: 768px) { .logo img { height: 38px; } .logo-text { font-size: 20px; } }
     .nav-links { display: flex; gap: 28px; }
     .nav-links a { color: var(--white-muted); text-decoration: none; font-weight: 500; font-size: 14px; transition: var(--transition); }
     .nav-links a:hover, .nav-links a.active { color: var(--yellow); }
@@ -89,10 +79,12 @@
 
     /* Category Grid */
     .category-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 20px; }
-    .category-card { background: var(--black-card); border-radius: 12px; padding: 24px 16px; text-align: center; text-decoration: none; transition: var(--transition); border: 1px solid var(--border); }
-    .category-card:hover { transform: translateY(-5px); border-color: var(--yellow); }
-    .category-icon { font-size: 36px; margin-bottom: 12px; }
-    .category-name { color: var(--white); font-weight: 600; font-size: 14px; text-transform: uppercase; }
+    .category-card { background: linear-gradient(145deg, var(--black-card) 0%, var(--black-light) 100%); border-radius: 16px; padding: 28px 16px; text-align: center; text-decoration: none; transition: var(--transition); border: 1px solid var(--border); position: relative; overflow: hidden; }
+    .category-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--yellow); transform: scaleX(0); transition: transform 0.3s ease; transform-origin: left; }
+    .category-card:hover { transform: translateY(-6px); border-color: var(--yellow); }
+    .category-card:hover::before { transform: scaleX(1); }
+    .category-icon { font-size: 42px; margin-bottom: 12px; display: block; }
+    .category-name { color: var(--white); font-weight: 700; font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px; }
 
     /* Product Grid */
     .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px; }
@@ -116,14 +108,16 @@
     .price-old { font-size: 13px; color: var(--gray); text-decoration: line-through; }
     .discount { font-size: 12px; color: var(--red); font-weight: 600; }
     .product-actions { display: flex; gap: 10px; margin-top: 8px; }
-    .add-to-cart, .view-details { flex: 1; background: var(--yellow); border: none; padding: 10px; font-weight: 700; text-transform: uppercase; cursor: pointer; transition: var(--transition); border-radius: 8px; font-size: 12px; text-align: center; text-decoration: none; color: var(--black); }
+    .add-to-cart, .view-details { flex: 1; border: none; padding: 10px; font-weight: 700; text-transform: uppercase; cursor: pointer; transition: var(--transition); border-radius: 8px; font-size: 12px; text-align: center; text-decoration: none; }
+    .add-to-cart { background: var(--yellow); color: var(--black); }
     .view-details { background: var(--black-light); border: 1px solid var(--border); color: var(--white); }
     .add-to-cart:hover { background: white; }
     .view-details:hover { background: var(--yellow); color: var(--black); border-color: var(--yellow); }
 
     /* Trust Section */
     .trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; text-align: center; }
-    .trust-item { padding: 24px; }
+    .trust-item { padding: 24px; background: var(--black-card); border-radius: 12px; border: 1px solid var(--border); transition: var(--transition); }
+    .trust-item:hover { border-color: var(--yellow); transform: translateY(-3px); }
     .trust-icon { font-size: 36px; margin-bottom: 16px; }
     .trust-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
     .trust-text { font-size: 13px; color: var(--gray); }
@@ -131,7 +125,7 @@
     /* Footer */
     .footer { background: var(--black-light); border-top: 1px solid var(--border); padding: 60px 0 30px; margin-top: 40px; }
     .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 40px; }
-    .footer-col h4 { font-size: 14px; font-weight: 700; margin-bottom: 20px; text-transform: uppercase; }
+    .footer-col h4 { font-size: 14px; font-weight: 700; margin-bottom: 20px; text-transform: uppercase; color: var(--yellow); }
     .footer-col a { display: block; color: var(--gray); text-decoration: none; font-size: 13px; margin-bottom: 12px; transition: var(--transition); }
     .footer-col a:hover { color: var(--yellow); }
     .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid var(--border); font-size: 12px; color: var(--gray); }
@@ -158,7 +152,8 @@
       <div class="navbar">
         <button class="mobile-menu-btn" id="mobileMenuToggle">☰</button>
         <a href="index.html" class="logo" id="logoLink">
-          <img id="siteLogo" src="/logo.png" alt="BABA JAAN MART Logo" style="height:45px; width:auto;" onerror="this.style.display='none'">
+          <img id="siteLogo" src="/logo.png" alt="BABA JAAN MART Logo" style="height:45px; width:auto;">
+          <span id="logoFallback" class="logo-text" style="display:none;">BABA JAAN MART</span>
         </a>
         <div class="nav-links">
           <a href="index.html" class="active">Home</a>
@@ -171,7 +166,6 @@
           <span>🔍</span>
         </div>
         <div class="header-icons">
-          <button class="icon-btn" id="themeToggle">🌙</button>
           <a href="wishlist.html" class="icon-btn">❤️ <span class="badge-count" id="wishlistCount">0</span></a>
           <a href="cart.html" class="icon-btn">🛒 <span class="badge-count" id="cartCount">0</span></a>
         </div>
@@ -209,14 +203,13 @@
       <div class="footer-grid">
         <div class="footer-col"><h4>BABA JAAN MART</h4><a href="about.html">About Us</a><a href="contact.html">Contact</a><a href="shop.html">Shop</a></div>
         <div class="footer-col"><h4>Categories</h4><a href="shop.html?category=Belts">Belts</a><a href="shop.html?category=Shirts">Shirts</a><a href="shop.html?category=Jeans">Jeans</a><a href="shop.html?category=Perfumes">Perfumes</a></div>
-        <div class="footer-col"><h4>Support</h4><a href="contact.html">Help Center</a><a href="contact.html">Returns</a><a href="contact.html">Order Tracking</a></div>
+        <div class="footer-col"><h4>Support</h4><a href="contact.html">Help Center</a><a href="contact.html">Returns</a><a href="contact.html">Order Help</a></div>
         <div class="footer-col"><h4>Follow Us</h4><a href="https://www.instagram.com/baba_jan_mart?igsh=MTQ5bDYyamJ2ejg3cA==" target="_blank" rel="noopener noreferrer">Instagram</a><a href="https://www.facebook.com/share/1GcJrZ6HDM/" target="_blank" rel="noopener noreferrer">Facebook</a><a href="https://youtube.com/@babajaanmart-6?si=CVrKO-m2qo-ibFVP" target="_blank" rel="noopener noreferrer">YouTube</a></div>
       </div>
       <div class="footer-bottom"><p>© 2026 BABA JAAN MART — Premium Men's Fashion. All rights reserved.</p></div>
     </div>
   </footer>
 
-  <!-- Toast Container -->
   <div id="toast" class="toast">✓ Added to cart</div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -229,8 +222,11 @@
     let wishlist = JSON.parse(localStorage.getItem("bjm_wishlist") || "[]");
     let cart = JSON.parse(localStorage.getItem("bjm_cart") || "[]");
     let heroInterval = null;
+    let currentSlide = 0;
+    let totalSlides = 0;
     
     const categoriesList = ["Belts", "Shirts", "T-Shirts", "Lowers", "Jeans", "Pants", "Shoes", "Shorts", "Perfumes"];
+    const categoryIcons = { Belts: "👔", Shirts: "👕", "T-Shirts": "👚", Lowers: "🩳", Jeans: "👖", Pants: "👖", Shoes: "👟", Shorts: "🩳", Perfumes: "🧴" };
     
     function escapeHtml(str) { if(!str) return ''; return String(str).replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
     
@@ -254,19 +250,34 @@
       saveWishlist(); 
     }
     
-    function getFirstSize(sizesField) {
-      if(!sizesField) return "Free Size";
+    function getSizesArray(product) {
+      const sizesField = product.sizes || product.size;
+      if(!sizesField) return [];
       const sizes = String(sizesField).split(',').map(s=>s.trim()).filter(s=>s);
-      return sizes.length > 0 ? sizes[0] : "Free Size";
+      return sizes;
     }
     
-    function addToCart(p) { 
-      const size = getFirstSize(p.sizes || p.size);
-      const existing = cart.find(i=>String(i.id)===String(p.id) && i.size===size); 
-      if(existing) { existing.quantity++; } 
-      else { cart.push({id:p.id, name:p.name, price:p.price, old_price:p.old_price, image_url:p.image_url, category:p.category, size:size, quantity:1}); } 
-      saveCart(); 
-      showToast(`✓ ${escapeHtml(p.name)} added`);
+    function addToCartWithSize(p, selectedSize) {
+      const existing = cart.find(i=>String(i.id)===String(p.id) && i.size===selectedSize);
+      if(existing) { existing.quantity++; }
+      else { cart.push({id:p.id, name:p.name, price:p.price, old_price:p.old_price, image_url:p.image_url, category:p.category, size:selectedSize, quantity:1}); }
+      saveCart();
+      showToast(`✓ ${escapeHtml(p.name)} (${selectedSize}) added`);
+    }
+    
+    function handleAddToCart(p) {
+      const sizes = getSizesArray(p);
+      
+      if(sizes.length > 1) {
+        // Multiple sizes - redirect to product detail page
+        window.location.href = `product-detail.html?id=${encodeURIComponent(p.id)}`;
+      } else if(sizes.length === 1) {
+        // Exactly one size - add with that size
+        addToCartWithSize(p, sizes[0]);
+      } else {
+        // No size - use "Free Size"
+        addToCartWithSize(p, "Free Size");
+      }
     }
     
     function isNewProduct(createdAt) {
@@ -318,17 +329,25 @@
       return `<div class="empty-state"><div class="empty-state-icon">🛍️</div><h3>${message}</h3><p>Add products from the admin panel to see them here.</p></div>`;
     }
     
-    function startHeroInterval(heroProductsLength) {
-      if(heroInterval) clearInterval(heroInterval);
-      if(!heroProductsLength || heroProductsLength <= 1) return;
-      let currentSlide = 0;
+    function goToSlide(index) {
+      if(heroInterval) {
+        clearInterval(heroInterval);
+        heroInterval = null;
+      }
+      currentSlide = index;
       const slidesContainerDiv = document.getElementById("slidesContainer");
+      if(slidesContainerDiv) slidesContainerDiv.style.transform = `translateX(-${currentSlide * 100}%)`;
       const dots = document.querySelectorAll('.dot');
-      heroInterval = setInterval(() => {
-        currentSlide = (currentSlide + 1) % heroProductsLength;
-        slidesContainerDiv.style.transform = `translateX(-${currentSlide * 100}%)`;
-        dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
-      }, 5000);
+      dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+      
+      if(totalSlides > 1) {
+        heroInterval = setInterval(() => {
+          currentSlide = (currentSlide + 1) % totalSlides;
+          const container = document.getElementById("slidesContainer");
+          if(container) container.style.transform = `translateX(-${currentSlide * 100}%)`;
+          document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+        }, 5000);
+      }
     }
     
     async function loadHeroSliders() {
@@ -352,9 +371,29 @@
       
       const dotsContainer = document.getElementById("sliderDots");
       dotsContainer.innerHTML = '';
-      heroProducts.forEach((_, i) => { const dot = document.createElement('div'); dot.classList.add('dot'); if(i===0) dot.classList.add('active'); dot.addEventListener('click',()=>{ if(heroInterval) clearInterval(heroInterval); const slidesDiv = document.getElementById("slidesContainer"); slidesDiv.style.transform = `translateX(-${i * 100}%)`; document.querySelectorAll('.dot').forEach((d,idx)=>d.classList.toggle('active',idx===i)); startHeroInterval(heroProducts.length); }); dotsContainer.appendChild(dot); });
+      totalSlides = heroProducts.length;
+      for(let i = 0; i < totalSlides; i++) {
+        const dot = document.createElement('div');
+        dot.classList.add('dot');
+        if(i === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => goToSlide(i));
+        dotsContainer.appendChild(dot);
+      }
       
-      startHeroInterval(heroProducts.length);
+      if(heroInterval) {
+        clearInterval(heroInterval);
+        heroInterval = null;
+      }
+      currentSlide = 0;
+      
+      if(totalSlides > 1) {
+        heroInterval = setInterval(() => {
+          currentSlide = (currentSlide + 1) % totalSlides;
+          const container = document.getElementById("slidesContainer");
+          if(container) container.style.transform = `translateX(-${currentSlide * 100}%)`;
+          document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+        }, 5000);
+      }
     }
     
     async function loadAllData() {
@@ -364,11 +403,11 @@
         products = data || [];
         
         const newArrivals = products.slice(0, 8);
-        const trending = [...products].sort(() => 0.5 - Math.random()).slice(0, 8);
+        const trending = [...products].slice(0, 8);
         const featured = products.slice(0, 8);
         
         document.getElementById("categoryGrid").innerHTML = categoriesList.map(cat => 
-          `<a href="shop.html?category=${encodeURIComponent(cat)}" class="category-card"><div class="category-icon">${cat === 'Belts' ? '👔' : cat === 'Shirts' ? '👕' : cat === 'T-Shirts' ? '👚' : cat === 'Lowers' ? '🩳' : cat === 'Jeans' ? '👖' : cat === 'Pants' ? '👖' : cat === 'Shoes' ? '👟' : cat === 'Shorts' ? '🩳' : '🧴'}</div><div class="category-name">${cat}</div></a>`
+          `<a href="shop.html?category=${encodeURIComponent(cat)}" class="category-card"><span class="category-icon">${categoryIcons[cat] || '🛍️'}</span><span class="category-name">${cat}</span></a>`
         ).join('');
         
         document.getElementById("newArrivalsGrid").innerHTML = newArrivals.length ? newArrivals.map(renderProduct).join('') : renderEmptyState("No new arrivals yet");
@@ -390,7 +429,7 @@
     
     document.addEventListener('click', (e) => {
       const addBtn = e.target.closest('.add-to-cart');
-      if(addBtn) { const id = addBtn.dataset.id; const prod = products.find(p=>String(p.id)===String(id)); if(prod) addToCart(prod); }
+      if(addBtn) { const id = addBtn.dataset.id; const prod = products.find(p=>String(p.id)===String(id)); if(prod) handleAddToCart(prod); }
       const wishBtn = e.target.closest('.wishlist-btn');
       if(wishBtn) { const id = wishBtn.dataset.id; const prod = products.find(p=>String(p.id)===String(id)); if(prod) { toggleWishlist(id, prod); wishBtn.classList.toggle('active'); } }
     });
@@ -404,25 +443,15 @@
     closePanelBtn?.addEventListener('click', closeMobile);
     overlayDiv?.addEventListener('click', closeMobile);
     
-    // Theme Toggle - Full implementation
-    const themeToggle = document.getElementById('themeToggle');
-    function setThemeIcon(theme) { themeToggle.innerHTML = theme === 'light' ? '🌙' : '☀️'; }
-    function initTheme() {
-      const saved = localStorage.getItem('bjm_theme');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const theme = saved || (prefersDark ? 'dark' : 'light');
-      document.documentElement.setAttribute('data-theme', theme);
-      setThemeIcon(theme);
+    // Logo fallback using nextElementSibling
+    const logoImg = document.getElementById('siteLogo');
+    const logoFallback = document.getElementById('logoFallback');
+    if(logoImg) {
+      logoImg.onerror = function() {
+        this.style.display = 'none';
+        if(logoFallback) logoFallback.style.display = 'block';
+      };
     }
-    function toggleTheme() {
-      const current = document.documentElement.getAttribute('data-theme');
-      const next = current === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('bjm_theme', next);
-      setThemeIcon(next);
-    }
-    themeToggle?.addEventListener('click', toggleTheme);
-    initTheme();
     
     updateCounters();
     loadAllData();
