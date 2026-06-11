@@ -168,28 +168,10 @@
       height: 38px;
       width: auto;
       display: block;
+      object-fit: contain;
     }
     @media (min-width: 768px) {
       .brand-logo-img { height: 44px; }
-    }
-    .brand-text {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.1;
-    }
-    .brand-title {
-      font-family: var(--font-display);
-      font-weight: 800;
-      font-size: 15px;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-    .brand-subtitle {
-      font-size: 9px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      font-weight: 400;
     }
 
     /* Desktop Nav */
@@ -340,6 +322,7 @@
     @keyframes slideIn { from { transform: translateX(-100%); } to { transform: translateX(0); } }
     @keyframes slideInRight { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes floatCard { 0% { transform: translateY(0px); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0px); } }
 
     .panel-header {
       display: flex;
@@ -396,51 +379,69 @@
 
     body.menu-open { overflow: hidden; }
 
-    /* ─── HERO (PRODUCT SHOWCASE) ─── */
+    /* ─── HERO (Premium Product Showcase) ─── */
     .hero {
       background: var(--ink);
       position: relative;
       overflow: hidden;
-      padding: 48px 0 32px;
+      padding: 56px 0 64px;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+    .hero-content {
+      animation: fadeUp 0.6s var(--ease-out) both;
     }
     .hero-title {
       font-family: var(--font-display);
       font-weight: 900;
-      font-size: clamp(42px, 10vw, 88px);
+      font-size: clamp(42px, 10vw, 78px);
       line-height: 0.92;
       letter-spacing: -0.01em;
       text-transform: uppercase;
+      margin-bottom: 20px;
     }
     .hero-title span { color: var(--yellow); display: block; font-style: italic; }
     .hero-text {
       max-width: 440px;
-      font-size: 14px;
+      font-size: 15px;
       color: var(--muted);
       line-height: 1.7;
-      margin: 20px 0 24px;
+      margin-bottom: 28px;
     }
-    .hero-products-grid {
+    .hero-products {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      margin-top: 32px;
+      gap: 16px;
+      animation: fadeUp 0.7s var(--ease-out) 0.1s both;
     }
-    .hero-product-card {
+    .hero-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       overflow: hidden;
-      transition: transform 0.2s ease;
+      transition: all 0.3s var(--ease-spring);
+      animation: floatCard 4s ease-in-out infinite;
     }
-    .hero-product-card:hover { transform: translateY(-4px); border-color: var(--yellow); }
-    .hero-product-img {
+    .hero-card:nth-child(2) { animation-delay: 0.5s; }
+    .hero-card:nth-child(3) { animation-delay: 1s; }
+    .hero-card:nth-child(4) { animation-delay: 1.5s; }
+    .hero-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      border-color: var(--yellow);
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5);
+    }
+    .hero-card-img {
       aspect-ratio: 1/1;
-      object-fit: cover;
       width: 100%;
+      object-fit: cover;
       background: var(--ink-3);
     }
-    .hero-product-info { padding: 10px; }
-    .hero-product-name {
+    .hero-card-info { padding: 12px; }
+    .hero-card-name {
       font-family: var(--font-display);
       font-weight: 700;
       font-size: 13px;
@@ -449,14 +450,16 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    .hero-product-price {
+    .hero-card-price {
       font-family: var(--font-display);
       font-weight: 800;
       font-size: 14px;
       color: var(--yellow);
+      margin-top: 4px;
     }
-    @media (min-width: 640px) {
-      .hero-products-grid { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    @media (min-width: 768px) {
+      .hero-grid { grid-template-columns: 1fr 1fr; gap: 48px; }
+      .hero-products { grid-template-columns: repeat(2, 1fr); gap: 20px; }
     }
 
     /* ─── BUTTONS ─── */
@@ -470,12 +473,11 @@
       font-size: 13px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      padding: 0 20px;
-      height: 42px;
+      padding: 0 24px;
+      height: 46px;
       border-radius: var(--radius-sm);
       border: 1px solid transparent;
       transition: all 0.2s var(--ease-out);
-      white-space: nowrap;
       cursor: pointer;
       text-decoration: none;
     }
@@ -487,7 +489,7 @@
     .btn-accent:hover {
       background: #fff;
       border-color: #fff;
-      transform: translateY(-1px);
+      transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(245,230,66,0.25);
     }
     .btn-primary {
@@ -506,7 +508,7 @@
       font-size: 12px;
     }
     .btn-ghost:hover { border-color: var(--yellow); color: var(--yellow); }
-    .btn-sm { height: 34px; font-size: 11px; padding: 0 14px; }
+    .btn-sm { height: 36px; font-size: 11px; padding: 0 16px; }
 
     /* ─── SECTIONS ─── */
     .section { padding: 64px 0; }
@@ -582,7 +584,7 @@
       gap: 10px;
     }
     @media (min-width: 640px) { .categories-grid { grid-template-columns: repeat(4, 1fr); } }
-    @media (min-width: 1024px) { .categories-grid { grid-template-columns: repeat(8, 1fr); } }
+    @media (min-width: 1024px) { .categories-grid { grid-template-columns: repeat(9, 1fr); } }
 
     .category-card {
       display: flex;
@@ -595,26 +597,11 @@
       text-decoration: none;
       color: var(--white);
       transition: all 0.25s var(--ease-out);
-      position: relative;
-      overflow: hidden;
-    }
-    .category-card::before {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: var(--yellow);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s var(--ease-out);
     }
     .category-card:hover { border-color: var(--border-strong); background: var(--surface-2); transform: translateY(-2px); }
-    .category-card:hover::before { transform: scaleX(1); }
-    .category-card h3 { font-family: var(--font-display); font-weight: 800; font-size: 16px; letter-spacing: 0.04em; text-transform: uppercase; }
-    .category-card p { font-size: 10px; color: var(--muted); line-height: 1.5; }
-    .btn-link { font-family: var(--font-display); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--yellow); margin-top: auto; }
+    .category-card h3 { font-family: var(--font-display); font-weight: 800; font-size: 14px; letter-spacing: 0.04em; text-transform: uppercase; }
+    .category-card p { font-size: 9px; color: var(--muted); line-height: 1.5; }
+    .btn-link { font-family: var(--font-display); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--yellow); margin-top: auto; }
 
     .products-grid {
       display: grid;
@@ -650,40 +637,31 @@
     .price-current { font-family: var(--font-display); font-weight: 800; font-size: 16px; color: var(--white); }
     .price-old { font-size: 11px; color: var(--muted-2); text-decoration: line-through; }
     .price-discount { font-family: var(--font-display); font-size: 10px; font-weight: 700; color: var(--yellow); }
-    .product-meta { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
-    .product-rating { font-family: var(--font-display); font-size: 11px; font-weight: 600; color: var(--muted); display: flex; align-items: center; gap: 3px; }
-    .star { color: var(--yellow); }
-    .product-stock { font-family: var(--font-display); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
-    .in-stock { color: var(--green); }
     .product-card-actions { display: flex; gap: 6px; margin-top: 10px; }
     .add-cart-btn { width: 36px; height: 36px; background: var(--yellow); color: var(--ink); border-radius: var(--radius-sm); font-size: 20px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; }
-    .skeleton-card { min-height: 340px; }
+    .skeleton-card { min-height: 340px; background: var(--surface); border-radius: var(--radius); }
     .skeleton { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); position: relative; overflow: hidden; }
-    .skeleton::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 50%, transparent 100%); animation: shimmer 1.4s infinite; }
+    .skeleton::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.05) 50%, transparent 100%); animation: shimmer 1.4s infinite; }
     @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
 
-    .collection-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    @media (max-width: 639px) { .collection-grid { grid-template-columns: 1fr; } }
-    .collection-card { padding: 28px 24px; border-radius: var(--radius-lg); border: 1px solid var(--border); background: var(--surface); transition: all 0.25s var(--ease-out); }
-    .collection-card h3 { font-family: var(--font-display); font-weight: 900; font-size: 28px; letter-spacing: -0.01em; text-transform: uppercase; margin-top: 12px; }
-    .collection-card p { font-size: 13px; color: var(--muted); margin-top: 8px; }
-
-    .trust-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .trust-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 20px; }
     @media (min-width: 768px) { .trust-grid { grid-template-columns: repeat(4, 1fr); } }
     .trust-card { padding: 24px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); transition: all 0.25s var(--ease-out); }
     .trust-card:hover { border-color: var(--yellow); background: var(--yellow-bg); }
-    .trust-icon { font-size: 22px; margin-bottom: 12px; display: block; }
+    .trust-icon { font-size: 26px; margin-bottom: 12px; display: block; }
     .trust-card h3 { font-family: var(--font-display); font-weight: 800; font-size: 15px; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 6px; }
     .trust-card p { font-size: 12px; color: var(--muted); line-height: 1.6; }
 
     .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out); }
     .reveal.show { opacity: 1; transform: translateY(0); }
-    .empty-state { text-align: center; padding: 48px 24px; color: var(--muted); }
+    .empty-state { text-align: center; padding: 48px 24px; color: var(--muted); background: var(--surface); border-radius: var(--radius); grid-column: 1/-1; }
+    .empty-state-icon { font-size: 48px; margin-bottom: 16px; }
+    .empty-state h3 { font-family: var(--font-display); font-size: 18px; font-weight: 800; margin-bottom: 8px; color: var(--white); }
 
     .footer { background: var(--ink-2); border-top: 1px solid var(--border); }
     .footer-top { padding: 56px 0 40px; }
     .footer-grid { display: grid; grid-template-columns: 1fr; gap: 36px; }
-    @media (min-width: 640px) { .footer-grid { grid-template-columns: 1.5fr 1fr 1fr 1.5fr; gap: 24px; } }
+    @media (min-width: 640px) { .footer-grid { grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 24px; } }
     .footer-brand p { font-size: 12px; color: var(--muted); margin-top: 14px; line-height: 1.7; max-width: 240px; }
     .footer-col h4 { font-family: var(--font-display); font-size: 11px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
     .footer-links { display: flex; flex-direction: column; gap: 10px; }
@@ -701,30 +679,29 @@
 <body>
   <a href="#main-content" class="skip-link">Skip to content</a>
   <header class="site-header">
-    <div class="top-strip"><div class="container"><div class="top-strip-marquee"><span>Premium Men’s Fashion</span><span>Secure Razorpay Checkout</span><span>Quality Checked Products</span><span>7-Day Returns</span><span>Premium Men’s Fashion</span><span>Secure Razorpay Checkout</span><span>Quality Checked Products</span><span>7-Day Returns</span></div><div class="top-strip-links"><a href="about.html">About</a><a href="contact.html">Contact</a></div></div></div>
-    <div class="container"><div class="navbar"><div class="nav-left"><button class="icon-btn menu-toggle show-on-mobile" type="button" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button><a href="index.html" class="brand" aria-label="BABA JAAN MART home"><img class="brand-logo-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'%3E%3Crect width='200' height='60' fill='%23f5e642'/%3E%3Ctext x='12' y='40' font-family='Arial, sans-serif' font-weight='900' font-size='26' fill='%230a0a0a'%3EBJM%3C/text%3E%3C/svg%3E" alt="BABA JAAN MART Logo"></a></div><form class="header-search" id="headerSearchForm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="M20 20L17 17"></path></svg><input type="search" id="headerSearchInput" placeholder="Search belts, shirts, shoes..."></form><nav class="desktop-nav"><a href="index.html" class="active">Home</a><a href="shop.html">Shop</a><a href="about.html">About</a><a href="contact.html">Contact</a></nav><div class="nav-right"><button class="icon-btn mobile-search-toggle show-on-mobile" type="button" aria-label="Open search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="M20 20L17 17"></path></svg></button><button class="icon-btn" type="button" id="themeToggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></button><a href="wishlist.html" class="icon-btn hide-mobile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-6.716-4.35-9.192-8.237C1.28 10.38 2.095 7 5.09 6.16c1.9-.533 3.574.173 4.91 1.6 1.337-1.427 3.011-2.133 4.91-1.6 2.995.84 3.81 4.22 2.282 6.603C18.716 16.65 12 21 12 21z"></path></svg><span class="icon-badge-count" id="wishlistCount">0</span></a><a href="cart.html" class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="20" r="1"></circle><circle cx="18" cy="20" r="1"></circle><path d="M3 4h2l2.2 10.4a1 1 0 0 0 1 .8h9.6a1 1 0 0 0 1-.8L21 7H7"></path></svg><span class="icon-badge-count" id="cartCount">0</span></a></div></div></div>
+    <div class="top-strip"><div class="container"><div class="top-strip-marquee"><span>Premium Men's Fashion</span><span>Secure Razorpay Checkout</span><span>Quality Checked Products</span><span>7-Day Returns</span><span>Premium Men's Fashion</span><span>Secure Razorpay Checkout</span><span>Quality Checked Products</span><span>7-Day Returns</span></div><div class="top-strip-links"><a href="about.html">About</a><a href="contact.html">Contact</a></div></div></div>
+    <div class="container"><div class="navbar"><div class="nav-left"><button class="icon-btn menu-toggle show-on-mobile" type="button" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button><a href="index.html" class="brand" aria-label="BABA JAAN MART home"><img class="brand-logo-img" src="https://placehold.co/200x60/f5e642/0a0a0a?text=BJM" alt="BABA JAAN MART Logo" style="background:#f5e642; color:#0a0a0a; font-weight:900; font-family:monospace;"></a></div><form class="header-search" id="headerSearchForm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="7"></circle><path d="M20 20L17 17"></path></svg><input type="search" id="headerSearchInput" placeholder="Search belts, shirts, shoes..."></form><nav class="desktop-nav"><a href="index.html" class="active">Home</a><a href="shop.html">Shop</a><a href="about.html">About</a><a href="contact.html">Contact</a></nav><div class="nav-right"><button class="icon-btn mobile-search-toggle show-on-mobile" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="7"></circle><path d="M20 20L17 17"></path></svg></button><button class="icon-btn" id="themeToggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></button><a href="wishlist.html" class="icon-btn hide-mobile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 21s-6.716-4.35-9.192-8.237C1.28 10.38 2.095 7 5.09 6.16c1.9-.533 3.574.173 4.91 1.6 1.337-1.427 3.011-2.133 4.91-1.6 2.995.84 3.81 4.22 2.282 6.603C18.716 16.65 12 21 12 21z"></path></svg><span class="icon-badge-count" id="wishlistCount">0</span></a><a href="cart.html" class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="9" cy="20" r="1"></circle><circle cx="18" cy="20" r="1"></circle><path d="M3 4h2l2.2 10.4a1 1 0 0 0 1 .8h9.6a1 1 0 0 0 1-.8L21 7H7"></path></svg><span class="icon-badge-count" id="cartCount">0</span></a></div></div></div>
   </header>
-  <div class="mobile-menu-panel" id="mobileMenuPanel"><div class="overlay"></div><aside class="mobile-panel"><div class="panel-header"><h2 class="panel-title">Menu</h2><button class="icon-btn close-panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div><nav class="mobile-nav-links"><a href="index.html">Home <span>→</span></a><a href="shop.html">Shop <span>→</span></a><a href="wishlist.html">Wishlist <span>→</span></a><a href="cart.html">Cart <span>→</span></a><a href="about.html">About <span>→</span></a><a href="contact.html">Contact <span>→</span></a></nav></aside></div>
-  <div class="mobile-search-panel" id="mobileSearchPanel"><div class="overlay"></div><div class="mobile-panel"><div class="panel-header"><h2 class="panel-title">Search</h2><button class="icon-btn close-panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div><form class="search-box" id="mobileSearchForm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="7"></circle><path d="M20 20L17 17"></path></svg><input type="search" id="mobileSearchInput" placeholder="Search latest styles..."></form></div></div>
+  <div class="mobile-menu-panel" id="mobileMenuPanel"><div class="overlay"></div><aside class="mobile-panel"><div class="panel-header"><h2 class="panel-title">Menu</h2><button class="icon-btn close-panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div><nav class="mobile-nav-links"><a href="index.html">Home <span>→</span></a><a href="shop.html">Shop <span>→</span></a><a href="wishlist.html">Wishlist <span>→</span></a><a href="cart.html">Cart <span>→</span></a><a href="about.html">About <span>→</span></a><a href="contact.html">Contact <span>→</span></a></nav></aside></div>
+  <div class="mobile-search-panel" id="mobileSearchPanel"><div class="overlay"></div><div class="mobile-panel"><div class="panel-header"><h2 class="panel-title">Search</h2><button class="icon-btn close-panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div><form class="search-box" id="mobileSearchForm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="7"></circle><path d="M20 20L17 17"></path></svg><input type="search" id="mobileSearchInput" placeholder="Search latest styles..."></form></div></div>
   <main id="main-content">
-    <section class="hero"><div class="container"><h1 class="hero-title">Premium<br>Men's <span>Fashion</span></h1><p class="hero-text">Elevate your everyday with belts, shirts, jeans, pants, shoes & perfumes. Secure checkout, quality assured.</p><a href="shop.html" class="btn btn-accent">Shop Collection →</a><div class="hero-products-grid" id="heroProductsGrid"><div class="skeleton skeleton-card" style="height:180px"></div><div class="skeleton skeleton-card" style="height:180px"></div><div class="skeleton skeleton-card" style="height:180px"></div><div class="skeleton skeleton-card" style="height:180px"></div></div></div></section>
+    <section class="hero"><div class="container"><div class="hero-grid"><div class="hero-content"><h1 class="hero-title">Premium<br>Men's <span>Fashion</span></h1><p class="hero-text">Elevate your everyday with belts, shirts, jeans, pants, shoes & perfumes. Secure checkout, quality assured.</p><a href="shop.html" class="btn btn-accent">Shop Collection →</a></div><div class="hero-products" id="heroProductsGrid"><div class="skeleton skeleton-card" style="height:200px"></div><div class="skeleton skeleton-card" style="height:200px"></div><div class="skeleton skeleton-card" style="height:200px"></div><div class="skeleton skeleton-card" style="height:200px"></div></div></div></div></section>
     <section class="section-sm bg-surface"><div class="container"><div class="filter-chip-row"><a href="shop.html?category=Belts" class="filter-chip">Belts</a><a href="shop.html?category=Shirts" class="filter-chip">Shirts</a><a href="shop.html?category=T-Shirts" class="filter-chip">T-Shirts</a><a href="shop.html?category=Lowers" class="filter-chip">Lowers</a><a href="shop.html?category=Jeans" class="filter-chip">Jeans</a><a href="shop.html?category=Pants" class="filter-chip">Pants</a><a href="shop.html?category=Shoes" class="filter-chip">Shoes</a><a href="shop.html?category=Shorts" class="filter-chip">Shorts</a><a href="shop.html?category=Perfumes" class="filter-chip">Perfumes</a></div></div></section>
     <section class="section"><div class="container"><div class="section-title-wrap"><div><p class="section-kicker">Browse Categories</p><h2 class="section-title">Shop By Category</h2></div><a href="shop.html" class="btn btn-ghost">View All →</a></div><div class="categories-grid" id="categoriesGrid"></div></div></section>
-    <section class="section bg-surface-2" id="trending-products"><div class="container"><div class="section-title-wrap"><div><p class="section-kicker">Best Picks</p><h2 class="section-title">Trending Now</h2></div><a href="shop.html" class="btn btn-ghost">See More →</a></div><div class="products-grid" id="trendingProductsGrid"><div class="product-card skeleton"></div><div class="product-card skeleton"></div><div class="product-card skeleton"></div><div class="product-card skeleton"></div></div></div></section>
-    <section class="section" id="new-arrivals"><div class="container"><div class="section-title-wrap"><div><p class="section-kicker">Latest Styles</p><h2 class="section-title">New Arrivals</h2></div><a href="shop.html?sort=newest" class="btn btn-ghost">Explore New →</a></div><div class="products-grid" id="newArrivalsGrid"><div class="product-card skeleton"></div><div class="product-card skeleton"></div><div class="product-card skeleton"></div><div class="product-card skeleton"></div></div></div></section>
-    <section class="section bg-surface-2" id="featured-products"><div class="container"><div class="section-title-wrap"><div><p class="section-kicker">Editor's Choice</p><h2 class="section-title">Featured Products</h2></div><a href="shop.html" class="btn btn-ghost">Shop All →</a></div><div class="products-grid" id="bestSellersGrid"><div class="product-card skeleton"></div><div class="product-card skeleton"></div><div class="product-card skeleton"></div><div class="product-card skeleton"></div></div></div></section>
-    <section class="section bg-surface-2" id="trust-section"><div class="container"><div class="trust-grid"><div class="trust-card reveal"><span class="trust-icon">✓</span><h3>Secure Payments</h3><p>Powered by Razorpay, trusted processing.</p></div><div class="trust-card reveal"><span class="trust-icon">⚡</span><h3>Fast Shopping</h3><p>Mobile-first, instant filters & cart.</p></div><div class="trust-card reveal"><span class="trust-icon">★</span><h3>Premium Quality</h3><p>Quality checked products, 7-day returns.</p></div><div class="trust-card reveal"><span class="trust-icon">📧</span><h3>Email Support</h3><p>We’re here to help 24/6.</p></div></div></div></section>
+    <section class="section bg-surface-2"><div class="container"><div class="section-title-wrap"><div><p class="section-kicker">Best Picks</p><h2 class="section-title">Trending Now</h2></div><a href="shop.html" class="btn btn-ghost">See More →</a></div><div class="products-grid" id="trendingProductsGrid"><div class="product-card skeleton"></div><div class="product-card skeleton"></div><div class="product-card skeleton"></div><div class="product-card skeleton"></div></div></div></section>
+    <section class="section"><div class="container"><div class="section-title-wrap"><div><p class="section-kicker">Latest Styles</p><h2 class="section-title">New Arrivals</h2></div><a href="shop.html?sort=newest" class="btn btn-ghost">Explore New →</a></div><div class="products-grid" id="newArrivalsGrid"><div class="product-card skeleton"></div><div class="product-card skeleton"></div><div class="product-card skeleton"></div><div class="product-card skeleton"></div></div></div></section>
+    <section class="section bg-surface-2"><div class="container"><div class="section-title-wrap"><div><p class="section-kicker">Editor's Choice</p><h2 class="section-title">Featured Products</h2></div><a href="shop.html" class="btn btn-ghost">Shop All →</a></div><div class="products-grid" id="featuredProductsGrid"><div class="product-card skeleton"></div><div class="product-card skeleton"></div><div class="product-card skeleton"></div><div class="product-card skeleton"></div></div></div></section>
+    <section class="section"><div class="container"><div class="trust-grid"><div class="trust-card reveal"><span class="trust-icon">✓</span><h3>Secure Payments</h3><p>Powered by Razorpay, trusted processing.</p></div><div class="trust-card reveal"><span class="trust-icon">⚡</span><h3>Fast Shopping</h3><p>Mobile-first, instant filters & cart.</p></div><div class="trust-card reveal"><span class="trust-icon">★</span><h3>Quality Checked</h3><p>Premium materials, 7-day returns.</p></div><div class="trust-card reveal"><span class="trust-icon">📧</span><h3>Email Support</h3><p>Contact us for order help.</p></div></div></div></section>
   </main>
-  <footer class="footer"><div class="footer-top"><div class="container"><div class="footer-grid"><div class="footer-brand"><a href="index.html" class="brand"><img class="brand-logo-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'%3E%3Crect width='200' height='60' fill='%23f5e642'/%3E%3Ctext x='12' y='40' font-family='Arial, sans-serif' font-weight='900' font-size='26' fill='%230a0a0a'%3EBJM%3C/text%3E%3C/svg%3E" alt="BABA JAAN MART Logo"></a><p>Modern men’s fashion built for style, speed and secure shopping.</p></div><div class="footer-col"><h4>Shop</h4><div class="footer-links"><a href="shop.html?category=Belts">Belts</a><a href="shop.html?category=Shirts">Shirts</a><a href="shop.html?category=Jeans">Jeans</a><a href="shop.html?category=Shoes">Shoes</a></div></div><div class="footer-col"><h4>Pages</h4><div class="footer-links"><a href="about.html">About</a><a href="contact.html">Contact</a><a href="wishlist.html">Wishlist</a><a href="cart.html">Cart</a></div></div><div class="footer-col"><h4>Stay Updated</h4><div class="footer-newsletter"><p>Get fresh style updates.</p><form class="footer-newsletter-form"><input type="email" placeholder="Enter email"><button type="submit" class="btn btn-accent btn-sm">Join</button></form></div></div></div></div></div><div class="footer-bottom"><div class="container"><div class="footer-bottom-inner"><p>© 2026 BABA JAAN MART. All rights reserved.</p><div class="footer-bottom-links"><a href="shop.html">Shop</a><a href="contact.html">Support</a></div></div></div></div></footer>
+  <footer class="footer"><div class="footer-top"><div class="container"><div class="footer-grid"><div class="footer-brand"><a href="index.html" class="brand"><img class="brand-logo-img" src="https://placehold.co/200x60/f5e642/0a0a0a?text=BJM" alt="BABA JAAN MART Logo" style="background:#f5e642; color:#0a0a0a; font-weight:900;"></a><p>Modern men's fashion built for style, speed and secure shopping.</p></div><div class="footer-col"><h4>Shop</h4><div class="footer-links"><a href="shop.html?category=Belts">Belts</a><a href="shop.html?category=Shirts">Shirts</a><a href="shop.html?category=Jeans">Jeans</a><a href="shop.html?category=Shoes">Shoes</a></div></div><div class="footer-col"><h4>Pages</h4><div class="footer-links"><a href="about.html">About</a><a href="contact.html">Contact</a><a href="wishlist.html">Wishlist</a><a href="cart.html">Cart</a></div></div><div class="footer-col"><h4>Support</h4><div class="footer-links"><a href="contact.html">Email Support</a><a href="contact.html">Order Help</a><a href="contact.html">Returns</a></div></div></div></div></div><div class="footer-bottom"><div class="container"><div class="footer-bottom-inner"><p>© 2026 BABA JAAN MART. All rights reserved.</p><div class="footer-bottom-links"><a href="shop.html">Shop</a><a href="contact.html">Support</a></div></div></div></div></footer>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     const SUPABASE_URL = "https://kwslileixrznlycqjqoj.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3c2xpbGVpeHJ6bmx5Y3FqcW9qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2NTY2MDgsImV4cCI6MjA5NTIzMjYwOH0.t5j4URbC5iCOySScCyJpyq6ngYUAGt7P94fmK0bypLc";
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     let products = [];
     let wishlist = JSON.parse(localStorage.getItem("bjm_wishlist") || "[]");
     let cart = JSON.parse(localStorage.getItem("bjm_cart") || "[]");
-
     const rupee = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
     const categoriesList = ["Belts","Shirts","T-Shirts","Lowers","Jeans","Pants","Shoes","Shorts","Perfumes"];
 
@@ -733,26 +710,40 @@
     function saveCart() { localStorage.setItem("bjm_cart", JSON.stringify(cart)); updateCounters(); }
     function isInWishlist(id) { return wishlist.some(item => String(item.id) === String(id)); }
     function toggleWishlist(id, product) { const idx = wishlist.findIndex(i=>String(i.id)===String(id)); if(idx>-1) wishlist.splice(idx,1); else wishlist.push({id:product.id,name:product.name,price:product.price,image_url:product.image_url,category:product.category}); saveWishlist(); }
-    function addToCart(product) { const existing = cart.find(i=>String(i.id)===String(product.id)); if(existing) existing.quantity = (existing.quantity||1)+1; else cart.push({...product, quantity:1}); saveCart(); }
-
+    function addToCart(product) { const size = product.size || "Free Size"; const existing = cart.find(i=>String(i.id)===String(product.id) && i.size===size); if(existing) existing.quantity = (existing.quantity||1)+1; else cart.push({ id:product.id, name:product.name, price:product.price, old_price:product.old_price, image_url:product.image_url, category:product.category, size:size, quantity:1 }); saveCart(); }
+    function escapeHtml(str) { if(!str) return ''; return String(str).replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
     function renderProductCard(p, withWishlistBtn=true) {
       const discount = p.old_price && Number(p.old_price) > Number(p.price) ? Math.round(((Number(p.old_price)-Number(p.price))/Number(p.old_price))*100) : 0;
       const image = p.image_url || "https://via.placeholder.com/600x750?text=BJM";
       return `<article class="product-card reveal"><div class="product-media"><img src="${image}" alt="${escapeHtml(p.name)}" loading="lazy"><div class="product-badges">${discount?`<span class="badge badge-primary">${discount}% OFF</span>`:`<span class="badge">New</span>`}<span class="badge">${escapeHtml(p.category||"Style")}</span></div><div class="product-actions-top">${withWishlistBtn?`<button class="icon-btn wishlist-btn ${isInWishlist(p.id)?'active':''}" data-id="${p.id}">♥</button>`:''}</div></div><div class="product-info"><p class="product-category">${escapeHtml(p.category||"Fashion")}</p><h3 class="product-title">${escapeHtml(p.name)}</h3><div class="price-row"><span class="price-current">${rupee.format(Number(p.price)||0)}</span>${p.old_price?`<span class="price-old">${rupee.format(Number(p.old_price))}</span>`:''}${discount?`<span class="price-discount">-${discount}%</span>`:''}</div><div class="product-card-actions"><a href="product-detail.html?id=${p.id}" class="btn btn-primary">View</a><button class="add-cart-btn" data-id="${p.id}">+</button></div></div></article>`;
     }
-    function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+    function renderEmptyState(message) { return `<div class="empty-state"><div class="empty-state-icon">🛍️</div><h3>${message}</h3><p>Add products from the admin panel to see them here.</p></div>`; }
     function renderCategories() { const grid = document.getElementById("categoriesGrid"); if(grid) grid.innerHTML = categoriesList.map(cat => `<a class="category-card reveal" href="shop.html?category=${encodeURIComponent(cat)}"><h3>${cat}</h3><p>Premium ${cat.toLowerCase()}</p><span class="btn-link">Shop →</span></a>`).join(''); }
-    async function loadAllProducts() { try { const { data, error } = await supabase.from("products").select("*").order("created_at", { ascending: false }); if(error) throw error; products = data||[]; const trending = products.slice(0,4); const newArrivals = [...products].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).slice(0,4); const featured = products.slice(4,8); document.getElementById("trendingProductsGrid").innerHTML = trending.length ? trending.map(p=>renderProductCard(p)).join('') : '<div class="empty-state">No products</div>'; document.getElementById("newArrivalsGrid").innerHTML = newArrivals.length ? newArrivals.map(p=>renderProductCard(p)).join('') : '<div class="empty-state">No new arrivals</div>'; document.getElementById("bestSellersGrid").innerHTML = featured.length ? featured.map(p=>renderProductCard(p)).join('') : '<div class="empty-state">No featured products</div>'; const heroGrid = document.getElementById("heroProductsGrid"); if(heroGrid && products.length) heroGrid.innerHTML = products.slice(0,4).map(p=>`<div class="hero-product-card"><img class="hero-product-img" src="${p.image_url||'https://via.placeholder.com/300'}" alt="${escapeHtml(p.name)}"><div class="hero-product-info"><div class="hero-product-name">${escapeHtml(p.name)}</div><div class="hero-product-price">${rupee.format(Number(p.price))}</div></div></div>`).join(''); else if(heroGrid) heroGrid.innerHTML = '<div class="empty-state">Loading styles...</div>'; document.querySelectorAll('.reveal').forEach(el=>el.classList.add('show')); } catch(e) { console.error(e); } }
+    async function loadData() {
+      try {
+        const { data, error } = await supabaseClient.from("products").select("*").order("created_at", { ascending: false });
+        if(error) throw error;
+        products = data || [];
+        const trending = products.slice(0,4);
+        const newArrivals = [...products].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).slice(0,4);
+        const featured = products.slice(0,4);
+        document.getElementById("trendingProductsGrid").innerHTML = trending.length ? trending.map(p=>renderProductCard(p)).join('') : renderEmptyState("No trending products");
+        document.getElementById("newArrivalsGrid").innerHTML = newArrivals.length ? newArrivals.map(p=>renderProductCard(p)).join('') : renderEmptyState("No new arrivals");
+        document.getElementById("featuredProductsGrid").innerHTML = featured.length ? featured.map(p=>renderProductCard(p)).join('') : renderEmptyState("No featured products");
+        const heroGrid = document.getElementById("heroProductsGrid");
+        if(heroGrid) heroGrid.innerHTML = products.slice(0,4).map(p=>`<div class="hero-card"><img class="hero-card-img" src="${p.image_url||'https://via.placeholder.com/300'}" alt="${escapeHtml(p.name)}"><div class="hero-card-info"><div class="hero-card-name">${escapeHtml(p.name)}</div><div class="hero-card-price">${rupee.format(Number(p.price))}</div></div></div>`).join('');
+        document.querySelectorAll('.reveal').forEach(el=>el.classList.add('show'));
+      } catch(e) { console.error(e); const errMsg = renderEmptyState("Unable to load products"); document.getElementById("trendingProductsGrid").innerHTML = errMsg; document.getElementById("newArrivalsGrid").innerHTML = errMsg; document.getElementById("featuredProductsGrid").innerHTML = errMsg; }
+    }
     function handleSearch(query) { if(query?.trim()) window.location.href = `shop.html?search=${encodeURIComponent(query.trim())}`; else window.location.href = "shop.html"; }
-
-    document.addEventListener('click', (e) => { if(e.target.closest('.add-cart-btn')) { const id = e.target.closest('.add-cart-btn').dataset.id; const prod = products.find(p=>String(p.id)===String(id)); if(prod) addToCart(prod); } if(e.target.closest('.wishlist-btn')) { const btn = e.target.closest('.wishlist-btn'); const id = btn.dataset.id; const prod = products.find(p=>String(p.id)===String(id)); if(prod) { toggleWishlist(id, prod); btn.classList.toggle('active'); } } if(e.target.closest('.close-panel') || e.target.closest('.overlay')) { document.getElementById('mobileMenuPanel')?.classList.remove('active'); document.getElementById('mobileSearchPanel')?.classList.remove('active'); document.body.classList.remove('menu-open'); } });
+    document.addEventListener('click', (e) => { const addBtn = e.target.closest('.add-cart-btn'); if(addBtn) { const id = addBtn.dataset.id; const prod = products.find(p=>String(p.id)===String(id)); if(prod) addToCart(prod); } const wishBtn = e.target.closest('.wishlist-btn'); if(wishBtn) { const id = wishBtn.dataset.id; const prod = products.find(p=>String(p.id)===String(id)); if(prod) { toggleWishlist(id, prod); wishBtn.classList.toggle('active'); } } if(e.target.closest('.close-panel') || e.target.closest('.overlay')) { document.getElementById('mobileMenuPanel')?.classList.remove('active'); document.getElementById('mobileSearchPanel')?.classList.remove('active'); document.body.classList.remove('menu-open'); } });
     document.querySelector('.menu-toggle')?.addEventListener('click',()=>{ document.getElementById('mobileMenuPanel')?.classList.add('active'); document.body.classList.add('menu-open'); });
     document.querySelector('.mobile-search-toggle')?.addEventListener('click',()=>{ document.getElementById('mobileSearchPanel')?.classList.add('active'); document.body.classList.add('menu-open'); });
     document.getElementById('headerSearchForm')?.addEventListener('submit',(e)=>{ e.preventDefault(); handleSearch(document.getElementById('headerSearchInput').value); });
     document.getElementById('mobileSearchForm')?.addEventListener('submit',(e)=>{ e.preventDefault(); handleSearch(document.getElementById('mobileSearchInput').value); });
     document.getElementById('themeToggle')?.addEventListener('click',()=>{ const cur = document.documentElement.getAttribute('data-theme')||'light'; const next = cur==='dark'?'light':'dark'; document.documentElement.setAttribute('data-theme',next); localStorage.setItem('bjm_theme',next); });
     (function initTheme(){ const saved = localStorage.getItem('bjm_theme'); const prefers = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark':'light'; document.documentElement.setAttribute('data-theme', saved||prefers); })();
-    renderCategories(); loadAllProducts(); updateCounters();
+    renderCategories(); loadData(); updateCounters();
   </script>
 </body>
 </html>
