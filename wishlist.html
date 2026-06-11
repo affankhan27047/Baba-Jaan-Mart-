@@ -164,6 +164,24 @@
             color: black;
         }
 
+        .btn-clear-wishlist {
+            background: rgba(220, 53, 69, 0.15);
+            border: 1.5px solid #dc3545;
+            color: #dc3545;
+            padding: 0.6rem 1.4rem;
+            border-radius: 40px;
+            font-weight: 500;
+            transition: 0.2s;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-left: 1rem;
+        }
+
+        .btn-clear-wishlist:hover {
+            background: #dc3545;
+            color: white;
+        }
+
         /* Wishlist Container */
         .wishlist-container {
             max-width: 1300px;
@@ -174,12 +192,23 @@
 
         .wishlist-header {
             margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .wishlist-header h1 {
             color: var(--gold);
             font-size: 2.2rem;
             margin-bottom: 0.5rem;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
         .products-grid {
@@ -283,6 +312,31 @@
             margin-top: 3rem;
         }
 
+        /* Toast notification */
+        .toast-message {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #2c2c2c;
+            color: var(--gold);
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            z-index: 2000;
+            border-left: 4px solid var(--gold);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            animation: fadeInOut 2.5s ease forwards;
+            pointer-events: none;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(20px); }
+            15% { opacity: 1; transform: translateY(0); }
+            85% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(20px); }
+        }
+
         @media (max-width: 768px) {
             .navbar {
                 padding: 1rem;
@@ -298,6 +352,14 @@
             }
             .wishlist-header h1 {
                 font-size: 1.8rem;
+            }
+            .wishlist-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
             }
             .products-grid {
                 gap: 1rem;
@@ -346,6 +408,26 @@
 </footer>
 
 <script>
+    // ========================
+    // Utility Functions
+    // ========================
+    function showToast(message, isError = false) {
+        const toast = document.createElement('div');
+        toast.className = 'toast-message';
+        toast.textContent = message;
+        if (isError) {
+            toast.style.borderLeftColor = '#dc3545';
+            toast.style.color = '#ff8888';
+        } else {
+            toast.style.borderLeftColor = '#F5B041';
+            toast.style.color = '#F5B041';
+        }
+        document.body.appendChild(toast);
+        setTimeout(() => {
+            toast.remove();
+        }, 2500);
+    }
+
     // Update wishlist and cart counters
     function updateCounters() {
         let wishlist = JSON.parse(localStorage.getItem('bjm_wishlist')) || [];
@@ -363,6 +445,10 @@
 
     // Add product to cart (matches shop.html format)
     function addToCart(product) {
+        if (!product || !product.id) {
+            showToast("Product info missing", true);
+            return;
+        }
         let cart = JSON.parse(localStorage.getItem('bjm_cart')) || [];
         const existingIndex = cart.findIndex(item => item.id === product.id);
         
@@ -384,24 +470,112 @@
         
         localStorage.setItem('bjm_cart', JSON.stringify(cart));
         updateCounters();
-        
-        // Optional: show quick feedback
-        alert(`${product.name} added to cart!`);
+        showToast(`${product.name} added to cart!`);
     }
 
-    // Remove product from wishlist
+    // Remove product from wishlist by ID
     function removeFromWishlist(productId) {
         let wishlist = JSON.parse(localStorage.getItem('bjm_wishlist')) || [];
+        const productToRemove = wishlist.find(item => item.id === productId);
         const newWishlist = wishlist.filter(item => item.id !== productId);
         localStorage.setItem('bjm_wishlist', JSON.stringify(newWishlist));
         renderWishlist(); // Re-render the wishlist
         updateCounters();
+        if (productToRemove) {
+            showToast(`${productToRemove.name} removed from wishlist`);
+        } else {
+            showToast(`Item removed from wishlist`);
+        }
     }
 
-    // Render wishlist products
-    function renderWishlist() {
+    // Clear entire wishlist
+    function clearEntireWishlist() {
+        if (confirm('⚠️ Are you sure you want to remove ALL items from your wishlist? This action cannot be undone.')) {
+            localStorage.setItem('bjm_wishlist', JSON.stringify([]));
+            renderWishlist();
+            updateCounters();
+            showToast('Wishlist cleared successfully');
+        }
+    }
+
+    // ========================
+    // VALIDATE PRODUCTS AGAINST SUPABASE
+    // This function fetches active product IDs from Supabase
+    // and removes any wishlist items that are not found (old/deleted products)
+    // ========================
+    async function validateAndCleanWishlist() {
+        let wishlist = JSON.parse(localStorage.getItem('bjm_wishlist')) || [];
+        
+        // If wishlist is empty, nothing to validate
+        if (wishlist.length === 0) return false;
+        
+        // Extract product IDs from wishlist
+        const productIds = wishlist.map(item => item.id);
+        
+        // Supabase configuration (using the public anon key for demo, but works with any valid supabase)
+        // Note: Using a generic fetch to your Supabase 'products' table.
+        // This will automatically remove products that no longer exist in the database.
+        // If the fetch fails (network/supabase down), we keep the wishlist as-is to avoid data loss.
+        const SUPABASE_URL = 'https://your-project.supabase.co'; // ← Replace with actual supabase URL if needed
+        const SUPABASE_ANON_KEY = 'your-anon-key'; // ← Replace with actual anon key
+        
+        // We'll try to fetch existing products. If Supabase is not configured or fails,
+        // we keep existing wishlist (no auto-deletion). This prevents accidental data loss.
+        // For production, replace with your actual Supabase credentials.
+        // To make this work out-of-box without errors, we'll fetch from a public test endpoint?
+        // Since the requirement says "If a wishlist product no longer exists in Supabase: remove it automatically",
+        // we implement a robust check that works with a real Supabase table called 'products'.
+        // However, to avoid CORS/failures breaking the page, we gracefully handle errors.
+        
+        try {
+            // Build query to get existing product IDs
+            // We need to fetch only the ids of products that exist in the 'products' table
+            // Using a more efficient approach: fetch all product ids (or use a filter with 'id in (list)')
+            // Since IN queries can be long, we'll fetch all active products (or limit to 1000)
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/products?select=id&status=eq.active&limit=1000`, {
+                headers: {
+                    'apikey': SUPABASE_ANON_KEY,
+                    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                }
+            });
+            
+            if (!response.ok) {
+                // If supabase request fails, do not remove items (keep existing)
+                console.warn('Supabase validation failed, keeping wishlist unchanged');
+                return false;
+            }
+            
+            const existingProducts = await response.json();
+            const existingProductIds = new Set(existingProducts.map(p => String(p.id)));
+            
+            // Filter wishlist to only include products that still exist in Supabase
+            const validWishlist = wishlist.filter(item => existingProductIds.has(String(item.id)));
+            
+            // If any items were removed, update localStorage and re-render
+            if (validWishlist.length !== wishlist.length) {
+                const removedCount = wishlist.length - validWishlist.length;
+                localStorage.setItem('bjm_wishlist', JSON.stringify(validWishlist));
+                showToast(`🔄 Removed ${removedCount} discontinued product${removedCount > 1 ? 's' : ''} from wishlist`);
+                return true; // Changed
+            }
+        } catch (error) {
+            // Network error or supabase not configured — do not delete anything
+            console.warn('Could not validate with Supabase, keeping wishlist items:', error);
+        }
+        return false;
+    }
+
+    // ========================
+    // RENDER WISHLIST (with validation + fallback for missing data)
+    // ========================
+    async function renderWishlist() {
         const container = document.getElementById('wishlistRoot');
-        const wishlist = JSON.parse(localStorage.getItem('bjm_wishlist')) || [];
+        if (!container) return;
+        
+        // First, validate and clean any old products from Supabase
+        await validateAndCleanWishlist();
+        
+        let wishlist = JSON.parse(localStorage.getItem('bjm_wishlist')) || [];
         
         // Empty state
         if (!wishlist.length) {
@@ -415,33 +589,47 @@
             return;
         }
         
-        // Render products grid
+        // Render products grid with clear wishlist button
         let productsHtml = `
             <div class="wishlist-header">
-                <h1>My Wishlist</h1>
-                <p>${wishlist.length} item${wishlist.length !== 1 ? 's' : ''} saved</p>
+                <div>
+                    <h1>My Wishlist</h1>
+                    <p>${wishlist.length} item${wishlist.length !== 1 ? 's' : ''} saved</p>
+                </div>
+                <div class="header-actions">
+                    <button id="clearWishlistBtn" class="btn-clear-wishlist">🗑️ Clear Wishlist</button>
+                </div>
             </div>
             <div class="products-grid">
         `;
         
         wishlist.forEach(product => {
-            const oldPriceHtml = product.old_price ? `<span class="old-price">₹${product.old_price}</span>` : '';
-            const imageUrl = product.image_url || 'https://placehold.co/400x400/222/white?text=Product';
+            // Ensure product has required fields (fallback for corrupted data)
+            const productName = product.name || 'Unnamed Product';
+            const productPrice = product.price || 0;
+            const productOldPrice = product.old_price || null;
+            const productCategory = product.category || 'General';
+            const productId = product.id || `temp_${Date.now()}_${Math.random()}`;
+            const imageUrl = product.image_url && product.image_url.trim() !== '' 
+                ? product.image_url 
+                : 'https://placehold.co/400x400/222/white?text=Product';
+            
+            const oldPriceHtml = productOldPrice ? `<span class="old-price">₹${Number(productOldPrice).toLocaleString()}</span>` : '';
             
             productsHtml += `
-                <div class="product-card" data-id="${product.id}">
-                    <img class="product-img" src="${imageUrl}" alt="${product.name}" onerror="this.src='https://placehold.co/400x400/222/white?text=No+Image'">
+                <div class="product-card" data-id="${escapeHtml(String(productId))}">
+                    <img class="product-img" src="${escapeHtml(imageUrl)}" alt="${escapeHtml(productName)}" onerror="this.src='https://placehold.co/400x400/222/white?text=No+Image'">
                     <div class="product-info">
-                        <div class="product-name">${escapeHtml(product.name)}</div>
-                        <div class="category">${escapeHtml(product.category || 'General')}</div>
+                        <div class="product-name">${escapeHtml(productName)}</div>
+                        <div class="category">${escapeHtml(productCategory)}</div>
                         <div class="price-row">
-                            <span class="price">₹${product.price}</span>
+                            <span class="price">₹${Number(productPrice).toLocaleString()}</span>
                             ${oldPriceHtml}
                         </div>
                         <div class="card-buttons">
-                            <a href="product-detail.html?id=${product.id}" class="btn-outline-gold">View Product</a>
-                            <button class="btn-gold add-to-cart-btn" data-id="${product.id}">Add to Cart</button>
-                            <button class="btn-outline-gold remove-btn" data-id="${product.id}">Remove</button>
+                            <a href="product-detail.html?id=${encodeURIComponent(productId)}" class="btn-outline-gold">View Product</a>
+                            <button class="btn-gold add-to-cart-btn" data-id="${escapeHtml(String(productId))}">Add to Cart</button>
+                            <button class="btn-outline-gold remove-btn" data-id="${escapeHtml(String(productId))}">Remove</button>
                         </div>
                     </div>
                 </div>
@@ -456,8 +644,13 @@
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const productId = btn.getAttribute('data-id');
-                const product = wishlist.find(p => p.id == productId);
-                if (product) addToCart(product);
+                const wishlist = JSON.parse(localStorage.getItem('bjm_wishlist')) || [];
+                const product = wishlist.find(p => String(p.id) === productId);
+                if (product) {
+                    addToCart(product);
+                } else {
+                    showToast("Product not found in wishlist", true);
+                }
             });
         });
         
@@ -468,12 +661,21 @@
                 removeFromWishlist(productId);
             });
         });
+        
+        // Attach clear wishlist button event
+        const clearBtn = document.getElementById('clearWishlistBtn');
+        if (clearBtn) {
+            clearBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                clearEntireWishlist();
+            });
+        }
     }
     
     // Helper to escape HTML
     function escapeHtml(str) {
         if (!str) return '';
-        return str.replace(/[&<>]/g, function(m) {
+        return String(str).replace(/[&<>]/g, function(m) {
             if (m === '&') return '&amp;';
             if (m === '<') return '&lt;';
             if (m === '>') return '&gt;';
@@ -481,73 +683,249 @@
         });
     }
     
-    // Demo: Add sample products if wishlist is empty (for testing)
-    function initializeSampleWishlist() {
+    // ========================
+    // DEMO / SAMPLE DATA (Optional - only if completely empty)
+    // This provides demo products only if wishlist is empty AND there's no data at all.
+    // But importantly, any old product IDs that are not in Supabase will be auto-removed.
+    // ========================
+    async function initializeSampleWishlistIfEmpty() {
         let wishlist = JSON.parse(localStorage.getItem('bjm_wishlist')) || [];
         
+        // Only add samples if wishlist is completely empty and no previous data
         if (wishlist.length === 0) {
-            // Sample products for demonstration
-            const sampleProducts = [
-                {
-                    id: "sample_1",
-                    name: "Premium Cotton Shirt",
-                    price: 2499,
-                    old_price: 3999,
-                    image_url: "https://placehold.co/400x400/333/gold?text=Shirt",
-                    category: "Men's Fashion"
-                },
-                {
-                    id: "sample_2",
-                    name: "Slim Fit Denim Jeans",
-                    price: 3299,
-                    old_price: 4999,
-                    image_url: "https://placehold.co/400x400/333/gold?text=Jeans",
-                    category: "Denim"
-                },
-                {
-                    id: "sample_3",
-                    name: "Leather Sneakers",
-                    price: 4599,
-                    old_price: 6999,
-                    image_url: "https://placehold.co/400x400/333/gold?text=Shoes",
-                    category: "Footwear"
-                }
-            ];
-            localStorage.setItem('bjm_wishlist', JSON.stringify(sampleProducts));
+            // Check if this is first visit ever (optional flag)
+            const hasSeenSample = localStorage.getItem('bjm_wishlist_sample_shown');
+            if (!hasSeenSample) {
+                // Sample products for demonstration — these would normally be validated against Supabase
+                // If your Supabase does NOT contain these sample IDs, they will be auto-removed in renderWishlist()
+                const sampleProducts = [
+                    {
+                        id: "sample_prod_1",
+                        name: "Premium Cotton Shirt",
+                        price: 2499,
+                        old_price: 3999,
+                        image_url: "https://placehold.co/400x400/333/gold?text=Shirt",
+                        category: "Men's Fashion"
+                    },
+                    {
+                        id: "sample_prod_2",
+                        name: "Slim Fit Denim Jeans",
+                        price: 3299,
+                        old_price: 4999,
+                        image_url: "https://placehold.co/400x400/333/gold?text=Jeans",
+                        category: "Denim"
+                    },
+                    {
+                        id: "sample_prod_3",
+                        name: "Leather Sneakers",
+                        price: 4599,
+                        old_price: 6999,
+                        image_url: "https://placehold.co/400x400/333/gold?text=Shoes",
+                        category: "Footwear"
+                    }
+                ];
+                localStorage.setItem('bjm_wishlist', JSON.stringify(sampleProducts));
+                localStorage.setItem('bjm_wishlist_sample_shown', 'true');
+                // After setting sample, re-validate with Supabase (old/deleted IDs will be cleaned)
+            }
         }
     }
     
-    // Initialize demo data (remove this in production if you want empty wishlist)
-    // Comment the next line to start with empty wishlist
-    initializeSampleWishlist();
+    // ========================
+    // FIX SUPABASE CONFIGURATION INSTRUCTIONS (Developer friendly)
+    // The user must replace SUPABASE_URL and SUPABASE_ANON_KEY with their actual credentials.
+    // If not replaced, validation will be skipped and no auto-deletion occurs (safety).
+    // For the wishlist to automatically remove discontinued products, configure the constants below.
+    // ========================
+    // !! IMPORTANT: Replace these with your actual Supabase project details for auto-cleanup !!
+    // If left as placeholders, the system will NOT delete old products from wishlist (safe mode).
+    // To enable auto-removal: update SUPABASE_URL and SUPABASE_ANON_KEY
+    window.SUPABASE_CONFIG = {
+        url: 'https://your-project.supabase.co',     // CHANGE THIS
+        anonKey: 'your-anon-key'                     // CHANGE THIS
+    };
     
-    // Initial render
-    renderWishlist();
-    updateCounters();
-    
-    // Mobile menu toggle
-    document.getElementById('mobileMenuBtn')?.addEventListener('click', () => {
-        const mobileNav = document.getElementById('mobileNav');
-        mobileNav.style.display = mobileNav.style.display === 'flex' ? 'none' : 'flex';
-    });
-    
-    // Wishlist icon click
-    document.getElementById('wishlistIconBtn')?.addEventListener('click', () => {
-        window.location.href = 'wishlist.html';
-    });
-    
-    // Cart icon click
-    document.getElementById('cartIconBtn')?.addEventListener('click', () => {
-        window.location.href = 'cart.html';
-    });
-    
-    // Listen for storage changes from other tabs
-    window.addEventListener('storage', (e) => {
-        if (e.key === 'bjm_wishlist' || e.key === 'bjm_cart') {
-            renderWishlist();
-            updateCounters();
+    // Override the fetch function to use actual config if available (we already used above in validateAndCleanWishlist)
+    // Since the function uses SUPABASE_URL and SUPABASE_ANON_KEY variables, we can dynamically reassign if needed.
+    // To avoid confusion, we'll patch the validateAndCleanWishlist to use window.SUPABASE_CONFIG if set.
+    // But the function above already uses variables at top; we can override them by redefining.
+    // Simpler: replace the constants within the function via monkey patch? Instead, we'll override the implementation
+    // to read from window.SUPABASE_CONFIG at runtime.
+    // The original validateAndCleanWishlist uses hardcoded placeholders. To fix that we dynamically replace.
+    // We'll redeclare the function to use window.SUPABASE_CONFIG.
+    const originalValidate = validateAndCleanWishlist;
+    window.validateAndCleanWishlist = async function() {
+        let wishlist = JSON.parse(localStorage.getItem('bjm_wishlist')) || [];
+        if (wishlist.length === 0) return false;
+        
+        const supabaseUrl = window.SUPABASE_CONFIG?.url || '';
+        const supabaseKey = window.SUPABASE_CONFIG?.anonKey || '';
+        
+        // If no valid supabase config, skip validation (do not remove items)
+        if (!supabaseUrl || supabaseUrl === 'https://your-project.supabase.co' || !supabaseKey || supabaseKey === 'your-anon-key') {
+            console.log('Supabase not configured: skipping automatic product validation');
+            return false;
         }
-    });
+        
+        try {
+            const productIds = wishlist.map(item => item.id);
+            const response = await fetch(`${supabaseUrl}/rest/v1/products?select=id&status=eq.active&limit=1000`, {
+                headers: {
+                    'apikey': supabaseKey,
+                    'Authorization': `Bearer ${supabaseKey}`
+                }
+            });
+            
+            if (!response.ok) return false;
+            
+            const existingProducts = await response.json();
+            const existingProductIds = new Set(existingProducts.map(p => String(p.id)));
+            const validWishlist = wishlist.filter(item => existingProductIds.has(String(item.id)));
+            
+            if (validWishlist.length !== wishlist.length) {
+                const removedCount = wishlist.length - validWishlist.length;
+                localStorage.setItem('bjm_wishlist', JSON.stringify(validWishlist));
+                showToast(`🔄 Removed ${removedCount} discontinued product${removedCount > 1 ? 's' : ''} from wishlist`);
+                return true;
+            }
+        } catch (err) {
+            console.warn('Supabase validation skipped:', err);
+        }
+        return false;
+    };
+    
+    // Replace the global function reference
+    window.validateAndCleanWishlist = window.validateAndCleanWishlist;
+    
+    // Override renderWishlist to use the new validation function
+    async function finalRender() {
+        await window.validateAndCleanWishlist();
+        await renderWishlistInternal();
+    }
+    
+    async function renderWishlistInternal() {
+        const container = document.getElementById('wishlistRoot');
+        if (!container) return;
+        
+        let wishlist = JSON.parse(localStorage.getItem('bjm_wishlist')) || [];
+        
+        if (!wishlist.length) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <h2>❤️ Your Wishlist is Empty</h2>
+                    <p>Save your favourite products here and they will appear.</p>
+                    <a href="shop.html" class="btn-gold">Continue Shopping →</a>
+                </div>
+            `;
+            return;
+        }
+        
+        let productsHtml = `
+            <div class="wishlist-header">
+                <div>
+                    <h1>My Wishlist</h1>
+                    <p>${wishlist.length} item${wishlist.length !== 1 ? 's' : ''} saved</p>
+                </div>
+                <div class="header-actions">
+                    <button id="clearWishlistBtn" class="btn-clear-wishlist">🗑️ Clear Wishlist</button>
+                </div>
+            </div>
+            <div class="products-grid">
+        `;
+        
+        wishlist.forEach(product => {
+            const productName = product.name || 'Unnamed Product';
+            const productPrice = product.price || 0;
+            const productOldPrice = product.old_price || null;
+            const productCategory = product.category || 'General';
+            const productId = product.id || `temp_${Date.now()}_${Math.random()}`;
+            const imageUrl = product.image_url && product.image_url.trim() !== '' ? product.image_url : 'https://placehold.co/400x400/222/white?text=Product';
+            const oldPriceHtml = productOldPrice ? `<span class="old-price">₹${Number(productOldPrice).toLocaleString()}</span>` : '';
+            
+            productsHtml += `
+                <div class="product-card" data-id="${escapeHtml(String(productId))}">
+                    <img class="product-img" src="${escapeHtml(imageUrl)}" alt="${escapeHtml(productName)}" onerror="this.src='https://placehold.co/400x400/222/white?text=No+Image'">
+                    <div class="product-info">
+                        <div class="product-name">${escapeHtml(productName)}</div>
+                        <div class="category">${escapeHtml(productCategory)}</div>
+                        <div class="price-row">
+                            <span class="price">₹${Number(productPrice).toLocaleString()}</span>
+                            ${oldPriceHtml}
+                        </div>
+                        <div class="card-buttons">
+                            <a href="product-detail.html?id=${encodeURIComponent(productId)}" class="btn-outline-gold">View Product</a>
+                            <button class="btn-gold add-to-cart-btn" data-id="${escapeHtml(String(productId))}">Add to Cart</button>
+                            <button class="btn-outline-gold remove-btn" data-id="${escapeHtml(String(productId))}">Remove</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        productsHtml += `</div>`;
+        container.innerHTML = productsHtml;
+        
+        document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const productId = btn.getAttribute('data-id');
+                const wishlistNow = JSON.parse(localStorage.getItem('bjm_wishlist')) || [];
+                const product = wishlistNow.find(p => String(p.id) === productId);
+                if (product) addToCart(product);
+                else showToast("Product not found", true);
+            });
+        });
+        
+        document.querySelectorAll('.remove-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const productId = btn.getAttribute('data-id');
+                removeFromWishlist(productId);
+            });
+        });
+        
+        const clearBtn = document.getElementById('clearWishlistBtn');
+        if (clearBtn) clearBtn.addEventListener('click', () => clearEntireWishlist());
+    }
+    
+    // Override functions globally
+    window.removeFromWishlist = removeFromWishlist;
+    window.addToCart = addToCart;
+    window.clearEntireWishlist = clearEntireWishlist;
+    window.renderWishlist = async () => {
+        await window.validateAndCleanWishlist();
+        await renderWishlistInternal();
+        updateCounters();
+    };
+    
+    // Bootstrap
+    (async function init() {
+        await initializeSampleWishlistIfEmpty();
+        await window.validateAndCleanWishlist();
+        await renderWishlistInternal();
+        updateCounters();
+        
+        // Mobile menu toggle
+        document.getElementById('mobileMenuBtn')?.addEventListener('click', () => {
+            const mobileNav = document.getElementById('mobileNav');
+            mobileNav.style.display = mobileNav.style.display === 'flex' ? 'none' : 'flex';
+        });
+        
+        document.getElementById('wishlistIconBtn')?.addEventListener('click', () => {
+            window.location.href = 'wishlist.html';
+        });
+        
+        document.getElementById('cartIconBtn')?.addEventListener('click', () => {
+            window.location.href = 'cart.html';
+        });
+        
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'bjm_wishlist' || e.key === 'bjm_cart') {
+                window.renderWishlist();
+                updateCounters();
+            }
+        });
+    })();
 </script>
 </body>
 </html>
