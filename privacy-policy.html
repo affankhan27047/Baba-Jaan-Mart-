@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy – BABA JAAN MART | Premium Men's Fashion</title>
+  <meta name="description" content="Read BABA JAAN MART's Privacy Policy. Learn how we collect, use, and protect your personal information when you shop premium men's fashion at babajanmart.com." />
+  <link rel="canonical" href="https://babajanmart.com/privacy-policy.html" />
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L8EY7QS0WS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-L8EY7QS0WS');
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #C9A84C;
+      --gold-light: #E8C96A;
+      --gold-dim: rgba(201,168,76,0.18);
+      --black: #0A0A0A;
+      --surface: rgba(255,255,255,0.04);
+      --border: rgba(201,168,76,0.25);
+      --text: #E8E0D0;
+      --muted: #9A9080;
+      --font-display: 'Cormorant Garamond', serif;
+      --font-body: 'Montserrat', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--black);
+      background-image:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201,168,76,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 30% at 90% 80%, rgba(201,168,76,0.06) 0%, transparent 50%);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.75;
+      min-height: 100vh;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5vw;
+      height: 70px;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .nav-logo img {
+      height: 42px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .logo-fallback {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      display: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      flex-direction: column;
+      gap: 5px;
+      padding: 4px;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--gold);
+      transition: all 0.3s;
+    }
+
+    /* ── HERO BANNER ── */
+    .page-hero {
+      text-align: center;
+      padding: 80px 5vw 60px;
+      position: relative;
+    }
+
+    .page-hero::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 30px auto 0;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+      font-weight: 500;
+    }
+
+    .page-hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.15;
+      letter-spacing: 0.03em;
+    }
+
+    .page-hero p {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── CONTENT AREA ── */
+    .content-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 5vw 100px;
+    }
+
+    /* ── GLASS CARD ── */
+    .glass-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px 44px;
+      margin-bottom: 28px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,168,76,0.5), transparent);
+    }
+
+    .glass-card:hover {
+      border-color: rgba(201,168,76,0.45);
+    }
+
+    .card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: var(--gold-dim);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      margin-bottom: 18px;
+    }
+
+    .glass-card h2 {
+      font-family: var(--font-display);
+      font-size: 1.55rem;
+      font-weight: 600;
+      color: var(--gold-light);
+      margin-bottom: 16px;
+      letter-spacing: 0.02em;
+    }
+
+    .glass-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--gold);
+      margin: 24px 0 8px;
+    }
+
+    .glass-card p {
+      color: var(--text);
+      margin-bottom: 14px;
+      font-size: 0.88rem;
+      line-height: 1.85;
+    }
+
+    .glass-card ul {
+      list-style: none;
+      margin: 8px 0 14px;
+    }
+
+    .glass-card ul li {
+      font-size: 0.88rem;
+      color: var(--text);
+      padding: 6px 0 6px 22px;
+      position: relative;
+      border-bottom: 1px solid rgba(201,168,76,0.07);
+      line-height: 1.7;
+    }
+
+    .glass-card ul li:last-child { border-bottom: none; }
+
+    .glass-card ul li::before {
+      content: '◆';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-size: 0.45rem;
+      top: 12px;
+    }
+
+    .highlight-box {
+      background: rgba(201,168,76,0.08);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 18px 0;
+    }
+
+    .highlight-box p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: #d4c8a8;
+    }
+
+    .contact-link {
+      color: var(--gold);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(201,168,76,0.3);
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .contact-link:hover {
+      color: var(--gold-light);
+      border-color: var(--gold);
+    }
+
+    .last-updated {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 50px;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 50px 5vw 36px;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 24px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--gold); }
+
+    .footer-social {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      margin-bottom: 28px;
+    }
+
+    .footer-social a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+
+    .footer-social a:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: var(--gold-dim);
+    }
+
+    .footer-copy {
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        left: 0; right: 0;
+        background: rgba(10,10,10,0.97);
+        padding: 20px 5vw;
+        gap: 1.2rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav-links.open { display: flex; }
+
+      .nav-toggle { display: flex; }
+
+      .glass-card { padding: 28px 22px; }
+    }
+
+    @media (max-width: 480px) {
+      .page-hero { padding: 60px 5vw 44px; }
+      .glass-card h2 { font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="https://babajanmart.com" class="nav-logo">
+      <img src="images/bjm-logo.png" alt="BABA JAAN MART" onerror="this.style.display='none';document.getElementById('logo-fb').style.display='block';" />
+      <span class="logo-fallback" id="logo-fb">BJM</span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle menu" onclick="this.closest('nav').querySelector('.nav-links').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="https://babajanmart.com">Home</a></li>
+      <li><a href="https://babajanmart.com/shop">Shop</a></li>
+      <li><a href="https://babajanmart.com/wishlist">Wishlist</a></li>
+      <li><a href="https://babajanmart.com/cart">Cart</a></li>
+      <li><a href="https://babajanmart.com/contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="page-hero">
+    <p class="hero-eyebrow">Legal &amp; Trust</p>
+    <h1>Privacy Policy</h1>
+    <p>Effective Date: June 2026 &nbsp;·&nbsp; babajanmart.com</p>
+  </section>
+
+  <!-- CONTENT -->
+  <div class="content-wrap">
+
+    <!-- Intro -->
+    <div class="glass-card">
+      <div class="card-icon">🔒</div>
+      <h2>Your Privacy Matters</h2>
+      <p>At <strong>BABA JAAN MART</strong>, we believe privacy is a right, not a feature. This policy explains clearly what information we collect, why we need it, how it is used, and the choices you have. We keep it simple because we have nothing to hide.</p>
+      <div class="highlight-box">
+        <p>We do not sell, rent, or trade your personal data to any third party — ever. Full stop.</p>
+      </div>
+    </div>
+
+    <!-- What We Collect -->
+    <div class="glass-card">
+      <div class="card-icon">📋</div>
+      <h2>Information We Collect</h2>
+      <p>We only collect what is strictly necessary to process and deliver your order:</p>
+      <ul>
+        <li><strong>Full Name</strong> — to address your order and delivery documents</li>
+        <li><strong>Phone Number</strong> — to contact you about your order status or delivery</li>
+        <li><strong>Delivery Address, City &amp; Pincode</strong> — to ship your order to the right place</li>
+        <li><strong>Order Details</strong> — items purchased, quantities, sizes, and preferences</li>
+        <li><strong>Payment Status</strong> — whether payment was successful (not card or UPI credentials)</li>
+      </ul>
+      <p>We do not collect unnecessary information such as your date of birth, gender identity, or browsing history beyond what is needed for your shopping session.</p>
+    </div>
+
+    <!-- Payments -->
+    <div class="glass-card">
+      <div class="card-icon">💳</div>
+      <h2>Payment Security</h2>
+      <p>All payments on BABA JAAN MART are processed securely through <strong>Razorpay</strong>, a leading Indian payment gateway that is PCI-DSS compliant.</p>
+      <ul>
+        <li>We never see or store your card numbers, CVV, UPI PIN, or net banking credentials</li>
+        <li>All transaction data is encrypted end-to-end by Razorpay's secure servers</li>
+        <li>We only receive a confirmation of successful or failed payment status</li>
+      </ul>
+      <div class="highlight-box">
+        <p>Your financial credentials are handled exclusively by Razorpay. BABA JAAN MART has zero access to your payment instrument details.</p>
+      </div>
+    </div>
+
+    <!-- How We Use It -->
+    <div class="glass-card">
+      <div class="card-icon">⚙️</div>
+      <h2>How We Use Your Information</h2>
+      <p>Your information is used for the following purposes only:</p>
+      <ul>
+        <li>Processing and confirming your order</li>
+        <li>Arranging delivery and sharing tracking updates when available</li>
+        <li>Contacting you for order-related support or clarifications</li>
+        <li>Sending order confirmation messages via WhatsApp or SMS</li>
+        <li>Handling return, exchange, or refund requests if raised</li>
+      </ul>
+      <p>We may occasionally reach out to inform you about new arrivals or exclusive offers — but only through channels you have used to contact us. You can opt out at any time by messaging us.</p>
+    </div>
+
+    <!-- Data Sharing -->
+    <div class="glass-card">
+      <div class="card-icon">🚫</div>
+      <h2>We Do Not Sell Your Data</h2>
+      <p>Your personal data is never sold, rented, exchanged, or disclosed to any third party for marketing or commercial purposes. We share your delivery details only with the logistics/courier partner responsible for delivering your order — and only to the extent required for delivery.</p>
+    </div>
+
+    <!-- Cookies -->
+    <div class="glass-card">
+      <div class="card-icon">🍪</div>
+      <h2>Cookies &amp; Analytics</h2>
+      <p>Our website may use standard browser cookies and Google Analytics to understand how visitors interact with our pages. This data is aggregated and anonymised — it does not personally identify you.</p>
+      <p>You can disable cookies in your browser settings at any time. This may affect some website functionality.</p>
+    </div>
+
+    <!-- Data Retention -->
+    <div class="glass-card">
+      <div class="card-icon">🗃️</div>
+      <h2>Data Retention</h2>
+      <p>We retain your order and contact information for as long as reasonably necessary to fulfil orders, handle returns, and meet any legal or accounting obligations. If you wish to have your data deleted after your order is complete, you may contact us and we will process the request promptly.</p>
+    </div>
+
+    <!-- Your Rights -->
+    <div class="glass-card">
+      <div class="card-icon">✅</div>
+      <h2>Your Rights</h2>
+      <p>You have the right to:</p>
+      <ul>
+        <li>Request a copy of the personal data we hold about you</li>
+        <li>Ask us to correct inaccurate information</li>
+        <li>Request deletion of your personal data (subject to any legal obligations)</li>
+        <li>Opt out of promotional communications at any time</li>
+      </ul>
+      <p>To exercise any of these rights, email us at <a href="mailto:babajanmart4366@gmail.com" class="contact-link">babajanmart4366@gmail.com</a>.</p>
+    </div>
+
+    <!-- Children -->
+    <div class="glass-card">
+      <div class="card-icon">👶</div>
+      <h2>Children's Privacy</h2>
+      <p>BABA JAAN MART is designed for adult shoppers. We do not knowingly collect personal information from individuals under the age of 18. If you believe a minor has provided us their information, please contact us and we will delete it.</p>
+    </div>
+
+    <!-- Contact -->
+    <div class="glass-card">
+      <div class="card-icon">📬</div>
+      <h2>Contact Us</h2>
+      <p>For any questions, concerns, or requests related to this Privacy Policy, reach out to us:</p>
+      <ul>
+        <li>Email: <a href="mailto:babajanmart4366@gmail.com" class="contact-link">babajanmart4366@gmail.com</a></li>
+        <li>Website: <a href="https://babajanmart.com" class="contact-link">babajanmart.com</a></li>
+      </ul>
+      <p>We are committed to responding to all privacy-related queries within 3 business days.</p>
+    </div>
+
+    <p class="last-updated">This Privacy Policy was last updated in June 2026. We reserve the right to update this policy and will reflect changes on this page.</p>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">BABA JAAN MART</div>
+    <ul class="footer-links">
+      <li><a href="https://babajanmart.com">Home</a></li>
+      <li><a href="https://babajanmart.com/shop">Shop</a></li>
+      <li><a href="https://babajanmart.com/wishlist">Wishlist</a></li>
+      <li><a href="https://babajanmart.com/cart">Cart</a></li>
+      <li><a href="https://babajanmart.com/contact">Contact</a></li>
+      <li><a href="privacy-policy.html">Privacy Policy</a></li>
+      <li><a href="shipping-policy.html">Shipping</a></li>
+      <li><a href="return-policy.html">Returns</a></li>
+      <li><a href="terms.html">Terms</a></li>
+    </ul>
+    <div class="footer-social">
+      <!-- Instagram -->
+      <a href="https://www.instagram.com/baba_jan_mart?igsh=MTQ5bDYyamJ2ejg3cA==" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+      <!-- Facebook -->
+      <a href="https://www.facebook.com/share/1GcJrZ6HDM/" target="_blank" rel="noopener" aria-label="Facebook">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      </a>
+      <!-- YouTube -->
+      <a href="https://youtube.com/@babajaanmart-6?si=CVrKO-m2qo-ibFVP" target="_blank" rel="noopener" aria-label="YouTube">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+      </a>
+    </div>
+    <p class="footer-copy">© 2026 BABA JAAN MART. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
