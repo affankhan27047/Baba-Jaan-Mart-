@@ -1,70 +1,914 @@
-Update my current wishlist.html.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>My Wishlist · BABA JAAN MART</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-IMPORTANT:
-Do NOT break:
-- bjm_wishlist localStorage
-- bjm_cart localStorage
-- add to cart
-- remove from wishlist
-- clear wishlist
-- counters
-- product-detail links
+    :root {
+      --gold: #F5B041;
+      --gold-dark: #D4920F;
+      --bg: #0a0a0a;
+      --bg-2: #111111;
+      --bg-3: #181818;
+      --glass: rgba(255,255,255,0.04);
+      --glass-border: rgba(245,176,65,0.18);
+      --glass-border-hover: rgba(245,176,65,0.45);
+      --text: #f0f0f0;
+      --text-muted: #888;
+      --text-dim: #444;
+      --error: #ef4444;
+      --success: #22c55e;
+      --radius: 20px;
+      --radius-sm: 12px;
+    }
 
-Fix these issues:
+    html { scroll-behavior: smooth; }
 
-1. Remove ALL sample products code.
-Delete:
-- sample_prod_1
-- sample_prod_2
-- sample_prod_3
-- initializeSampleWishlistIfEmpty()
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-Wishlist must never create fake products.
+    a { text-decoration: none; color: inherit; }
 
-2. Remove fake Supabase placeholders:
-https://your-project.supabase.co
-your-anon-key
+    /* ── TOAST ── */
+    #toast-container {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.25rem;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      pointer-events: none;
+    }
+    .toast {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.8rem 1.1rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      min-width: 240px;
+      max-width: 320px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      pointer-events: all;
+      animation: toastIn 0.3s ease forwards;
+    }
+    .toast.success { background: rgba(34,197,94,0.14); border: 1px solid rgba(34,197,94,0.35); color: #86efac; }
+    .toast.error   { background: rgba(239,68,68,0.14);  border: 1px solid rgba(239,68,68,0.35);  color: #fca5a5; }
+    .toast.info    { background: rgba(245,176,65,0.12); border: 1px solid rgba(245,176,65,0.32); color: var(--gold); }
+    .toast.fade-out { animation: toastOut 0.3s ease forwards; }
+    @keyframes toastIn  { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes toastOut { from { opacity:1; transform:translateY(0); }    to { opacity:0; transform:translateY(12px); } }
 
-Do not use fake credentials.
+    /* ── NAVBAR ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 0 1.5rem;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .nav-logo img {
+      height: 34px;
+      width: 34px;
+      object-fit: contain;
+      border-radius: 7px;
+    }
+    .nav-logo-fallback {
+      display: none;
+      height: 34px;
+      width: 34px;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+      border-radius: 7px;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 900;
+      color: #000;
+      flex-shrink: 0;
+    }
+    .nav-logo-text {
+      font-size: 1.1rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      background: linear-gradient(130deg, #fff 0%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      white-space: nowrap;
+    }
+    .nav-center {
+      display: flex;
+      align-items: center;
+      gap: 0.15rem;
+    }
+    .nav-center a {
+      color: #bbb;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.45rem 0.75rem;
+      border-radius: 8px;
+      transition: color 0.2s, background 0.2s;
+      white-space: nowrap;
+    }
+    .nav-center a:hover { color: var(--gold); background: rgba(245,176,65,0.08); }
+    .nav-center a.active { color: var(--gold); }
+    .nav-icons {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      flex-shrink: 0;
+    }
+    .nav-icon-btn {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 9px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      color: #bbb;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .nav-icon-btn:hover { background: rgba(245,176,65,0.1); border-color: rgba(245,176,65,0.3); color: var(--gold); }
+    .nav-icon-btn.active { color: var(--gold); border-color: rgba(245,176,65,0.3); }
+    .nav-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: var(--gold);
+      color: #000;
+      font-size: 0.6rem;
+      font-weight: 800;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* mobile hamburger */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: #bbb;
+      border-radius: 2px;
+      transition: 0.2s;
+    }
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      background: rgba(10,10,10,0.98);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 0.75rem 1.5rem 1rem;
+      gap: 0.15rem;
+    }
+    .mobile-nav a {
+      color: #bbb;
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 0.65rem 0.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: color 0.2s;
+    }
+    .mobile-nav a:last-child { border-bottom: none; }
+    .mobile-nav a:hover { color: var(--gold); }
 
-3. Simplify wishlist logic.
-Use only localStorage wishlist data.
+    @media (max-width: 700px) {
+      .nav-center { display: none; }
+      .nav-hamburger { display: flex; }
+    }
 
-4. Update navbar:
-Use same premium navbar as cart.html and product-detail.html.
+    /* ── PAGE ── */
+    .page-wrap {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 4rem;
+      flex: 1;
+    }
 
-5. Add:
-images/bjm-logo.png
+    /* ── WISHLIST HEADER ── */
+    .wishlist-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .wishlist-header h1 {
+      font-size: 1.9rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      background: linear-gradient(130deg, #fff 20%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      line-height: 1.1;
+    }
+    .wishlist-header .item-count {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.3rem;
+      font-weight: 500;
+    }
+    .btn-clear {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.35);
+      color: #fca5a5;
+      padding: 0.55rem 1.1rem;
+      border-radius: 50px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.02em;
+    }
+    .btn-clear:hover {
+      background: rgba(239,68,68,0.2);
+      border-color: rgba(239,68,68,0.6);
+      color: #fff;
+    }
 
-Fallback:
-BJM
+    /* ── PRODUCT GRID ── */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 1.5rem;
+    }
 
-6. Replace emoji icons with SVG icons.
+    /* ── PRODUCT CARD ── */
+    .product-card {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .product-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--glass-border-hover);
+      box-shadow: 0 12px 40px rgba(245,176,65,0.1);
+    }
+    .product-img-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+    .product-img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      background: var(--bg-3);
+      display: block;
+      transition: transform 0.35s ease;
+    }
+    .product-card:hover .product-img { transform: scale(1.04); }
+    .product-img-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 50%);
+      pointer-events: none;
+    }
 
-Replace:
-❤️
-🛒
-☰
-🗑️
+    .product-info {
+      padding: 1.1rem 1.1rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .product-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+      line-height: 1.35;
+    }
+    .product-category {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 0.65rem;
+    }
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+      margin-bottom: auto;
+      padding-bottom: 1rem;
+    }
+    .price {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--gold);
+    }
+    .old-price {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: line-through;
+    }
+    .card-buttons {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .btn-view {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: transparent;
+      border: 1.5px solid rgba(245,176,65,0.4);
+      color: var(--gold);
+      padding: 0.5rem 0.85rem;
+      border-radius: 50px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      letter-spacing: 0.02em;
+    }
+    .btn-view:hover {
+      background: rgba(245,176,65,0.1);
+      border-color: var(--gold);
+    }
+    .btn-cart {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+      color: #000;
+      padding: 0.5rem 0.85rem;
+      border-radius: 50px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.02em;
+    }
+    .btn-cart:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(245,176,65,0.35);
+    }
+    .btn-remove {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      background: rgba(239,68,68,0.08);
+      border: 1px solid rgba(239,68,68,0.25);
+      color: #fca5a5;
+      padding: 0.5rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-remove:hover {
+      background: rgba(239,68,68,0.18);
+      border-color: rgba(239,68,68,0.5);
+      color: #fff;
+    }
 
-7. Footer:
-Use same footer as cart.html.
-Add:
-Instagram
-Facebook
-YouTube
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 5rem 2rem;
+      max-width: 420px;
+      margin: 2rem auto;
+    }
+    .empty-icon {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: rgba(245,176,65,0.08);
+      border: 1.5px solid rgba(245,176,65,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.75rem;
+      color: var(--gold);
+    }
+    .empty-state h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+    }
+    .empty-state p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.65;
+      margin-bottom: 2rem;
+    }
+    .btn-shop-now {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+      color: #000;
+      font-weight: 800;
+      font-size: 0.9rem;
+      padding: 0.85rem 2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.2s;
+      box-shadow: 0 4px 20px rgba(245,176,65,0.28);
+      letter-spacing: 0.02em;
+    }
+    .btn-shop-now:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 28px rgba(245,176,65,0.4);
+    }
 
-Use real social links.
+    /* ── FOOTER ── */
+    footer {
+      background: #000;
+      border-top: 1px solid var(--glass-border);
+      padding: 3rem 1.5rem 1.5rem;
+      margin-top: auto;
+    }
+    .footer-grid {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 2.5rem;
+    }
+    @media (max-width: 700px) {
+      .footer-grid { grid-template-columns: 1fr; gap: 1.75rem; }
+    }
+    .footer-brand-name {
+      font-size: 1.15rem;
+      font-weight: 900;
+      background: linear-gradient(130deg, #fff 30%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0.6rem;
+    }
+    .footer-tagline {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 1.1rem;
+    }
+    .footer-social {
+      display: flex;
+      gap: 0.6rem;
+    }
+    .footer-social a {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      transition: all 0.2s;
+    }
+    .footer-social a:hover {
+      background: rgba(245,176,65,0.12);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .footer-col-title {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 0.6rem; }
+    .footer-links a {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-bottom {
+      max-width: 1300px;
+      margin: 2rem auto 0;
+      padding-top: 1.25rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .footer-bottom p { font-size: 0.78rem; color: var(--text-dim); }
+    .footer-bottom a { color: var(--text-muted); font-size: 0.78rem; transition: color 0.2s; }
+    .footer-bottom a:hover { color: var(--gold); }
 
-8. Replace:
-© 2025
+    @media (max-width: 640px) {
+      .page-wrap { padding: 1.25rem 1rem 3rem; }
+      .products-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+      .wishlist-header h1 { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
 
-with:
-© 2026 BABA JAAN MART
+<!-- Toast Container -->
+<div id="toast-container"></div>
 
-9. Empty state:
-Make premium black/gold glassmorphism style.
+<!-- Navbar -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="images/bjm-logo.png" alt="BJM"
+         onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='flex';">
+    <span class="nav-logo-fallback" id="logoFallback">BJM</span>
+    <span class="nav-logo-text">BABA JAAN MART</span>
+  </a>
 
-10. Keep all existing functionality working.
+  <div class="nav-center">
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="wishlist.html" class="active">Wishlist</a>
+    <a href="cart.html">Cart</a>
+  </div>
 
-Output complete updated wishlist.html only.
+  <div class="nav-icons">
+    <a href="wishlist.html" class="nav-icon-btn active" title="Wishlist">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+      </svg>
+      <span class="nav-badge" id="wishlistCount">0</span>
+    </a>
+    <a href="cart.html" class="nav-icon-btn" title="Cart">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+      </svg>
+      <span class="nav-badge" id="cartCount">0</span>
+    </a>
+    <button class="nav-hamburger" id="hamburgerBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html">Home</a>
+  <a href="shop.html">Shop</a>
+  <a href="wishlist.html">Wishlist</a>
+  <a href="cart.html">Cart</a>
+</div>
+
+<!-- Main Content -->
+<div class="page-wrap">
+  <div id="wishlistRoot">
+    <!-- Rendered by JS -->
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">BABA JAAN MART</div>
+      <p class="footer-tagline">Premium quality products delivered to your doorstep. Shop with confidence — quality guaranteed.</p>
+      <div class="footer-social">
+        <a href="https://www.instagram.com/babajaan.mart" target="_blank" rel="noopener" title="Instagram">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="2" width="20" height="20" rx="5"/>
+            <circle cx="12" cy="12" r="5"/>
+            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+          </svg>
+        </a>
+        <a href="https://www.facebook.com/babajaan.mart" target="_blank" rel="noopener" title="Facebook">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+          </svg>
+        </a>
+        <a href="https://www.youtube.com/@babajaanmart" target="_blank" rel="noopener" title="YouTube">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+            <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Quick Links</div>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop All</a></li>
+        <li><a href="cart.html">My Cart</a></li>
+        <li><a href="wishlist.html">Wishlist</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Help &amp; Info</div>
+      <ul class="footer-links">
+        <li><a href="#">Track Order</a></li>
+        <li><a href="#">Returns Policy</a></li>
+        <li><a href="#">Shipping Info</a></li>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 BABA JAAN MART. All rights reserved.</p>
+    <a href="#">Terms of Service</a>
+  </div>
+</footer>
+
+<script>
+  // ── KEYS ──
+  const WISHLIST_KEY = 'bjm_wishlist';
+  const CART_KEY     = 'bjm_cart';
+
+  // ── TOAST ──
+  function showToast(message, type = 'info', duration = 2800) {
+    const container = document.getElementById('toast-container');
+    const icons = { success: '✓', error: '✕', info: '★' };
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `<span>${icons[type] || '●'}</span><span>${message}</span>`;
+    container.appendChild(toast);
+    setTimeout(() => {
+      toast.classList.add('fade-out');
+      toast.addEventListener('animationend', () => toast.remove(), { once: true });
+    }, duration);
+  }
+
+  // ── HELPERS ──
+  function getWishlist() {
+    try { return JSON.parse(localStorage.getItem(WISHLIST_KEY)) || []; }
+    catch(e) { return []; }
+  }
+  function getCart() {
+    try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; }
+    catch(e) { return []; }
+  }
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
+  function formatINR(n) {
+    return '₹' + Number(n).toLocaleString('en-IN');
+  }
+
+  // ── COUNTERS ──
+  function updateCounters() {
+    const wishlist = getWishlist();
+    const cart     = getCart();
+    const wEl = document.getElementById('wishlistCount');
+    const cEl = document.getElementById('cartCount');
+    if (wEl) wEl.textContent = wishlist.length;
+    if (cEl) cEl.textContent = cart.reduce((s, i) => s + (i.quantity || 1), 0);
+  }
+
+  // ── ADD TO CART ──
+  function addToCart(product) {
+    if (!product || !product.id) { showToast('Product info missing', 'error'); return; }
+    const cart = getCart();
+    const idx  = cart.findIndex(i => i.id === product.id);
+    if (idx !== -1) {
+      cart[idx].quantity = (cart[idx].quantity || 1) + 1;
+    } else {
+      cart.push({
+        id:        product.id,
+        name:      product.name,
+        price:     product.price,
+        old_price: product.old_price || null,
+        image_url: product.image_url,
+        category:  product.category,
+        size:      product.size || 'One Size',
+        quantity:  1
+      });
+    }
+    localStorage.setItem(CART_KEY, JSON.stringify(cart));
+    updateCounters();
+    showToast(`${product.name} added to cart!`, 'success');
+  }
+
+  // ── REMOVE FROM WISHLIST ──
+  function removeFromWishlist(productId) {
+    const wishlist = getWishlist();
+    const removed  = wishlist.find(i => String(i.id) === String(productId));
+    const updated  = wishlist.filter(i => String(i.id) !== String(productId));
+    localStorage.setItem(WISHLIST_KEY, JSON.stringify(updated));
+    renderWishlist();
+    updateCounters();
+    showToast(removed ? `${removed.name} removed from wishlist` : 'Item removed', 'info');
+  }
+
+  // ── CLEAR WISHLIST ──
+  function clearEntireWishlist() {
+    if (!confirm('Remove ALL items from your wishlist? This cannot be undone.')) return;
+    localStorage.setItem(WISHLIST_KEY, JSON.stringify([]));
+    renderWishlist();
+    updateCounters();
+    showToast('Wishlist cleared', 'info');
+  }
+
+  // ── RENDER ──
+  function renderWishlist() {
+    const container = document.getElementById('wishlistRoot');
+    if (!container) return;
+    const wishlist = getWishlist();
+
+    if (!wishlist.length) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon">
+            <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          </div>
+          <h2>Your Wishlist is Empty</h2>
+          <p>Save the products you love here and find them all in one place, ready to add to your cart.</p>
+          <a href="shop.html" class="btn-shop-now">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </svg>
+            Browse Products
+          </a>
+        </div>`;
+      return;
+    }
+
+    // Header
+    let html = `
+      <div class="wishlist-header">
+        <div>
+          <h1>My Wishlist</h1>
+          <p class="item-count">${wishlist.length} item${wishlist.length !== 1 ? 's' : ''} saved</p>
+        </div>
+        <button id="clearWishlistBtn" class="btn-clear">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+            <path d="M10 11v6"/><path d="M14 11v6"/>
+            <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+          </svg>
+          Clear Wishlist
+        </button>
+      </div>
+      <div class="products-grid">`;
+
+    wishlist.forEach(product => {
+      const id       = product.id || `tmp_${Math.random()}`;
+      const name     = product.name     || 'Unnamed Product';
+      const price    = product.price    || 0;
+      const oldPrice = product.old_price || null;
+      const category = product.category || '';
+      const imgSrc   = (product.image_url && product.image_url.trim())
+                         ? product.image_url
+                         : 'https://placehold.co/400x400/181818/555?text=No+Image';
+
+      const oldPriceHtml = oldPrice
+        ? `<span class="old-price">${formatINR(oldPrice)}</span>` : '';
+
+      html += `
+        <div class="product-card" data-id="${escapeHtml(String(id))}">
+          <div class="product-img-wrap">
+            <img class="product-img"
+                 src="${escapeHtml(imgSrc)}"
+                 alt="${escapeHtml(name)}"
+                 loading="lazy"
+                 onerror="this.src='https://placehold.co/400x400/181818/555?text=No+Image'">
+            <div class="product-img-overlay"></div>
+          </div>
+          <div class="product-info">
+            <div class="product-name">${escapeHtml(name)}</div>
+            ${category ? `<div class="product-category">${escapeHtml(category)}</div>` : ''}
+            <div class="price-row">
+              <span class="price">${formatINR(price)}</span>
+              ${oldPriceHtml}
+            </div>
+            <div class="card-buttons">
+              <a href="product-detail.html?id=${encodeURIComponent(id)}" class="btn-view">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                </svg>
+                View
+              </a>
+              <button class="btn-cart add-to-cart-btn" data-id="${escapeHtml(String(id))}">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                </svg>
+                Add to Cart
+              </button>
+              <button class="btn-remove remove-btn" data-id="${escapeHtml(String(id))}">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="3 6 5 6 21 6"/>
+                  <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+                </svg>
+                Remove
+              </button>
+            </div>
+          </div>
+        </div>`;
+    });
+
+    html += `</div>`;
+    container.innerHTML = html;
+
+    // Event listeners
+    container.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const pid  = btn.getAttribute('data-id');
+        const item = getWishlist().find(p => String(p.id) === pid);
+        if (item) addToCart(item);
+        else showToast('Product not found', 'error');
+      });
+    });
+
+    container.querySelectorAll('.remove-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        removeFromWishlist(btn.getAttribute('data-id'));
+      });
+    });
+
+    const clearBtn = document.getElementById('clearWishlistBtn');
+    if (clearBtn) clearBtn.addEventListener('click', clearEntireWishlist);
+  }
+
+  // ── MOBILE MENU ──
+  document.getElementById('hamburgerBtn')?.addEventListener('click', () => {
+    const nav = document.getElementById('mobileNav');
+    nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+  });
+
+  // ── STORAGE SYNC ──
+  window.addEventListener('storage', e => {
+    if (e.key === WISHLIST_KEY || e.key === CART_KEY) {
+      renderWishlist();
+      updateCounters();
+    }
+  });
+
+  // ── BOOT ──
+  renderWishlist();
+  updateCounters();
+</script>
+</body>
+</html>
