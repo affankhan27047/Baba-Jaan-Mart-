@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms & Conditions – BABA JAAN MART | Premium Men's Fashion</title>
+  <meta name="description" content="Read BABA JAAN MART's Terms & Conditions. Understand the rules of using our website, purchasing products, order policies, and your rights as a customer at babajanmart.com." />
+  <link rel="canonical" href="https://babajanmart.com/terms.html" />
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L8EY7QS0WS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-L8EY7QS0WS');
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #C9A84C;
+      --gold-light: #E8C96A;
+      --gold-dim: rgba(201,168,76,0.18);
+      --black: #0A0A0A;
+      --surface: rgba(255,255,255,0.04);
+      --border: rgba(201,168,76,0.25);
+      --text: #E8E0D0;
+      --muted: #9A9080;
+      --font-display: 'Cormorant Garamond', serif;
+      --font-body: 'Montserrat', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--black);
+      background-image:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201,168,76,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 35% 25% at 15% 75%, rgba(201,168,76,0.05) 0%, transparent 50%);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.75;
+      min-height: 100vh;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5vw;
+      height: 70px;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .nav-logo img {
+      height: 42px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .logo-fallback {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      display: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      flex-direction: column;
+      gap: 5px;
+      padding: 4px;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--gold);
+    }
+
+    /* ── HERO ── */
+    .page-hero {
+      text-align: center;
+      padding: 80px 5vw 60px;
+    }
+
+    .page-hero::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 30px auto 0;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+      font-weight: 500;
+    }
+
+    .page-hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.15;
+      letter-spacing: 0.03em;
+    }
+
+    .page-hero p {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── TABLE OF CONTENTS ── */
+    .toc-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 40px;
+      margin-bottom: 28px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .toc-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,168,76,0.5), transparent);
+    }
+
+    .toc-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      color: var(--gold);
+      margin-bottom: 16px;
+      letter-spacing: 0.05em;
+    }
+
+    .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px 24px;
+    }
+
+    .toc-grid a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+      padding: 4px 0;
+      border-bottom: 1px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toc-grid a::before {
+      content: '→';
+      color: var(--gold);
+      font-size: 0.7rem;
+      flex-shrink: 0;
+    }
+
+    .toc-grid a:hover {
+      color: var(--gold-light);
+      border-color: rgba(201,168,76,0.2);
+    }
+
+    /* ── CONTENT ── */
+    .content-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 5vw 100px;
+    }
+
+    /* ── GLASS CARD ── */
+    .glass-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px 44px;
+      margin-bottom: 28px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,168,76,0.5), transparent);
+    }
+
+    .glass-card:hover { border-color: rgba(201,168,76,0.45); }
+
+    .card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: var(--gold-dim);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      margin-bottom: 18px;
+    }
+
+    .glass-card h2 {
+      font-family: var(--font-display);
+      font-size: 1.55rem;
+      font-weight: 600;
+      color: var(--gold-light);
+      margin-bottom: 16px;
+      letter-spacing: 0.02em;
+    }
+
+    .glass-card p {
+      color: var(--text);
+      margin-bottom: 14px;
+      font-size: 0.88rem;
+      line-height: 1.85;
+    }
+
+    .glass-card p:last-child { margin-bottom: 0; }
+
+    .glass-card ul {
+      list-style: none;
+      margin: 8px 0 14px;
+    }
+
+    .glass-card ul li {
+      font-size: 0.88rem;
+      color: var(--text);
+      padding: 7px 0 7px 22px;
+      position: relative;
+      border-bottom: 1px solid rgba(201,168,76,0.07);
+      line-height: 1.7;
+    }
+
+    .glass-card ul li:last-child { border-bottom: none; }
+
+    .glass-card ul li::before {
+      content: '◆';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-size: 0.45rem;
+      top: 13px;
+    }
+
+    .highlight-box {
+      background: rgba(201,168,76,0.08);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 18px 0;
+    }
+
+    .highlight-box p { margin: 0; font-size: 0.85rem; color: #d4c8a8; }
+
+    /* ── SECTION ANCHOR ── */
+    .section-anchor {
+      display: block;
+      position: relative;
+      top: -80px;
+      visibility: hidden;
+    }
+
+    /* ── POLICY LINKS GRID ── */
+    .policy-links {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 18px 0;
+    }
+
+    .policy-link-card {
+      display: block;
+      background: var(--gold-dim);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 16px;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .policy-link-card:hover {
+      border-color: var(--gold);
+      background: rgba(201,168,76,0.25);
+      transform: translateY(-2px);
+    }
+
+    .policy-link-card span {
+      display: block;
+      font-size: 1.3rem;
+      margin-bottom: 6px;
+    }
+
+    .policy-link-card p {
+      margin: 0;
+      font-size: 0.75rem;
+      color: var(--gold-light);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .contact-link {
+      color: var(--gold);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(201,168,76,0.3);
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .contact-link:hover {
+      color: var(--gold-light);
+      border-color: var(--gold);
+    }
+
+    .last-updated {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 50px;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 50px 5vw 36px;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 24px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--gold); }
+
+    .footer-social {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      margin-bottom: 28px;
+    }
+
+    .footer-social a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .footer-social a:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: var(--gold-dim);
+    }
+
+    .footer-copy {
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        left: 0; right: 0;
+        background: rgba(10,10,10,0.97);
+        padding: 20px 5vw;
+        gap: 1.2rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav-links.open { display: flex; }
+      .nav-toggle { display: flex; }
+
+      .toc-grid { grid-template-columns: 1fr; }
+      .policy-links { grid-template-columns: 1fr; }
+      .glass-card { padding: 28px 22px; }
+      .toc-card { padding: 24px 22px; }
+    }
+
+    @media (max-width: 480px) {
+      .page-hero { padding: 60px 5vw 44px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="https://babajanmart.com" class="nav-logo">
+      <img src="images/bjm-logo.png" alt="BABA JAAN MART" onerror="this.style.display='none';document.getElementById('logo-fb').style.display='block';" />
+      <span class="logo-fallback" id="logo-fb">BJM</span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle menu" onclick="this.closest('nav').querySelector('.nav-links').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="https://babajanmart.com">Home</a></li>
+      <li><a href="https://babajanmart.com/shop">Shop</a></li>
+      <li><a href="https://babajanmart.com/wishlist">Wishlist</a></li>
+      <li><a href="https://babajanmart.com/cart">Cart</a></li>
+      <li><a href="https://babajanmart.com/contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="page-hero">
+    <p class="hero-eyebrow">Legal Agreement</p>
+    <h1>Terms &amp; Conditions</h1>
+    <p>Effective Date: June 2026 &nbsp;·&nbsp; babajanmart.com</p>
+  </section>
+
+  <!-- CONTENT -->
+  <div class="content-wrap">
+
+    <!-- Table of Contents -->
+    <div class="toc-card">
+      <h3>Contents</h3>
+      <div class="toc-grid">
+        <a href="#acceptance">Acceptance of Terms</a>
+        <a href="#website-use">Website Use</a>
+        <a href="#products">Products &amp; Pricing</a>
+        <a href="#orders">Orders &amp; Payments</a>
+        <a href="#cancellation">Order Cancellation</a>
+        <a href="#intellectual">Intellectual Property</a>
+        <a href="#liability">Limitation of Liability</a>
+        <a href="#governing-law">Governing Law</a>
+        <a href="#changes">Changes to Terms</a>
+        <a href="#contact-terms">Contact Us</a>
+      </div>
+    </div>
+
+    <!-- Acceptance -->
+    <span class="section-anchor" id="acceptance"></span>
+    <div class="glass-card">
+      <div class="card-icon">📜</div>
+      <h2>Acceptance of Terms</h2>
+      <p>Welcome to BABA JAAN MART. By accessing or using our website at <a href="https://babajanmart.com" class="contact-link">babajanmart.com</a>, browsing our catalogue, or placing an order, you confirm that you have read, understood, and agreed to be bound by these Terms &amp; Conditions in full.</p>
+      <p>If you do not agree with any part of these terms, please do not use our website or place an order. Continued use of the website constitutes your acceptance of any updates to these terms.</p>
+      <div class="highlight-box">
+        <p>These Terms &amp; Conditions apply to all visitors, customers, and users of babajanmart.com. They govern your relationship with BABA JAAN MART as a business.</p>
+      </div>
+    </div>
+
+    <!-- Website Use -->
+    <span class="section-anchor" id="website-use"></span>
+    <div class="glass-card">
+      <div class="card-icon">🌐</div>
+      <h2>Website Use</h2>
+      <p>You agree to use babajanmart.com only for lawful purposes and in a manner that does not infringe the rights of others or restrict their use of the website. Specifically, you agree <strong>not</strong> to:</p>
+      <ul>
+        <li>Use the website for any fraudulent, unlawful, or malicious purpose</li>
+        <li>Attempt to gain unauthorised access to any part of the website or its systems</li>
+        <li>Transmit any harmful, offensive, or disruptive content via the website</li>
+        <li>Scrape, copy, or reproduce website content without our written permission</li>
+        <li>Impersonate BABA JAAN MART or any of its staff or representatives</li>
+        <li>Use automated tools or bots to interact with the website without prior consent</li>
+      </ul>
+      <p>We reserve the right to restrict or terminate access to the website for any user who violates these terms or engages in behaviour we deem harmful to the website, other customers, or our business.</p>
+    </div>
+
+    <!-- Products & Pricing -->
+    <span class="section-anchor" id="products"></span>
+    <div class="glass-card">
+      <div class="card-icon">🏷️</div>
+      <h2>Products &amp; Pricing</h2>
+      <p>BABA JAAN MART offers premium men's fashion products including clothing, accessories, fragrances, and personal care items. We take care to ensure all product descriptions, images, and details are accurate at the time of publishing.</p>
+      <ul>
+        <li><strong>Prices may change</strong> at any time without prior notice. The price displayed at the time of checkout is the price that applies to your order.</li>
+        <li><strong>Product availability may change</strong> without notice. If a product you ordered becomes unavailable after your order is placed, we will contact you to offer an alternative or a full refund.</li>
+        <li>Product images are for illustrative purposes. Slight colour variations may occur due to screen display differences.</li>
+        <li>All prices are listed in Indian Rupees (INR) and are inclusive of applicable taxes unless otherwise stated.</li>
+      </ul>
+      <div class="highlight-box">
+        <p>We make every effort to keep our catalogue accurate. However, in the rare event of a pricing or description error, BABA JAAN MART reserves the right to cancel the affected order and issue a full refund.</p>
+      </div>
+    </div>
+
+    <!-- Orders & Payments -->
+    <span class="section-anchor" id="orders"></span>
+    <div class="glass-card">
+      <div class="card-icon">🛒</div>
+      <h2>Orders &amp; Payments</h2>
+      <p>By placing an order on babajanmart.com, you make an offer to purchase the selected products at the listed price. Your order is confirmed only after payment is successfully processed.</p>
+      <ul>
+        <li>All payments are processed securely through <strong>Razorpay</strong></li>
+        <li>We accept UPI, debit/credit cards, net banking, and other methods offered by Razorpay</li>
+        <li>Order confirmation will be shared with you after payment is verified</li>
+        <li>You are responsible for providing accurate delivery details at checkout</li>
+        <li>BABA JAAN MART reserves the right to refuse or cancel any order if fraud or incorrect information is suspected</li>
+      </ul>
+      <p>If your payment fails but an amount is debited from your account, it will be automatically refunded by your bank or Razorpay within 5–7 business days. Contact us if the issue persists.</p>
+    </div>
+
+    <!-- Cancellation -->
+    <span class="section-anchor" id="cancellation"></span>
+    <div class="glass-card">
+      <div class="card-icon">❌</div>
+      <h2>Order Cancellation by BABA JAAN MART</h2>
+      <p>We reserve the right to cancel or refuse any order at our sole discretion in the following situations:</p>
+      <ul>
+        <li>Suspected fraudulent activity or use of invalid payment credentials</li>
+        <li>Incorrect, incomplete, or unverifiable customer information</li>
+        <li>Product is out of stock or unavailable after order placement</li>
+        <li>Pricing or listing errors on the website</li>
+        <li>Delivery location is outside our serviceable area</li>
+        <li>Any other circumstance where fulfilling the order is not feasible</li>
+      </ul>
+      <p>In the event of a cancellation initiated by BABA JAAN MART, a <strong>full refund</strong> will be issued to your original payment method within 5–7 business days. You will be notified promptly.</p>
+      <p>For customer-initiated cancellations, please refer to our <a href="return-policy.html" class="contact-link">Return &amp; Exchange Policy</a>.</p>
+    </div>
+
+    <!-- Intellectual Property -->
+    <span class="section-anchor" id="intellectual"></span>
+    <div class="glass-card">
+      <div class="card-icon">©️</div>
+      <h2>Intellectual Property</h2>
+      <p>All content on babajanmart.com — including but not limited to the brand name, logo, product images, descriptions, design elements, graphics, and text — is the exclusive intellectual property of BABA JAAN MART.</p>
+      <ul>
+        <li>You may not reproduce, copy, distribute, or use our content without written permission</li>
+        <li>The BABA JAAN MART name and logo may not be used in any form without authorisation</li>
+        <li>Unauthorised use of our intellectual property may result in legal action</li>
+      </ul>
+      <p>If you wish to feature our products or brand in any media, promotional content, or collaboration, please contact us at <a href="mailto:babajanmart4366@gmail.com" class="contact-link">babajanmart4366@gmail.com</a>.</p>
+    </div>
+
+    <!-- Liability -->
+    <span class="section-anchor" id="liability"></span>
+    <div class="glass-card">
+      <div class="card-icon">⚖️</div>
+      <h2>Limitation of Liability</h2>
+      <p>BABA JAAN MART strives to provide an excellent shopping experience. However, to the fullest extent permitted by applicable law, we shall not be liable for:</p>
+      <ul>
+        <li>Indirect, incidental, or consequential losses arising from your use of our website or products</li>
+        <li>Delays in delivery caused by courier partners, natural events, or circumstances beyond our control</li>
+        <li>Technical interruptions, website downtime, or data errors</li>
+        <li>Loss or damage caused by reliance on information provided on the website</li>
+      </ul>
+      <p>Our total liability in any dispute shall not exceed the value of the order in question. Nothing in these terms limits our liability for fraud, death, or personal injury caused by our negligence.</p>
+    </div>
+
+    <!-- Governing Law -->
+    <span class="section-anchor" id="governing-law"></span>
+    <div class="glass-card">
+      <div class="card-icon">🇮🇳</div>
+      <h2>Governing Law &amp; Jurisdiction</h2>
+      <p>These Terms &amp; Conditions are governed by and construed in accordance with the laws of <strong>India</strong>. Any disputes arising from your use of babajanmart.com or from a purchase shall be subject to the exclusive jurisdiction of the courts of India.</p>
+      <p>By using our website, you consent to the personal jurisdiction of Indian courts and agree to resolve any disputes under Indian law. Relevant legislation includes the Information Technology Act 2000, the Consumer Protection Act 2019, and other applicable Indian statutes.</p>
+    </div>
+
+    <!-- Changes -->
+    <span class="section-anchor" id="changes"></span>
+    <div class="glass-card">
+      <div class="card-icon">🔁</div>
+      <h2>Changes to These Terms</h2>
+      <p>BABA JAAN MART reserves the right to revise, update, or replace any part of these Terms &amp; Conditions at any time. Changes will be effective immediately upon being posted to this page, with the effective date updated accordingly.</p>
+      <p>It is your responsibility to review these terms periodically. Continued use of our website after changes are posted constitutes your acceptance of the revised terms.</p>
+      <div class="highlight-box">
+        <p>Our other policies — Privacy, Shipping, and Returns — are also subject to change and are each governed by their respective pages. We recommend reviewing all policies before placing an order.</p>
+      </div>
+
+      <div class="policy-links">
+        <a href="privacy-policy.html" class="policy-link-card">
+          <span>🔒</span>
+          <p>Privacy Policy</p>
+        </a>
+        <a href="shipping-policy.html" class="policy-link-card">
+          <span>📦</span>
+          <p>Shipping Policy</p>
+        </a>
+        <a href="return-policy.html" class="policy-link-card">
+          <span>🔄</span>
+          <p>Return Policy</p>
+        </a>
+      </div>
+    </div>
+
+    <!-- Contact -->
+    <span class="section-anchor" id="contact-terms"></span>
+    <div class="glass-card">
+      <div class="card-icon">📬</div>
+      <h2>Contact Us</h2>
+      <p>If you have any questions about these Terms &amp; Conditions or any other aspect of shopping with BABA JAAN MART, we are here to help:</p>
+      <ul>
+        <li>Email: <a href="mailto:babajanmart4366@gmail.com" class="contact-link">babajanmart4366@gmail.com</a></li>
+        <li>Website: <a href="https://babajanmart.com" class="contact-link">babajanmart.com</a></li>
+        <li>Instagram: <a href="https://www.instagram.com/baba_jan_mart?igsh=MTQ5bDYyamJ2ejg3cA==" target="_blank" rel="noopener" class="contact-link">@baba_jan_mart</a></li>
+      </ul>
+      <p>We typically respond within 1–2 business days. Thank you for choosing BABA JAAN MART — premium men's fashion, delivered with integrity.</p>
+    </div>
+
+    <p class="last-updated">These Terms &amp; Conditions were last updated in June 2026. Governed by Indian law.</p>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">BABA JAAN MART</div>
+    <ul class="footer-links">
+      <li><a href="https://babajanmart.com">Home</a></li>
+      <li><a href="https://babajanmart.com/shop">Shop</a></li>
+      <li><a href="https://babajanmart.com/wishlist">Wishlist</a></li>
+      <li><a href="https://babajanmart.com/cart">Cart</a></li>
+      <li><a href="https://babajanmart.com/contact">Contact</a></li>
+      <li><a href="privacy-policy.html">Privacy Policy</a></li>
+      <li><a href="shipping-policy.html">Shipping</a></li>
+      <li><a href="return-policy.html">Returns</a></li>
+      <li><a href="terms.html">Terms</a></li>
+    </ul>
+    <div class="footer-social">
+      <a href="https://www.instagram.com/baba_jan_mart?igsh=MTQ5bDYyamJ2ejg3cA==" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+      <a href="https://www.facebook.com/share/1GcJrZ6HDM/" target="_blank" rel="noopener" aria-label="Facebook">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      </a>
+      <a href="https://youtube.com/@babajaanmart-6?si=CVrKO-m2qo-ibFVP" target="_blank" rel="noopener" aria-label="YouTube">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+      </a>
+    </div>
+    <p class="footer-copy">© 2026 BABA JAAN MART. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
